@@ -17,59 +17,61 @@ class FridgeRepository(application: Application) {
         return fridgeDao?.getAllFridgeItems()
     }
 
-    suspend fun insert(fridgeItem: FridgeItem) {
+    fun insert(fridgeItem: FridgeItem) {
         fridgeDao?.insert(fridgeItem)
     }
 
-    suspend fun delete(fridgeItem: FridgeItem) {
+    fun delete(fridgeItem: FridgeItem) {
         fridgeDao?.delete(fridgeItem)
     }
 
-    suspend fun deleteByName(name: String) {
+    fun deleteByName(name: String) {
         fridgeDao?.deleteByName(name)
     }
 
-    suspend fun getFridgeItemById(id: Int): FridgeItem? {
+    fun getFridgeItemById(id: Int): FridgeItem? {
         return fridgeDao?.getFridgeItemById(id)
     }
 
-    suspend fun getFridgeItemByName(name: String): FridgeItem? {
+    fun getFridgeItemByName(name: String): FridgeItem? {
         return fridgeDao?.getFridgeItemByName(name)
     }
 
-    suspend fun getFridgeItemsNameList(): List<String>? {
+    fun getFridgeItemsNameList(): List<String>? {
         return fridgeDao?.getFridgeItemsNameList()
     }
 
-    suspend fun update(fridgeItem: FridgeItem) {
+    fun update(fridgeItem: FridgeItem) {
         fridgeDao?.update(fridgeItem)
     }
 
-    suspend fun updateName(id: Int, name: String) {
+    fun updateName(id: Int, name: String) {
         fridgeDao?.updateName(id, name)
     }
 
-    suspend fun updatePhotoUrl(id: Int, photoUrl: String?) {
+    fun updatePhotoUrl(id: Int, photoUrl: String?) {
         fridgeDao?.updatePhotoUrl(id, photoUrl)
     }
 
-    suspend fun updateBuyingDate(id: Int, buyingDate: Long) {
+    fun updateBuyingDate(id: Int, buyingDate: Long) {
         fridgeDao?.updateBuyingDate(id, buyingDate)
     }
 
-    suspend fun updateExpiryDate(id: Int, expiryDate: Long) {
+    fun updateExpiryDate(id: Int, expiryDate: Long) {
         fridgeDao?.updateExpiryDate(id, expiryDate)
     }
 
-    suspend fun updateCountMeasure(id: Int, countMeasure: String) {
+    fun updateCountMeasure(id: Int, countMeasure: String) {
         fridgeDao?.updateCountMeasure(id, countMeasure)
     }
 
-    suspend fun updateCategory(id: Int, category: String) {
+    fun updateCategory(id: Int, category: String) {
         fridgeDao?.updateCategory(id, category)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         fridgeDao?.deleteAll()
     }
+
 }
+

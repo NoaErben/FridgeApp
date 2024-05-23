@@ -17,47 +17,47 @@ class FoodRepository(application: Application) {
         return foodDao?.getAllFoodItems()
     }
 
-    suspend fun insert(foodItem: FoodItem) {
+    fun insert(foodItem: FoodItem) {
         foodDao?.insert(foodItem)
     }
 
-    suspend fun delete(foodItem: FoodItem) {
+    fun delete(foodItem: FoodItem) {
         foodDao?.delete(foodItem)
     }
 
-    suspend fun deleteByName(name: String) {
+    fun deleteByName(name: String) {
         foodDao?.deleteByName(name)
     }
 
-    suspend fun getFoodItemById(id: Int): FoodItem? {
+    fun getFoodItemById(id: Int): FoodItem? {
         return foodDao?.getFoodItemById(id)
     }
 
-    suspend fun getFoodItemByName(name: String): FoodItem? {
+    fun getFoodItemByName(name: String): FoodItem? {
         return foodDao?.getFoodItemByName(name)
     }
 
-    suspend fun getFoodsNameList(): List<String>? {
+    fun getFoodsNameList(): LiveData<List<String>>? {
         return foodDao?.getFoodsNameList()
     }
 
-    suspend fun update(foodItem: FoodItem) {
+    fun update(foodItem: FoodItem) {
         foodDao?.update(foodItem)
     }
 
-    suspend fun updateName(id: Int, name: String) {
+    fun updateName(id: Int, name: String) {
         foodDao?.updateName(id, name)
     }
 
-    suspend fun updatePhotoUrl(id: Int, photoUrl: String?) {
+    fun updatePhotoUrl(id: Int, photoUrl: String?) {
         foodDao?.updatePhotoUrl(id, photoUrl)
     }
 
-    suspend fun updateDaysToExpire(id: Int, daysToExpire: Int) {
+    fun updateDaysToExpire(id: Int, daysToExpire: Int) {
         foodDao?.updateDaysToExpire(id, daysToExpire)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         foodDao?.deleteAll()
     }
 }

@@ -30,7 +30,7 @@ interface FoodDao {
     fun getFoodItemByName(name: String): FoodItem?
 
     @Query("SELECT item_name FROM FoodItem")
-    fun getFoodsNameList(): List<String>
+    fun getFoodsNameList(): LiveData<List<String>>
 
     @Update
     fun update(foodItem: FoodItem)
