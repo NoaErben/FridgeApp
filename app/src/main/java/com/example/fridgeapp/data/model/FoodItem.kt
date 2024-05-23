@@ -4,25 +4,16 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "FridgeItem")
-data class FridgeItem (
+@Entity(tableName = "FoodItem")
+data class FoodItem (
     @ColumnInfo(name = "item_name")
     val name: String,
-
-    @ColumnInfo(name = "amount")
-    val count: Int,
-
-    @ColumnInfo(name = "amount_measure")
-    val countMeasure: String,
 
     @ColumnInfo(name = "image_url")
     val photoUrl: String?, // Nullable in case there is no photo
 
-    @ColumnInfo(name = "buying_date")
-    val buyingDate: Long, // Unix timestamp
-
-    @ColumnInfo(name = "expiry_date")
-    val expiryDate: Long, // Unix timestamp
+    @ColumnInfo(name = "days_to_expire")
+    val daysToExpire: Int,
 
     @ColumnInfo(name = "category")
     val category: String
