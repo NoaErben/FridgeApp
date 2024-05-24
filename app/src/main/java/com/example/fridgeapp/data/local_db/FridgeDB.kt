@@ -4,10 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
 
-@Database(entities = arrayOf(FoodItem::class, FridgeItem::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(FoodItem::class, FridgeItem::class, CartItem::class), version = 1, exportSchema = false)
 abstract class FridgeDB : RoomDatabase() {
 
     abstract fun foodDao(): FoodDao

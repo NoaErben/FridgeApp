@@ -6,17 +6,21 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.repository.CartRepository
 
 class FridgeViewModel(application: Application) : AndroidViewModel(application) {
 
     private val fridgeRepository = FridgeRepository(application)
     private val foodRepository = FoodRepository(application)
+    private val cartRepository = CartRepository(application)
 
     val fridgeItems: LiveData<List<FridgeItem>>? = fridgeRepository.getAllFridgeItems()
     val foodItems: LiveData<List<FoodItem>>? = foodRepository.getAllFoodItems()
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
+    val cartItems: LiveData<List<CartItem>>? = cartRepository.getAllCartItems()
 
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -24,12 +28,19 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()
     val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
 
+    private val _chosenCartItem = MutableLiveData<CartItem>()
+    val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
+
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
         _chosenFridgeItem.value = fridgeItem
     }
 
     fun setFoodChosenItem(foodItem: FoodItem) {
         _chosenFoodItem.value = foodItem
+    }
+
+    fun setCartChosenItem(cartItem: CartItem) {
+        _chosenCartItem.value = cartItem
     }
 
     // Methods to use repository functions
@@ -87,6 +98,18 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         foodRepository.deleteAll()
     }
 
+    fun insertCartItem(cartItem: CartItem) {
+        cartRepository.insert(cartItem)
+    }
+
+    fun deleteCartItem(cartItem: CartItem) {
+        cartRepository.delete(cartItem)
+    }
+
+    fun deleteAllCartItems() {
+        cartRepository.deleteAll()
+    }
+
     // Repository update functions
 
     fun updateFridgeItem(fridgeItem: FridgeItem) {
@@ -126,5 +149,25 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun updateFridgeCategory(id: Int, category: String) {
         fridgeRepository.updateCategory(id, category)
+    }
+
+    fun updateCartCategory(id: Int, category: String) {
+        cartRepository.updateCategory(id, category)
+    }
+
+    fun updateCartRemarks(id: Int, remarks: String) {
+        cartRepository.updateRemarks(id, remarks)
+    }
+
+    fun updateCartCount(id: Int, count: Int) {
+        cartRepository.updateCartCount(id, count)
+    }
+
+    fun updateCartCountMeasure(id: Int, countMeasure: String) {
+        cartRepository.updateCartCountMeasure(id, countMeasure)
+    }
+
+    fun updateCartImageUrl(id: Int, imageUrl: String?) {
+        cartRepository.updateCartImageUrl(id, imageUrl)
     }
 }
