@@ -6,18 +6,23 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "CartItem")
 data class CartItem (
-    // TODO: think about it
     @ColumnInfo(name = "item_name")
     val name: String,
 
     @ColumnInfo(name = "amount")
     val count: Int,
 
+    @ColumnInfo(name = "amount_measure")
+    val countMeasure: String,
+
     @ColumnInfo(name = "image_url")
     val photoUrl: String?, // Nullable in case there is no photo
 
-    @ColumnInfo(name = "buying_date")
-    val buyingDate: Long // Unix timestamp
+    @ColumnInfo(name = "category")
+    val category: String? = null,
+
+    @ColumnInfo(name = "remarks")
+    val remarks: String? = null
 ) {
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
