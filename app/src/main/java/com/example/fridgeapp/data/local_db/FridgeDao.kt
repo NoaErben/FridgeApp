@@ -55,4 +55,7 @@ interface FridgeDao {
 
     @Query("DELETE FROM FridgeItem")
     fun deleteAll()
+
+    @Query("SELECT * FROM FridgeItem WHERE expiry_date <= :currentTimeMillis")
+    fun getExpiringFridgeItems(currentTimeMillis: Long): LiveData<List<FridgeItem>>
 }

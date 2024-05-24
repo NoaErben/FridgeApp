@@ -18,9 +18,11 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     private val cartRepository = CartRepository(application)
 
     val fridgeItems: LiveData<List<FridgeItem>>? = fridgeRepository.getAllFridgeItems()
+    val expiringFridgeItems: LiveData<List<FridgeItem>>? = fridgeRepository.getExpiringFridgeItems(System.currentTimeMillis())
     val foodItems: LiveData<List<FoodItem>>? = foodRepository.getAllFoodItems()
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
     val cartItems: LiveData<List<CartItem>>? = cartRepository.getAllCartItems()
+
 
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -169,5 +171,9 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun updateCartImageUrl(id: Int, imageUrl: String?) {
         cartRepository.updateCartImageUrl(id, imageUrl)
+    }
+
+    fun insertCartItemFromFridgeItem(fridgeItem: FridgeItem) {
+        cartRepository.insertCartItemFromFridgeItem(fridgeItem)
     }
 }

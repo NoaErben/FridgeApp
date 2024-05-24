@@ -73,5 +73,9 @@ class FridgeRepository(application: Application) {
         fridgeDao?.deleteAll()
     }
 
+    fun getExpiringFridgeItems(currentTimeMillis: Long): LiveData<List<FridgeItem>>? {
+        return fridgeDao?.getExpiringFridgeItems(currentTimeMillis)
+    }
+
 }
 

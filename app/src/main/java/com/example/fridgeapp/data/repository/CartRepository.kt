@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import com.example.fridgeapp.data.local_db.CartDao
 import com.example.fridgeapp.data.local_db.FridgeDB
 import com.example.fridgeapp.data.model.CartItem
+import com.example.fridgeapp.data.model.FridgeItem
 
 class CartRepository(application: Application) {
 
@@ -85,5 +86,20 @@ class CartRepository(application: Application) {
 
     fun deleteAll() {
         cartDao?.deleteAll()
+    }
+
+    fun insertCartItemFromFridgeItem(fridgeItem: FridgeItem) {
+        val cartItem = CartItem(
+            name = fridgeItem.name,
+            count = fridgeItem.count,
+
+            // TODO: maybe popup to chose count??
+
+            countMeasure = fridgeItem.countMeasure,
+            photoUrl = fridgeItem.photoUrl,
+            category = fridgeItem.category,
+            remarks = "" // TODO: Add default remarks or leave it blank or popup
+        )
+        cartDao?.insert(cartItem)
     }
 }
