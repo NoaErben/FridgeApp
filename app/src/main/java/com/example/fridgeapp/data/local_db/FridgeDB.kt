@@ -4,8 +4,6 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.example.fridgeapp.data.dao.FoodDao
-import com.example.fridgeapp.data.dao.FridgeDao
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
 
@@ -14,6 +12,7 @@ abstract class FridgeDB : RoomDatabase() {
 
     abstract fun foodDao(): FoodDao
     abstract fun fridgeDao(): FridgeDao
+    abstract fun cartDao(): CartDao
 
     companion object {
         @Volatile

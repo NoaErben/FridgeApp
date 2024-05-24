@@ -1,6 +1,6 @@
 import android.app.Application
 import androidx.lifecycle.LiveData
-import com.example.fridgeapp.data.dao.FridgeDao
+import com.example.fridgeapp.data.local_db.FridgeDao
 import com.example.fridgeapp.data.local_db.FridgeDB
 import com.example.fridgeapp.data.model.FridgeItem
 

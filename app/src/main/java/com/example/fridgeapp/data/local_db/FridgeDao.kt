@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data.dao
+package com.example.fridgeapp.data.local_db
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
