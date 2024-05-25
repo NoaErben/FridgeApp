@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/create_household"
+        android:title="Create a new household" />
+    <item
+        android:id="@+id/join_household"
+        android:title="Join an existing household" />
+    <item
+        android:id="@+id/shopping_list"
+        android:title="My shopping list" />
+</menu>
