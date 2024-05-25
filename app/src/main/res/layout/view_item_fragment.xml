@@ -26,7 +26,7 @@
         android:gravity="center"
         android:textSize="22sp"
         android:fontFamily="@font/amaranth"
-        android:text="<X> days for"
+        android:text="X days for"
         android:textColor="@color/gray" />
 
         <Space
@@ -50,11 +50,11 @@
             android:id="@+id/item_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="40sp"
             android:fontFamily="@font/amaranth"
-            android:text="<Item Name>"
-            android:textColor="@color/black" />
+            android:gravity="center"
+            android:text="Item Name"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
 
         <Space
             android:layout_width="0dp"
