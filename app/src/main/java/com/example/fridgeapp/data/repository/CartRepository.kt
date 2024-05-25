@@ -16,7 +16,7 @@ class CartRepository(application: Application) {
         cartDao = db?.cartDao()
     }
 
-        fun insert(cartItem: CartItem) {
+    fun insert(cartItem: CartItem) {
             cartDao?.insert(cartItem)
     }
 

@@ -58,4 +58,5 @@ interface FridgeDao {
 
     @Query("SELECT * FROM FridgeItem WHERE expiry_date <= :currentTimeMillis")
     fun getExpiringFridgeItems(currentTimeMillis: Long): LiveData<List<FridgeItem>>
+    // TODO: make sure it is updating soon enough
 }
