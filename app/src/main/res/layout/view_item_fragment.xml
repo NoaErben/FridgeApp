@@ -1,45 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    app:cardUseCompatPadding="true"
+    app:contentPadding="4dp"
+    app:cardCornerRadius="30dp">
 
     <LinearLayout
-        android:id="@+id/days_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:orientation="horizontal" >
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="6dp">
 
-    <Space
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5" />
-
-    <TextView
-        android:id="@+id/item_days"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="22sp"
-        android:fontFamily="@font/amaranth"
-        android:text="X days for"
-        android:textColor="@color/gray" />
-
-        <Space
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/days_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/name_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal" >
 
         <Space
             android:layout_width="0dp"
@@ -47,113 +27,130 @@
             android:layout_weight="0.5" />
 
         <TextView
-            android:id="@+id/item_name"
+            android:id="@+id/item_days"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/amaranth"
             android:gravity="center"
-            android:text="Item Name"
-            android:textColor="@color/black"
-            android:textSize="40sp" />
+            android:textSize="22sp"
+            android:fontFamily="@font/amaranth"
+            android:text="X days for"
+            android:textColor="@color/gray" />
 
-        <Space
-            android:layout_width="0dp"
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/name_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
-    </LinearLayout>
+            android:orientation="horizontal" >
 
-    <TextView
-        android:id="@+id/expire_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:fontFamily="@font/amaranth"
-        android:text="@string/expire_date"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/black" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
 
-    <TextView
-        android:id="@+id/purchase_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:fontFamily="@font/amaranth"
-        android:text="@string/purchase_date"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Item Name"
+                android:textColor="@color/black"
+                android:textSize="40sp" />
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:textSize="25sp"
-        android:fontFamily="@font/amaranth"
-        android:text="@string/quantity"
-        android:layout_marginTop="3dp"
-        android:textColor="@color/black" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+        </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        tools:srcCompat="@tools:sample/avatars" />
-
-
-
-
-
-
-
-    <Button
-        android:id="@+id/pic_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:text="Replace Image"
-        android:layout_gravity="center_horizontal" />
-
-<!--    <Button-->
-<!--        android:id="@+id/finish_btn"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginTop="32dp"-->
-<!--        android:text="Finish"-->
-<!--        android:layout_gravity="center_horizontal" />-->
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_horizontal">
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            tools:srcCompat="@tools:sample/avatars" />
 
         <Button
-            android:id="@+id/throw_out_button"
-            android:layout_width="130dp"
+            android:id="@+id/pic_button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/throw_out"
-            android:textSize="16sp"
-            android:layout_margin="20dp"
-            android:textColor="@color/red"
-            android:backgroundTint="@color/white"/>
+            android:layout_marginTop="32dp"
+            android:text="Replace Image"
+            android:layout_gravity="center_horizontal" />
 
-        <Button
-            android:id="@+id/use_up_button"
-            android:layout_width="100dp"
+        <TextView
+            android:id="@+id/expire_date"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/use_up"
-            android:layout_margin="20dp"
-            android:textSize="16sp"
-            android:textColor="@color/green"
-            android:backgroundTint="@color/white"/>
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/expire_date"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/purchase_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/purchase_date"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="25sp"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/quantity"
+            android:layout_marginTop="3dp"
+            android:textColor="@color/black" />
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/throw_out_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/throw_out"
+                android:textSize="23sp"
+                android:layout_margin="20dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"/>
+
+            <Button
+                android:id="@+id/use_up_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_up"
+                android:layout_margin="20dp"
+                android:textSize="23sp"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"/>
 
 
+        </LinearLayout>
     </LinearLayout>
 
 
 
-</LinearLayout>
+</androidx.cardview.widget.CardView>
