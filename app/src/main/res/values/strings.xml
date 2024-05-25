@@ -1,8 +1,4 @@
 <resources>
     <string name="app_name">FridgeApp</string>
-    <string name="expire_date">Expire Date:</string>
-    <string name="purchase_date">Purchase Date:</string>
-    <string name="quantity">Quantity:</string>
-    <string name="throw_out">Throw out</string>
-    <string name="use_up">Use Up</string>
+
 </resources>
