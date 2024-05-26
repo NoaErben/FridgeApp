@@ -44,7 +44,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/name_container"
+            android:id="@+id/header_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal" >
@@ -93,32 +93,32 @@
             android:id="@+id/name_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/name"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/name_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/amaranth"
-                android:text="Answer"
+                android:layout_marginStart="13dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_marginStart="13dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
