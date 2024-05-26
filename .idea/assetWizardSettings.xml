@@ -28,7 +28,9 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="settings" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="new_food_option_2" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Desktop/אפליקציית מקרר/new_food.svg" />
                           </map>
                         </option>
                       </PersistentState>
