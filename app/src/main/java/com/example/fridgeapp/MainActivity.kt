@@ -1,16 +1,15 @@
 package com.example.fridgeapp
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.PopupMenu
 import com.example.fridgeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
-    private val binding
-        get() = _binding!!
+    private val binding get() = _binding!!
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,25 +25,25 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.create_household -> {
+                // Handle create household action
                 true
             }
-
             R.id.join_household -> {
+                // Handle join household action
                 true
             }
-
             R.id.shopping_list -> {
+                // Handle shopping list action
                 true
             }
-
             else -> super.onOptionsItemSelected(item)
         }
     }
 
     private fun showPopupMenu(view: View) {
-        val popupMenu = androidx.appcompat.widget.PopupMenu(this, view)
+        val popupMenu = PopupMenu(this, view)
         popupMenu.inflate(R.menu.popup_menu)
-        popupMenu.setOnMenuItemClickListener { item: MenuItem ->
+        popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.create_household -> {
                     // Handle create household action
@@ -55,8 +54,7 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.shopping_list -> {
-
-//                    startActivity(Intent(this, FridgeShoppingListFragment::class.java))
+                    // Handle shopping list action
                     true
                 }
                 else -> false

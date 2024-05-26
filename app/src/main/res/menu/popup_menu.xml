@@ -1,11 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/create_household"
-        android:title="Create a new household" />
-    <item
-        android:id="@+id/join_household"
-        android:title="Join an existing household" />
-    <item
-        android:id="@+id/shopping_list"
-        android:title="My shopping list" />
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/create_household"
+            android:icon="@drawable/baseline_add_home_24"
+            android:title="Create a new household" />
+        <item
+            android:id="@+id/join_household"
+            android:icon="@drawable/baseline_home_24"
+            android:title="Join an existing household"  />
+        <item
+            android:id="@+id/shopping_list"
+            android:icon="@drawable/baseline_list_alt_24"
+            android:title="My shopping list" />
+    </group>
 </menu>
