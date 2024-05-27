@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.fridgeapp.data.model.FoodItem
@@ -49,4 +50,7 @@ interface FoodDao {
 
     @Query("DELETE FROM FoodItem")
     fun deleteAll()
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(foodItems: List<FoodItem>)
 }

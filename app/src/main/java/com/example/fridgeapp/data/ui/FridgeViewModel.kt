@@ -3,6 +3,7 @@ package com.example.fridgeapp.data.ui
 import FoodRepository
 import FridgeRepository
 import android.app.Application
+import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -23,6 +24,9 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
     val cartItems: LiveData<List<CartItem>>? = cartRepository.getAllCartItems()
 
+    fun getImageResource(context: Context, photoUrl: String): Int {
+        return context.resources.getIdentifier(photoUrl, "drawable", context.packageName)
+    }
 
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
