@@ -7,4 +7,8 @@
     <color name="gray">#6A6767</color>
     <color name = "green">#4CAF50</color>
     <color name = "red">#D3EF1D1D</color>
+    <color name = "darkerCyan">#045050</color>
+    <color name = "fridgeColor">#32BDA5</color>
+
+
 </resources>
