@@ -57,7 +57,7 @@ class FoodRepository(application: Application) {
         foodDao?.updateDaysToExpire(id, daysToExpire)
     }
 
-    fun deleteAll() {
+    fun deleteAllFoodTable() {
         foodDao?.deleteAll()
     }
 }
