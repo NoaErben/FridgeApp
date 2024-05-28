@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/white"
+    android:padding="16dp">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/amaranth"
+        android:gravity="center"
+        android:text="Join Existing Fridge"
+        android:textColor="@color/white"
+        android:background="@color/fridgeColor"
+        android:textSize="42sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="20dp"/>
+
+    <!-- TextInputLayouts for other input fields -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/fridge_name"
+            android:layout_width="match_parent"
+            android:drawableStart="@drawable/fridge"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/amaranth"
+            android:hint=" Fridge Name:"
+            android:layout_marginBottom="10dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/password_new_fridge"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/ic_icon_password"
+            android:fontFamily="@font/amaranth"
+            android:hint=" Password: "
+            android:layout_marginBottom="20dp"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <Button
+        android:id="@+id/add_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/fridgeColor"
+        android:fontFamily="@font/amaranth"
+        android:foregroundGravity="center_horizontal"
+        android:text="Join" />
+
+</LinearLayout>
