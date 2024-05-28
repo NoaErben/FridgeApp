@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/cyanBackground">
+    android:background="@color/white">
 
-<!--    Provides the app bar with a title and a navigation (back) button.-->
+    <!--    Provides the app bar with a title and a navigation (back) button.-->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/blue"
+        android:background="@color/fridgeColor"
         app:title="Product Default Expiry"
         app:titleTextColor="@color/black"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
@@ -44,6 +44,6 @@
         android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/blue"/>
+        android:backgroundTint="@color/fridgeColor"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
