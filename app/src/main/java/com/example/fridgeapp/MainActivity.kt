@@ -5,11 +5,16 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.fridgeapp.data.local_db.FridgeDB
+import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private lateinit var fridgeViewModel: FridgeViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,6 +25,20 @@ class MainActivity : AppCompatActivity() {
         binding.toolbar.setNavigationOnClickListener {
             showPopupMenu(it)
         }
+
+        // Initialize the database
+        FridgeDB.getDatabase(this)
+
+        // Initialize ViewModel
+        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FridgeViewModel::class.java)
+
+        // Show food db context for example
+        fridgeViewModel.foodItemsNames?.observe(this, Observer<List<String>> { foodNames ->
+            // Update UI with the new food names
+            val concatenatedNames = fridgeViewModel.getConcatenatedString()
+            // For example, you can update a TextView with the concatenated string
+            binding.textv.setText("From Db: " + concatenatedNames)
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

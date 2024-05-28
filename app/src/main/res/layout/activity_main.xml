@@ -36,7 +36,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/blue"/>
 
-
+    <!-- Added by Guy, just for test-->
+    <TextView
+        android:id="@+id/textv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="hhh"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

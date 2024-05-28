@@ -24,6 +24,14 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
     val cartItems: LiveData<List<CartItem>>? = cartRepository.getAllCartItems()
 
+    val stringListLiveData: LiveData<List<String>>? get() = foodItemsNames
+
+    // Function to get the concatenated string
+    fun getConcatenatedString(): String {
+        //foodRepository.deleteAllFoodTable()
+        return foodItemsNames?.value?.joinToString(separator = ", ") ?: ""
+    }
+
     fun getImageResource(context: Context, photoUrl: String): Int {
         return context.resources.getIdentifier(photoUrl, "drawable", context.packageName)
     }
@@ -101,7 +109,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun deleteAllFoodItems() {
-        foodRepository.deleteAll()
+        foodRepository.deleteAllFoodTable()
     }
 
     fun insertCartItem(cartItem: CartItem) {
