@@ -1,6 +1,238 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="4dp"
+    app:cardCornerRadius="30dp"
+    android:background="@color/cyanBackground">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <LinearLayout
+            android:id="@+id/days_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:orientation="horizontal" >
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:id="@+id/item_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:fontFamily="@font/amaranth"
+                android:text="X days for"
+                android:textColor="@color/gray" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Item Name"
+                android:textColor="@color/black"
+                android:textSize="40sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            tools:srcCompat= "@drawable/new_food_option_2" />
+
+        <Button
+            android:id="@+id/pic_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/replace_image"
+            android:textSize="16sp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/fridgeColor"/>
+
+        <LinearLayout
+            android:id="@+id/name_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/name"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/name_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="13dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/quantity_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:fontFamily="@font/amaranth"
+                android:text="@string/quantity"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/quantity_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"
+                android:text="Answer"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginStart="13dp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/units_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <TextView
+                android:id="@+id/units"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="22sp"
+                android:fontFamily="@font/amaranth"
+                android:text="@string/units"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/units_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="20sp"
+                android:fontFamily="@font/amaranth"
+                android:text="Answer"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:layout_marginStart="13dp"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/remark_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="remark"
+            android:textSize="18sp"
+            android:fontFamily="@font/amaranth"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp" />
+
+
+        <LinearLayout
+            android:id="@+id/button_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/throw_out_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/throw_out"
+                android:textSize="23sp"
+                android:layout_margin="20dp"
+                android:textColor="@color/red"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"/>
+
+            <Button
+                android:id="@+id/use_up_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_up"
+                android:layout_margin="20dp"
+                android:textSize="23sp"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:background="@android:color/transparent"/>
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
