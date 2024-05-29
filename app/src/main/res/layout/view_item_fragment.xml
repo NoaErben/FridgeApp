@@ -87,7 +87,7 @@
             android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/blue"/>
+            android:backgroundTint="@color/fridgeColor"/>
 
         <LinearLayout
             android:id="@+id/name_container"
