@@ -28,7 +28,7 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/fridge_name"
             android:layout_width="match_parent"
-            android:drawableStart="@drawable/fridge"
+            android:drawableStart="@drawable/fridge_vector"
             android:layout_height="wrap_content"
             android:fontFamily="@font/amaranth"
             android:hint=" Fridge Name:"
