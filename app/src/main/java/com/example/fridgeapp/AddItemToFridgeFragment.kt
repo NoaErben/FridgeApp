@@ -10,12 +10,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.AddItemBinding
 
-class AddItemFragment : Fragment() {
+class AddItemToFridgeFragment : Fragment() {
 
     private var _binding: AddItemBinding? = null
     private val binding

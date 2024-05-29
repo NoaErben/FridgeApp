@@ -69,7 +69,7 @@ dependencies {
 
     // Room testing dependency
     testImplementation(libs.room.testing)
-    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation(libs.github.glide)
 
 
 }

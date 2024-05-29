@@ -2,7 +2,8 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/my_nav">
+    android:id="@+id/my_nav"
+    app:startDestination="@id/fridgeManagerFragment">
 <!--    app:startDestination="">-->
 
 <!--    <fragment-->
@@ -24,7 +25,7 @@
 
 <!--    <fragment-->
 <!--        android:id="@+id/addItemFragment"-->
-<!--        android:name="com.example.architectureproject.ui.add_item.AddItemFragment"-->
+<!--        android:name="com.example.architectureproject.ui.add_item.AddItemToFridgeFragment"-->
 <!--        android:label="add_item_fragment"-->
 <!--        tools:layout="@layout/add_item_fragment" >-->
 <!--        <action-->
@@ -43,4 +44,160 @@
 <!--        android:label="detail_item_layout"-->
 <!--        tools:layout="@layout/detail_item_layout" />-->
 
+    <fragment
+        android:id="@+id/fridgeManagerFragment"
+        android:name="com.example.fridgeapp.FridgeManagerFragment"
+        android:label="FridgeManagerFragment" >
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_addItemToFridgeFragment"
+            app:destination="@id/addItemToFridgeFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_editFridgeItemFragment"
+            app:destination="@id/editFridgeItemFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_fridgeShoppingListFragment"
+            app:destination="@id/fridgeShoppingListFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_defaultExpirationDatesFragment"
+            app:destination="@id/defaultExpirationDatesFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemToFridgeFragment"
+        android:name="com.example.fridgeapp.AddItemToFridgeFragment"
+        android:label="AddItemToFridgeFragment" >
+        <action
+            android:id="@+id/action_addItemToFridgeFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFridgeItemFragment"
+        android:name="com.example.fridgeapp.EditFridgeItemFragment"
+        android:label="EditFridgeItemFragment" >
+        <action
+            android:id="@+id/action_editFridgeItemFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/fridgeShoppingListFragment"
+        android:name="com.example.fridgeapp.FridgeShoppingListFragment"
+        android:label="FridgeShoppingListFragment" >
+        <action
+            android:id="@+id/action_fridgeShoppingListFragment_to_editItemShoppingListFragment"
+            app:destination="@id/editItemShoppingListFragment" />
+        <action
+            android:id="@+id/action_fridgeShoppingListFragment_to_addItemToShoppingList"
+            app:destination="@id/addItemToShoppingList" />
+        <action
+            android:id="@+id/action_fridgeShoppingListFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemShoppingListFragment"
+        android:name="com.example.fridgeapp.EditItemShoppingListFragment"
+        android:label="EditItemShoppingListFragment" >
+        <action
+            android:id="@+id/action_editItemShoppingListFragment_to_fridgeShoppingListFragment"
+            app:destination="@id/fridgeShoppingListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemToShoppingList"
+        android:name="com.example.fridgeapp.AddItemToShoppingListFragment"
+        android:label="AddItemToShoppingList" >
+        <action
+            android:id="@+id/action_addItemToShoppingList_to_fridgeShoppingListFragment"
+            app:destination="@id/fridgeShoppingListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.example.fridgeapp.LoginFragment"
+        android:label="LoginFragment" >
+        <action
+            android:id="@+id/action_loginFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_forgotPasswordInputFragment"
+            app:destination="@id/forgotPasswordInputFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/forgotPasswordInputFragment"
+        android:name="com.example.fridgeapp.ForgotPasswordInputFragment"
+        android:label="ForgotPasswordInputFragment" >
+        <action
+            android:id="@+id/action_forgotPasswordInputFragment_to_setPasswordFragment"
+            app:destination="@id/setPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setPasswordFragment"
+        android:name="com.example.fridgeapp.SetPasswordFragment"
+        android:label="SetPasswordFragment" >
+        <action
+            android:id="@+id/action_setPasswordFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/defaultExpirationDatesFragment"
+        android:name="com.example.fridgeapp.DefaultExpirationDatesFragment"
+        android:label="DefaultExpirationDatesFragment" >
+        <action
+            android:id="@+id/action_defaultExpirationDatesFragment_to_addItemFavoriteFragment2"
+            app:destination="@id/addItemFavoriteFragment2" />
+        <action
+            android:id="@+id/action_defaultExpirationDatesFragment_to_editItemFavoriteFragment"
+            app:destination="@id/editItemFavoriteFragment" />
+        <action
+            android:id="@+id/action_defaultExpirationDatesFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemFavoriteFragment2"
+        android:name="com.example.fridgeapp.AddItemFavoriteFragment"
+        android:label="AddItemFavoriteFragment" >
+        <action
+            android:id="@+id/action_addItemFavoriteFragment2_to_defaultExpirationDatesFragment"
+            app:destination="@id/defaultExpirationDatesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editItemFavoriteFragment"
+        android:name="com.example.fridgeapp.EditItemFavoriteFragment"
+        android:label="EditItemFavoriteFragment" >
+        <action
+            android:id="@+id/action_editItemFavoriteFragment_to_defaultExpirationDatesFragment"
+            app:destination="@id/defaultExpirationDatesFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.example.fridgeapp.RegisterFragment"
+        android:label="RegisterFragment" >
+        <action
+            android:id="@+id/action_registerFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.fridgeapp.MyProfileFragment"
+        android:label="MyProfileFragment" >
+        <action
+            android:id="@+id/action_myProfileFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_myProfileFragment_to_createNewFridge2"
+            app:destination="@id/createNewFridge2" />
+    </fragment>
+    <fragment
+        android:id="@+id/createNewFridge2"
+        android:name="com.example.fridgeapp.CreateNewFridge"
+        android:label="CreateNewFridge" >
+        <action
+            android:id="@+id/action_createNewFridge2_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
 </navigation>

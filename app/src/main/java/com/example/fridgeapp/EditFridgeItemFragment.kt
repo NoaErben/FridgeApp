@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data.ui
+package com.example.fridgeapp
 
 import android.content.Intent
 import android.net.Uri
@@ -11,7 +11,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import com.example.fridgeapp.databinding.ViewItemFragmentBinding
 
-class FridgeItemFragment : Fragment() {
+class EditFridgeItemFragment : Fragment() {
 
     private var _binding: ViewItemFragmentBinding? = null
     private val binding get() = _binding!!
