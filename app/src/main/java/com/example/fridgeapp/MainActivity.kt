@@ -20,11 +20,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+
+        /*setSupportActionBar(binding.toolbar)
 
         binding.toolbar.setNavigationOnClickListener {
             showPopupMenu(it)
         }
+
+         */
 
         // Initialize the database
         FridgeDB.getDatabase(this)
@@ -37,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             // Update UI with the new food names
             val concatenatedNames = fridgeViewModel.getConcatenatedString()
             // For example, you can update a TextView with the concatenated string
-            binding.textv.setText("From Db: " + concatenatedNames)
+            //binding.textv.setText("From Db: " + concatenatedNames)
         })
     }
 
