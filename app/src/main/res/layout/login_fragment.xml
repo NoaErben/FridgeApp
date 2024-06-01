@@ -1,9 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Logo designed by Naveen -->
+<?xml version="1.0" encoding="utf-8"?><!-- Logo designed by Naveen -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/login"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkerCyan">
@@ -40,7 +39,7 @@
             tools:ignore="ContentDescription" />
 
         <EditText
-            android:id="@+id/etMobileNumber"
+            android:id="@+id/et_email_address"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_below="@id/imgAppLoginIcon"
@@ -51,7 +50,7 @@
             android:background="@drawable/rounder_border_for_view"
             android:drawableStart="@drawable/ic_icon_mobile"
             android:drawablePadding="4dp"
-            android:hint="mobile number (10 digits)"
+            android:hint="E-mail address"
             android:inputType="phone"
             android:maxLength="10"
             android:padding="14dp"

@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fridgeapp.data.local_db.FridgeDB
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        FirebaseApp.initializeApp(this) // Make sure to initialize Firebase
 
         /*setSupportActionBar(binding.toolbar)
 
