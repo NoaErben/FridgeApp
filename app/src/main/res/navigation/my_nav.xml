@@ -160,7 +160,9 @@
         android:label="EditItemFavoriteFragment" >
         <action
             android:id="@+id/action_editItemFavoriteFragment_to_defaultExpirationDatesFragment"
-            app:destination="@id/defaultExpirationDatesFragment" />
+            app:destination="@id/defaultExpirationDatesFragment"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -198,6 +200,8 @@
         android:label="AddItemToFavoriteFragment" >
         <action
             android:id="@+id/action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment"
-            app:destination="@id/defaultExpirationDatesFragment" />
+            app:destination="@id/defaultExpirationDatesFragment"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>

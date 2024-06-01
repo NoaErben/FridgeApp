@@ -64,9 +64,15 @@ class EditItemFavoriteFragment : Fragment() {
         val categories = viewModel.categories
 
         // Set the adapter for the productCategory Spinner
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+        val adapter = CustomArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_item,
+            categories,
+            R.font.amaranth // Your custom font resource
+        )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.productCategory.adapter = adapter
+
 
         viewModel.chosenFoodItem.observe(viewLifecycleOwner) {
             binding.itemName.text = it.name
@@ -103,7 +109,12 @@ class EditItemFavoriteFragment : Fragment() {
                     viewModel.updateFoodName(item.id, newName)
                     viewModel.updateFoodCategory(item.id, newCategory)
                     viewModel.updateFoodDaysToExpire(item.id, newDaysToExpire)
-                    // TODO: update URL
+
+                    // Update image if a new image is selected
+                    if (imageUri != null) {
+                        viewModel.updateFoodPhotoUrl(item.id, imageUri.toString())
+                    }
+
 
                     // Navigate after updating the food item
                     findNavController().navigate(R.id.action_editItemFavoriteFragment_to_defaultExpirationDatesFragment)
@@ -128,3 +139,4 @@ class EditItemFavoriteFragment : Fragment() {
         _binding = null
     }
 }
+
