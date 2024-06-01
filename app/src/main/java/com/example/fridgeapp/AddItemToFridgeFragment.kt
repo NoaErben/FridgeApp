@@ -61,7 +61,7 @@ class AddItemToFridgeFragment : Fragment() {
             )
 
             //add the FridgeItem to viewModel
-            viewModel.insertFridgeItem(fridgeItem)
+            //viewModel.insertFridgeItem(fridgeItem)
             //To do navigation-> after click add, add it to the FridgeFragment
 //            findNavController().navigate(R.id.action_addItemFragment_to_mainFragment)
         }

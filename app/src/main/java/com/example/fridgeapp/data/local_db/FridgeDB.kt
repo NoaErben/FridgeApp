@@ -10,18 +10,17 @@ import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
 import kotlinx.coroutines.runBlocking
 
-@Database(entities = arrayOf(FoodItem::class, FridgeItem::class, CartItem::class), version = 1, exportSchema = false)
+@Database(entities = arrayOf(FoodItem::class), version = 1, exportSchema = false)
 abstract class FridgeDB : RoomDatabase() {
 
     abstract fun foodDao(): FoodDao
-    abstract fun fridgeDao(): FridgeDao
-    abstract fun cartDao(): CartDao
 
     companion object {
         @Volatile
         private var instance: FridgeDB? = null
 
         fun getDatabase(context: Context): FridgeDB {
+            //context.deleteDatabase("fridge_database")
             if (instance == null) {
                 synchronized(this) {
                     instance = Room.databaseBuilder(

@@ -18,10 +18,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.AddItemFavoriteBinding
-import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 
 class AddItemToFavoriteFragment : Fragment() {
 
