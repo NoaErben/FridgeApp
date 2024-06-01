@@ -145,22 +145,14 @@
         android:name="com.example.fridgeapp.DefaultExpirationDatesFragment"
         android:label="DefaultExpirationDatesFragment" >
         <action
-            android:id="@+id/action_defaultExpirationDatesFragment_to_addItemFavoriteFragment2"
-            app:destination="@id/addItemFavoriteFragment2" />
-        <action
             android:id="@+id/action_defaultExpirationDatesFragment_to_editItemFavoriteFragment"
             app:destination="@id/editItemFavoriteFragment" />
         <action
             android:id="@+id/action_defaultExpirationDatesFragment_to_fridgeManagerFragment"
             app:destination="@id/fridgeManagerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addItemFavoriteFragment2"
-        android:name="com.example.fridgeapp.AddItemFavoriteFragment"
-        android:label="AddItemFavoriteFragment" >
         <action
-            android:id="@+id/action_addItemFavoriteFragment2_to_defaultExpirationDatesFragment"
-            app:destination="@id/defaultExpirationDatesFragment" />
+            android:id="@+id/action_defaultExpirationDatesFragment_to_addItemToFavoriteFragment"
+            app:destination="@id/addItemToFavoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/editItemFavoriteFragment"
@@ -199,5 +191,13 @@
         <action
             android:id="@+id/action_createNewFridge2_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemToFavoriteFragment"
+        android:name="com.example.fridgeapp.AddItemToFavoriteFragment"
+        android:label="AddItemToFavoriteFragment" >
+        <action
+            android:id="@+id/action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment"
+            app:destination="@id/defaultExpirationDatesFragment" />
     </fragment>
 </navigation>

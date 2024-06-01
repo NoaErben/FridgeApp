@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="@color/white"
+    android:orientation="vertical"
     android:padding="16dp">
 
     <!-- Title TextView -->
@@ -11,11 +11,11 @@
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
         android:text="Add item"
         android:textColor="@color/white"
-        android:background="@color/fridgeColor"
         android:textSize="42sp"
         android:textStyle="bold" />
 
@@ -23,8 +23,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
 
         <!-- ImageView for the image -->
         <ImageView
@@ -32,14 +32,14 @@
             android:layout_width="120dp"
             android:layout_height="111dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/add_photo_svgrepo_com"/>
+            android:src="@drawable/add_photo_svgrepo_com" />
 
         <!-- TextInputLayouts -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -49,9 +49,9 @@
                     android:id="@+id/product_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/dish"
                     android:fontFamily="@font/amaranth"
-                    android:hint=" Product Name"
-                    android:drawableStart="@drawable/dish"/>
+                    android:hint=" Product Name" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -64,8 +64,8 @@
                     android:id="@+id/quantity"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/amaranth"
                     android:drawableStart="@drawable/bag_svgrepo_com"
+                    android:fontFamily="@font/amaranth"
                     android:hint="Quantity"
                     android:inputType="number" />
 
@@ -81,8 +81,8 @@
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/amount_measure"
             android:layout_width="match_parent"
-            android:drawableStart="@drawable/scale"
             android:layout_height="wrap_content"
+            android:drawableStart="@drawable/scale"
             android:fontFamily="@font/amaranth"
             android:hint="Amount Measure" />
 
@@ -120,13 +120,12 @@
         android:id="@+id/product_category"
         android:layout_width="match_parent"
         android:layout_height="42dp"
-        android:fontFamily="@font/amaranth"
-        android:background="@color/cardview_light_background"
         android:layout_marginTop="16dp"
-        android:padding="8dp"
+        android:background="@color/cardview_light_background"
+        android:dropDownHorizontalOffset="8dp"
         android:dropDownVerticalOffset="8dp"
-        android:dropDownHorizontalOffset="8dp" />
-
+        android:fontFamily="@font/amaranth"
+        android:padding="8dp" />
 
 
     <Button

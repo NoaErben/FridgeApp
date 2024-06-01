@@ -4,13 +4,16 @@ import FoodRepository
 import FridgeRepository
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.CartRepository
+import kotlinx.coroutines.launch
 
 class FridgeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -23,6 +26,8 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val foodItems: LiveData<List<FoodItem>>? = foodRepository.getAllFoodItems()
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
     val cartItems: LiveData<List<CartItem>>? = cartRepository.getAllCartItems()
+
+    val categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
 
     val stringListLiveData: LiveData<List<String>>? get() = foodItemsNames
 
@@ -84,7 +89,10 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun deleteFoodItem(foodItem: FoodItem) {
-        foodRepository.delete(foodItem)
+        viewModelScope.launch {
+            foodRepository.delete(foodItem)
+            Log.d("FridgeViewModel", "Food item deleted from repository")
+        }
     }
 
     fun deleteFoodItemByName(name: String) {
@@ -100,7 +108,12 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     }
 
     fun updateFoodItem(foodItem: FoodItem) {
-        foodRepository.update(foodItem)
+        _chosenFoodItem.value = foodItem
+        viewModelScope.launch {
+            Log.d("FridgeViewModel", "Updating food item: $foodItem")
+            foodRepository.update(foodItem)
+            Log.d("FridgeViewModel", "Food item updated in repository")
+        }
     }
 
 
@@ -131,6 +144,10 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     }
     fun updateFoodName(id: Int, name: String) {
         foodRepository.updateName(id, name)
+    }
+
+    fun updateFoodCategory(id: Int, newCategory: String) {
+        foodRepository.updateCategory(id, newCategory)
     }
 
     fun updateFoodPhotoUrl(id: Int, photoUrl: String?) {
@@ -188,4 +205,5 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     fun insertCartItemFromFridgeItem(fridgeItem: FridgeItem) {
         cartRepository.insertCartItemFromFridgeItem(fridgeItem)
     }
+
 }

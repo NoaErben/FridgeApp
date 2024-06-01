@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment: Fragment() {
@@ -18,6 +19,10 @@ class FridgeManagerFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FridgeFragmentBinding.inflate(inflater, container, false)
+        binding.addProductExpiryBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
+        }
         return binding.root
     }
+
 }

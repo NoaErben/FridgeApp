@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardUseCompatPadding="true"
-    app:contentPadding="4dp"
+    android:background="@color/cyanBackground"
     app:cardCornerRadius="30dp"
-    android:background="@color/cyanBackground">
+    app:cardUseCompatPadding="true"
+    app:contentPadding="4dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,22 +20,22 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5" />
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
 
-        <TextView
-            android:id="@+id/item_days"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:fontFamily="@font/amaranth"
-            android:text="X days for"
-            android:textColor="@color/gray" />
+            <TextView
+                android:id="@+id/item_days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="X days for"
+                android:textColor="@color/gray"
+                android:textSize="22sp" />
 
             <Space
                 android:layout_width="0dp"
@@ -47,7 +47,7 @@
             android:id="@+id/header_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <Space
                 android:layout_width="0dp"
@@ -74,20 +74,20 @@
             android:id="@+id/imageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            tools:srcCompat= "@drawable/new_food_option_2" />
+            tools:srcCompat="@drawable/new_food_option_2" />
 
         <Button
             android:id="@+id/pic_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/replace_image"
-            android:textSize="16sp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:backgroundTint="@color/fridgeColor"/>
+            android:backgroundTint="@color/fridgeColor"
+            android:text="@string/replace_image"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/name_container"
@@ -126,131 +126,131 @@
             android:id="@+id/expire_date_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/expire_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/expire_date"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/expire_date"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/expire_date_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/amaranth"
-                android:text="Answer"
+                android:layout_marginStart="13dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_marginStart="13dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/purchase_date_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        <LinearLayout
+            android:id="@+id/purchase_date_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/purchase_date_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/purchase_date"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/purchase_date"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/purchase_date_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/amaranth"
-                android:text="Answer"
+                android:layout_marginStart="13dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/quantity_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/quantity"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/quantity_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="13dp"
-                android:textColor="@color/black" />
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/quantity_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
-
-        <TextView
-            android:id="@+id/quantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="22sp"
-            android:fontFamily="@font/amaranth"
-            android:text="@string/quantity"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:textColor="@color/black" />
-
-        <TextView
-            android:id="@+id/quantity_data"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:fontFamily="@font/amaranth"
-            android:text="Answer"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="3dp"
-            android:layout_marginStart="13dp"
-            android:textColor="@color/black" />
-
-    </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/units_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/units"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="22sp"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/units"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/units"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/units_data"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textSize="20sp"
-                android:fontFamily="@font/amaranth"
-                android:text="Answer"
+                android:layout_marginStart="13dp"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:layout_marginStart="13dp"
-                android:textColor="@color/black" />
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="Answer"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -258,35 +258,34 @@
             android:id="@+id/button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_horizontal">
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/throw_out_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/throw_out"
-                android:textSize="23sp"
                 android:layout_margin="20dp"
+                android:background="@android:color/transparent"
+                android:text="@string/throw_out"
                 android:textColor="@color/red"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"/>
+                android:textSize="23sp"
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/use_up_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/use_up"
                 android:layout_margin="20dp"
-                android:textSize="23sp"
+                android:background="@android:color/transparent"
+                android:text="@string/use_up"
                 android:textColor="@color/green"
-                android:textStyle="bold"
-                android:background="@android:color/transparent"/>
+                android:textSize="23sp"
+                android:textStyle="bold" />
 
 
         </LinearLayout>
     </LinearLayout>
-
 
 
 </androidx.cardview.widget.CardView>
