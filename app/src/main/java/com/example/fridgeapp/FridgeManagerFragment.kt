@@ -22,6 +22,11 @@ class FridgeManagerFragment: Fragment() {
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
         }
+
+        binding.itemImage.setOnClickListener {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
+        }
+
         return binding.root
     }
 

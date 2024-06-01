@@ -310,6 +310,18 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="loginFragment2">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-250" />
+                            <option name="y" value="-1446" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="myProfileFragment">
                     <value>
                       <LayoutPositions>

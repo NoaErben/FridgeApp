@@ -11,7 +11,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class FridgeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -22,12 +25,56 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     val categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
 
+    private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+
+    private val _currentUser = MutableLiveData<FirebaseUser?>()
+    val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+    init {
+        // Check if the user is already logged in
+        _currentUser.value = auth.currentUser
+    }
+
     val stringListLiveData: LiveData<List<String>>? get() = foodItemsNames
 
     // Function to get the concatenated string
     fun getConcatenatedString(): String {
         //foodRepository.deleteAllFoodTable()
         return foodItemsNames?.value?.joinToString(separator = ", ") ?: ""
+    }
+
+    fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        viewModelScope.launch {
+            try {
+                auth.signInWithEmailAndPassword(email, password).await()
+                _currentUser.value = auth.currentUser
+                onSuccess()
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
+    fun signOut() {
+        auth.signOut()
+        _currentUser.value = null
+    }
+
+    fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        viewModelScope.launch {
+            try {
+                auth.createUserWithEmailAndPassword(email, password).await()
+                _currentUser.value = auth.currentUser
+                handleName(name)
+                onSuccess()
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
+    private fun handleName(name: String) {
+        // TODO: Handle the additional details as needed
+        // For example, save them to a database, update user profile, etc.
     }
 
     fun getImageResource(context: Context, photoUrl: String): Int {

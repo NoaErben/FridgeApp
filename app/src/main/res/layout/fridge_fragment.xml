@@ -8,6 +8,8 @@
     android:background="@color/white">
 
     <!-- Provides the app bar with a title and a navigation (back) button. -->
+
+
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -15,6 +17,7 @@
         android:background="@color/fridgeColor"
         app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/align_justify_svgrepo_com_1"
@@ -22,7 +25,6 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black" />
-
 
     <LinearLayout
         android:layout_width="match_parent"

@@ -22,7 +22,7 @@ class MainActivity : AppCompatActivity() {
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        FirebaseApp.initializeApp(this) // Make sure to initialize Firebase
+        FirebaseApp.initializeApp(this)
 
         /*setSupportActionBar(binding.toolbar)
 
