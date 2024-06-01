@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.favoritesItems
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,12 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.DefaultExpirationDatesBinding
+import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
-class DefaultExpirationDatesFragment : Fragment() {
+class FavoriteExpirationFragment : Fragment() {
 
-    private var _binding: DefaultExpirationDatesBinding? = null
+    private var _binding: FavoriteExpirationDatesBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FridgeViewModel by activityViewModels()
@@ -24,7 +25,7 @@ class DefaultExpirationDatesFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = DefaultExpirationDatesBinding.inflate(inflater, container, false)
+        _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_addItemToFavoriteFragment)
         }

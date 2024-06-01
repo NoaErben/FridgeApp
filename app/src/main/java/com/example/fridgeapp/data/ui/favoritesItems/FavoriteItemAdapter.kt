@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.favoritesItems
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.databinding.FavoriteItemCardBinding
 
@@ -33,7 +34,9 @@ class FavoriteItemAdapter(private var items: List<FoodItem>, private val callBac
                 else
                     Glide.with(binding.root).load(item.photoUrl).circleCrop().error(R.drawable.dish).into(binding.itemImage)
             else
-                Glide.with(binding.root).load(ContextCompat.getDrawable(binding.root.context, R.drawable.dish)).circleCrop().into(binding.itemImage)
+                Glide.with(binding.root).load(ContextCompat.getDrawable(binding.root.context,
+                    R.drawable.dish
+                )).circleCrop().into(binding.itemImage)
 
         }
 

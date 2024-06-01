@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.favoritesItems
 
 import android.content.Intent
 import android.net.Uri
@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,15 +15,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.EditItemFavoriteBinding
-import com.example.fridgeapp.databinding.EditItemInFridgeBinding
+import com.example.fridgeapp.databinding.FavoriteEditItemBinding
 
-class EditItemFavoriteFragment : Fragment() {
+class FavoriteEditItemFragment : Fragment() {
 
     private val viewModel: FridgeViewModel by activityViewModels()
 
-    private var _binding: EditItemFavoriteBinding? = null
+    private var _binding: FavoriteEditItemBinding? = null
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
@@ -46,7 +45,7 @@ class EditItemFavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = EditItemFavoriteBinding.inflate(inflater, container, false)
+        _binding = FavoriteEditItemBinding.inflate(inflater, container, false)
 
         binding.picButton.setOnClickListener {
             pickLauncher.launch(arrayOf("image/*"))

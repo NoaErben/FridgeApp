@@ -1,5 +1,6 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.favoritesItems
 
+import android.R
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -19,11 +20,11 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.AddItemFavoriteBinding
+import com.example.fridgeapp.databinding.FavoriteAddItemBinding
 
 class AddItemToFavoriteFragment : Fragment() {
 
-    private var _binding: AddItemFavoriteBinding? = null
+    private var _binding: FavoriteAddItemBinding? = null
     private val binding
         get() = _binding!!
 
@@ -45,15 +46,15 @@ class AddItemToFavoriteFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = AddItemFavoriteBinding.inflate(inflater, container, false)
+        _binding = FavoriteAddItemBinding.inflate(inflater, container, false)
 
         val categories = viewModel.categories
 
         val adapter = CustomArrayAdapter(
             requireContext(),
-            android.R.layout.simple_spinner_item,
+            R.layout.simple_spinner_item,
             categories,
-            R.font.amaranth // Custom font resource
+            com.example.fridgeapp.R.font.amaranth // Custom font resource
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.productCategory.adapter = adapter
@@ -89,7 +90,7 @@ class AddItemToFavoriteFragment : Fragment() {
             //add the FridgeItem to viewModel
             viewModel.insertFoodItem(foodItem)
             //To do navigation-> after click add, add it to the FridgeFragment
-            findNavController().navigate(R.id.action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment)
+            findNavController().navigate(com.example.fridgeapp.R.id.action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment)
         }
 
         binding.itemImage.setOnClickListener {

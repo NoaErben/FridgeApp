@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.fridgeapp.databinding.DefaultExpirationDatesBinding
+import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
 class FridgeShoppingListFragment : Fragment() {
-    private var _binding: DefaultExpirationDatesBinding? = null
+    private var _binding: FavoriteExpirationDatesBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -16,7 +16,7 @@ class FridgeShoppingListFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = DefaultExpirationDatesBinding.inflate(inflater, container, false)
+        _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
