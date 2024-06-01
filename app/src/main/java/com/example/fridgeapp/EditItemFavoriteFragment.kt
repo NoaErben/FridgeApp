@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -126,12 +127,24 @@ class EditItemFavoriteFragment : Fragment() {
         }
 
         binding.throwOutButton.setOnClickListener {
-            viewModel.chosenFoodItem.value?.let { item ->
-                viewModel.deleteFoodItem(item)
-                findNavController().navigate(R.id.action_editItemFavoriteFragment_to_defaultExpirationDatesFragment)
-            }
+            showConfirmationDialog()
         }
 
+    }
+
+    private fun showConfirmationDialog() {
+        AlertDialog.Builder(requireContext())
+            .setMessage("Are you sure you want to throw out this item?")
+            //TODO: add to strings
+            .setPositiveButton("Yes") { _, _ ->
+                // Call the method to throw out the item
+                viewModel.chosenFoodItem.value?.let { item ->
+                    viewModel.deleteFoodItem(item)
+                    findNavController().navigate(R.id.action_editItemFavoriteFragment_to_defaultExpirationDatesFragment)
+                }
+            }
+            .setNegativeButton("Cancel", null)
+            .show()
     }
 
     override fun onDestroyView() {
