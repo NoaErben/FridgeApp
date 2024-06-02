@@ -16,7 +16,7 @@ interface FoodDao {
     fun insert(foodItem: FoodItem)
 
     @Delete
-    fun delete(foodItem: FoodItem)
+    suspend fun delete(foodItem: FoodItem)
 
     @Query("DELETE FROM FoodItem WHERE item_name = :name")
     fun deleteByName(name: String)
@@ -34,7 +34,7 @@ interface FoodDao {
     fun getFoodsNameList(): LiveData<List<String>>
 
     @Update
-    fun update(foodItem: FoodItem)
+    suspend fun update(foodItem: FoodItem)
 
     @Query("UPDATE FoodItem SET item_name = :name WHERE id = :id")
     fun updateName(id: Int, name: String)

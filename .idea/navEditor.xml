@@ -8,18 +8,18 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="addItemFavoriteFragment2">
+                  <entry key="addItemToFavoriteFragment">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
                             <option name="x" value="454" />
-                            <option name="y" value="752" />
+                            <option name="y" value="737" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_addItemFavoriteFragment2_to_defaultExpirationDatesFragment">
+                            <entry key="action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -97,13 +97,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="227" />
-                            <option name="y" value="394" />
+                            <option name="x" value="243" />
+                            <option name="y" value="402" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_defaultExpirationDatesFragment_to_addItemFavoriteFragment2">
+                            <entry key="action_defaultExpirationDatesFragment_to_addItemToFavoriteFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -306,6 +306,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="loginFragment2">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-250" />
+                            <option name="y" value="-1446" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

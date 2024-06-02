@@ -9,11 +9,11 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import com.example.fridgeapp.databinding.ViewItemFragmentBinding
+import com.example.fridgeapp.databinding.EditItemInFridgeBinding
 
 class EditFridgeItemFragment : Fragment() {
 
-    private var _binding: ViewItemFragmentBinding? = null
+    private var _binding: EditItemInFridgeBinding? = null
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
@@ -35,7 +35,7 @@ class EditFridgeItemFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = ViewItemFragmentBinding.inflate(inflater, container, false)
+        _binding = EditItemInFridgeBinding.inflate(inflater, container, false)
 
         binding.picButton.setOnClickListener {
             pickLauncher.launch(arrayOf("image/*"))

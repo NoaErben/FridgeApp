@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp">
@@ -14,7 +14,7 @@
         android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Add item to fridge"
+        android:text="@string/add_item_to_nfavorites"
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold" />
@@ -39,7 +39,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -51,56 +52,16 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/dish"
                     android:fontFamily="@font/amaranth"
-                    android:hint=" Product Name" />
+                    android:hint=" Product Name"
+                    android:inputType="text"
+                    android:imeOptions="actionDone"/>
 
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/quantity"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:drawableStart="@drawable/bag_svgrepo_com"
-                    android:fontFamily="@font/amaranth"
-                    android:hint="Quantity"
-                    android:inputType="number" />
-
-            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
-
-    <!-- TextInputLayouts for other input fields -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/amount_measure"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/scale"
-            android:fontFamily="@font/amaranth"
-            android:hint="Amount Measure" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/buying_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
-            android:fontFamily="@font/amaranth"
-            android:hint="Buying Date" />
-
-    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
@@ -112,20 +73,44 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/expire_svgrepo_com"
             android:fontFamily="@font/amaranth"
-            android:hint="Expiry Date" />
+            android:inputType="number"
+            android:hint="@string/days_to_expire" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
-    <Spinner
-        android:id="@+id/product_category"
+    <LinearLayout
+        android:id="@+id/expire_date_container"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginTop="16dp"
-        android:background="@color/cardview_light_background"
-        android:dropDownHorizontalOffset="8dp"
-        android:dropDownVerticalOffset="8dp"
-        android:fontFamily="@font/amaranth"
-        android:padding="8dp" />
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/category_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/amaranth"
+            android:gravity="center"
+            android:text="@string/category"
+            android:textColor="@color/black"
+            android:textSize="22sp"
+            android:layout_marginEnd="12dp"/>
+
+        <Spinner
+            android:id="@+id/product_category"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/rounded_frame"
+            android:dropDownHorizontalOffset="8dp"
+            android:dropDownVerticalOffset="8dp"
+            android:fontFamily="@font/amaranth"
+            android:padding="8dp" />
+
+    </LinearLayout>
 
 
     <Button

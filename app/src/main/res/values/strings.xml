@@ -9,4 +9,9 @@
     <string name="replace_image">Replace Image</string>
     <string name="name">Name:</string>
     <string name="units">units</string>
+    <string name="default_days_to_expire">Default days to expire:</string>
+    <string name="category">Category:</string>
+    <string name="save">Save</string>
+    <string name="add_item_to_nfavorites">Add item to \nFavorites</string>
+    <string name="days_to_expire">Days to expire</string>
 </resources>

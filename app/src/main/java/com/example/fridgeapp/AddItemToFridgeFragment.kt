@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.AddItemBinding
+import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 
 class AddItemToFridgeFragment : Fragment() {
 
-    private var _binding: AddItemBinding? = null
+    private var _binding: AddItemToFridgeBinding? = null
     private val binding
         get() = _binding!!
 
@@ -38,7 +38,7 @@ class AddItemToFridgeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = AddItemBinding.inflate(inflater, container, false)
+        _binding = AddItemToFridgeBinding.inflate(inflater, container, false)
         //Defines what happens when the "Add" button is clicked
         binding.addItemButton.setOnClickListener {
             val name = binding.productName.text.toString()
@@ -61,7 +61,7 @@ class AddItemToFridgeFragment : Fragment() {
             )
 
             //add the FridgeItem to viewModel
-            viewModel.insertFridgeItem(fridgeItem)
+            //viewModel.insertFridgeItem(fridgeItem)
             //To do navigation-> after click add, add it to the FridgeFragment
 //            findNavController().navigate(R.id.action_addItemFragment_to_mainFragment)
         }

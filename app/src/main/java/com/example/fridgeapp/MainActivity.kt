@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fridgeapp.data.local_db.FridgeDB
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
+import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
@@ -20,11 +21,16 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+
+        FirebaseApp.initializeApp(this)
+
+        /*setSupportActionBar(binding.toolbar)
 
         binding.toolbar.setNavigationOnClickListener {
             showPopupMenu(it)
         }
+
+         */
 
         // Initialize the database
         FridgeDB.getDatabase(this)
@@ -37,7 +43,7 @@ class MainActivity : AppCompatActivity() {
             // Update UI with the new food names
             val concatenatedNames = fridgeViewModel.getConcatenatedString()
             // For example, you can update a TextView with the concatenated string
-            binding.textv.setText("From Db: " + concatenatedNames)
+            //binding.textv.setText("From Db: " + concatenatedNames)
         })
     }
 

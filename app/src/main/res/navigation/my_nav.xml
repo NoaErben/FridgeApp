@@ -142,33 +142,27 @@
     </fragment>
     <fragment
         android:id="@+id/defaultExpirationDatesFragment"
-        android:name="com.example.fridgeapp.DefaultExpirationDatesFragment"
+        android:name="com.example.fridgeapp.data.ui.favoritesItems.FavoriteExpirationFragment"
         android:label="DefaultExpirationDatesFragment" >
-        <action
-            android:id="@+id/action_defaultExpirationDatesFragment_to_addItemFavoriteFragment2"
-            app:destination="@id/addItemFavoriteFragment2" />
         <action
             android:id="@+id/action_defaultExpirationDatesFragment_to_editItemFavoriteFragment"
             app:destination="@id/editItemFavoriteFragment" />
         <action
             android:id="@+id/action_defaultExpirationDatesFragment_to_fridgeManagerFragment"
             app:destination="@id/fridgeManagerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/addItemFavoriteFragment2"
-        android:name="com.example.fridgeapp.AddItemFavoriteFragment"
-        android:label="AddItemFavoriteFragment" >
         <action
-            android:id="@+id/action_addItemFavoriteFragment2_to_defaultExpirationDatesFragment"
-            app:destination="@id/defaultExpirationDatesFragment" />
+            android:id="@+id/action_defaultExpirationDatesFragment_to_addItemToFavoriteFragment"
+            app:destination="@id/addItemToFavoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/editItemFavoriteFragment"
-        android:name="com.example.fridgeapp.EditItemFavoriteFragment"
+        android:name="com.example.fridgeapp.data.ui.favoritesItems.FavoriteEditItemFragment"
         android:label="EditItemFavoriteFragment" >
         <action
             android:id="@+id/action_editItemFavoriteFragment_to_defaultExpirationDatesFragment"
-            app:destination="@id/defaultExpirationDatesFragment" />
+            app:destination="@id/defaultExpirationDatesFragment"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/registerFragment"
@@ -199,5 +193,15 @@
         <action
             android:id="@+id/action_createNewFridge2_to_myProfileFragment"
             app:destination="@id/myProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addItemToFavoriteFragment"
+        android:name="com.example.fridgeapp.data.ui.favoritesItems.AddItemToFavoriteFragment"
+        android:label="AddItemToFavoriteFragment" >
+        <action
+            android:id="@+id/action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment"
+            app:destination="@id/defaultExpirationDatesFragment"
+            app:popUpTo="@id/my_nav"
+            app:popUpToInclusive="true" />
     </fragment>
 </navigation>
