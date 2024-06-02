@@ -24,12 +24,8 @@ abstract class FridgeDB : RoomDatabase() {
             if (instance == null) {
                 synchronized(this) {
                     instance = Room.databaseBuilder(
-                        context.applicationContext,
-                        FridgeDB::class.java,
-                        "fridge_database"
-                    )
-                        .allowMainThreadQueries() // Allows Room to perform database operations on the main thread
-                        .build()
+                        context.applicationContext, FridgeDB::class.java, "fridge_database"
+                    ).build()
 
                     // Default items for foodDB
                     instance?.let { database ->

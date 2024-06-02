@@ -21,7 +21,7 @@ class FoodRepository(application: Application) {
         return foodDao?.getAllFoodItems()
     }
 
-    fun insert(foodItem: FoodItem) {
+    suspend fun insert(foodItem: FoodItem) {
         foodDao?.insert(foodItem)
     }
 
@@ -34,17 +34,6 @@ class FoodRepository(application: Application) {
         }
     }
 
-    fun deleteByName(name: String) {
-        foodDao?.deleteByName(name)
-    }
-
-    fun getFoodItemById(id: Int): FoodItem? {
-        return foodDao?.getFoodItemById(id)
-    }
-
-    fun getFoodItemByName(name: String): FoodItem? {
-        return foodDao?.getFoodItemByName(name)
-    }
 
     fun getFoodsNameList(): LiveData<List<String>>? {
         return foodDao?.getFoodsNameList()
@@ -69,23 +58,23 @@ class FoodRepository(application: Application) {
         }
     }
 
-    fun updateName(id: Int, name: String) {
+    suspend fun updateName(id: Int, name: String) {
         foodDao?.updateName(id, name)
     }
 
-    fun updatePhotoUrl(id: Int, photoUrl: String?) {
+    suspend fun updatePhotoUrl(id: Int, photoUrl: String?) {
         foodDao?.updatePhotoUrl(id, photoUrl)
     }
 
-    fun updateDaysToExpire(id: Int, daysToExpire: Int) {
+    suspend fun updateDaysToExpire(id: Int, daysToExpire: Int) {
         foodDao?.updateDaysToExpire(id, daysToExpire)
     }
 
-    fun deleteAllFoodTable() {
+    suspend fun deleteAllFoodTable() {
         foodDao?.deleteAll()
     }
 
-    fun updateCategory(id: Int, newCategory: String) {
+    suspend fun updateCategory(id: Int, newCategory: String) {
         foodDao?.updateCategory(id, newCategory)
     }
 }

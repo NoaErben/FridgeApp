@@ -29,6 +29,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+
     init {
         // Check if the user is already logged in
         _currentUser.value = auth.currentUser
@@ -42,7 +43,12 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         return foodItemsNames?.value?.joinToString(separator = ", ") ?: ""
     }
 
-    fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun signIn(
+        email: String,
+        password: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 auth.signInWithEmailAndPassword(email, password).await()
@@ -59,7 +65,13 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         _currentUser.value = null
     }
 
-    fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun signUp(
+        email: String,
+        password: String,
+        name: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
         viewModelScope.launch {
             try {
                 auth.createUserWithEmailAndPassword(email, password).await()
@@ -90,21 +102,16 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     private val _chosenCartItem = MutableLiveData<CartItem>()
     val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
 
-    fun setFridgeChosenItem(fridgeItem: FridgeItem) {
-        _chosenFridgeItem.value = fridgeItem
-    }
 
     fun setFoodChosenItem(foodItem: FoodItem) {
         _chosenFoodItem.value = foodItem
     }
 
-    fun setCartChosenItem(cartItem: CartItem) {
-        _chosenCartItem.value = cartItem
-    }
-
     // Methods to use repository functions
     fun insertFoodItem(foodItem: FoodItem) {
-        foodRepository.insert(foodItem)
+        viewModelScope.launch {
+            foodRepository.insert(foodItem)
+        }
     }
 
     fun deleteFoodItem(foodItem: FoodItem) {
@@ -112,18 +119,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
             foodRepository.delete(foodItem)
             Log.d("FridgeViewModel", "Food item deleted from repository")
         }
-    }
-
-    fun deleteFoodItemByName(name: String) {
-        foodRepository.deleteByName(name)
-    }
-
-    fun getFoodItemById(id: Int): FoodItem? {
-        return foodRepository.getFoodItemById(id)
-    }
-
-    fun getFoodItemByName(name: String): FoodItem? {
-        return foodRepository.getFoodItemByName(name)
     }
 
     fun updateFoodItem(foodItem: FoodItem) {
@@ -137,23 +132,34 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
 
     fun deleteAllFoodItems() {
-        foodRepository.deleteAllFoodTable()
+        viewModelScope.launch {
+            foodRepository.deleteAllFoodTable()
+        }
     }
 
     fun updateFoodName(id: Int, name: String) {
-        foodRepository.updateName(id, name)
+        viewModelScope.launch {
+            foodRepository.updateName(id, name)
+        }
     }
 
     fun updateFoodCategory(id: Int, newCategory: String) {
-        foodRepository.updateCategory(id, newCategory)
+        viewModelScope.launch {
+            foodRepository.updateCategory(id, newCategory)
+        }
+
     }
 
     fun updateFoodPhotoUrl(id: Int, photoUrl: String?) {
-        foodRepository.updatePhotoUrl(id, photoUrl)
+        viewModelScope.launch {
+            foodRepository.updatePhotoUrl(id, photoUrl)
+        }
     }
 
     fun updateFoodDaysToExpire(id: Int, daysToExpire: Int) {
-        foodRepository.updateDaysToExpire(id, daysToExpire)
+        viewModelScope.launch {
+            foodRepository.updateDaysToExpire(id, daysToExpire)
+        }
     }
-    
+
 }

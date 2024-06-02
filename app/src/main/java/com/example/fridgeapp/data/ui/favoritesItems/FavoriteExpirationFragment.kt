@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.fridgeapp.R
@@ -24,7 +25,7 @@ class FavoriteExpirationFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_addItemToFavoriteFragment)
@@ -51,11 +52,10 @@ class FavoriteExpirationFragment : Fragment() {
         binding.productRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productRecyclerView.adapter = adapter
 
-        viewModel.foodItems?.observe(viewLifecycleOwner) { foodItems ->
+        viewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
             adapter.setItems(foodItems)
-        }
+        })
     }
-
 
     override fun onDestroyView() {
         super.onDestroyView()
