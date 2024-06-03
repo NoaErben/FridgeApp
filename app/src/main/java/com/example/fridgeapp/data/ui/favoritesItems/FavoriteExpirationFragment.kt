@@ -51,8 +51,8 @@ class FavoriteExpirationFragment : Fragment() {
             }
 
             override fun onItemLongClick(index: Int) {
-                Toast.makeText(requireActivity(), "Long click", Toast.LENGTH_SHORT).show()
-                // TODO: update
+                Toast.makeText(requireActivity(),
+                    getString(R.string.swipe_to_delete), Toast.LENGTH_SHORT).show()
             }
         })
 
@@ -100,12 +100,12 @@ class FavoriteExpirationFragment : Fragment() {
 object DialogUtils {
     fun showConfirmDeleteDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)
-            .setMessage("Are you sure you want to delete this item?")
-            .setPositiveButton("Yes") { dialog, _ ->
+            .setMessage(context.getString(R.string.are_you_sure_you_want_to_delete_this_item))
+            .setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
                 onConfirm()
                 dialog.dismiss()
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                 onCancel()
                 dialog.dismiss()
             }
@@ -115,12 +115,12 @@ object DialogUtils {
 
     fun showConfirmDiscardChangesDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)
-            .setMessage("Are you sure you want to discard changes?")
-            .setPositiveButton("Yes") { dialog, _ ->
+            .setMessage(context.getString(R.string.are_you_sure_you_want_to_discard_changes))
+            .setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
                 onConfirm()
                 dialog.dismiss()
             }
-            .setNegativeButton("No") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                 onCancel()
                 dialog.dismiss()
             }

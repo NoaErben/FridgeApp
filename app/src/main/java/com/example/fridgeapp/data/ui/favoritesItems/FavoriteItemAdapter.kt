@@ -27,7 +27,7 @@ class FavoriteItemAdapter(private var items: List<FoodItem>, private val callBac
         fun bind(item: FoodItem) {
             print(item.photoUrl)
             binding.itemName.text = item.name
-            binding.itemExpired.text = item.daysToExpire.toString() + " days"
+            binding.itemExpired.text = "${item.daysToExpire} ${binding.root.context.getString(R.string.days)}"
             if (item.photoUrl != null)
                 if (item.photoUrl.contains("drawable"))
                     Glide.with(binding.root).load(item.photoUrl.substringAfter("drawable://").toInt()).circleCrop().into(binding.itemImage)

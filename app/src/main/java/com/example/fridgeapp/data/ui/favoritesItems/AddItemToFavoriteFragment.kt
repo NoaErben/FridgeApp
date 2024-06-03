@@ -21,104 +21,27 @@ import com.example.fridgeapp.databinding.FavoriteAddItemBinding
 class AddItemToFavoriteFragment : Fragment() {
 
     private var _binding: FavoriteAddItemBinding? = null
-    private val binding
-        get() = _binding!!
-
+    private val binding get() = _binding!!
     private var imageUri: Uri? = null
-
     private val viewModel: FridgeViewModel by activityViewModels()
-
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
-        registerForActivityResult(ActivityResultContracts.OpenDocument()) {
-            it?.let {
-                binding.itemImage.setImageURI(it)
-                requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                imageUri = it
-            }
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            uri?.let { handleImagePicked(it) }
         }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         _binding = FavoriteAddItemBinding.inflate(inflater, container, false)
-
-        val categories = viewModel.categories
-
-        val adapter = CustomArrayAdapter(
-            requireContext(),
-            R.layout.simple_spinner_item,
-            categories,
-            com.example.fridgeapp.R.font.amaranth // Custom font resource
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.productCategory.adapter = adapter
-
-        //Defines what happens when the "Add" button is clicked
-        binding.addItemButton.setOnClickListener {
-            val name = binding.productName.text.toString()
-            val daysToExpireStr = binding.productDaysToExpire.text.toString()
-            val category = binding.productCategory.selectedItem.toString()
-            val photoUrl = imageUri?.toString()
-
-            // Check if the name is not empty
-            if (name.isEmpty()) {
-                Toast.makeText(requireContext(), "Please enter a product name", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            // Check if the days to expire is a valid integer
-            val daysToExpire = daysToExpireStr.toIntOrNull()
-            if (daysToExpire == null || daysToExpire <= 0) {
-                Toast.makeText(requireContext(), "Please enter a valid number of days to expire", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
-
-            //create a FridgeItem by the fields
-            val foodItem = FoodItem(
-                name = name,
-                photoUrl = photoUrl,
-                category = category,
-                daysToExpire = daysToExpire
-            )
-
-            //add the FridgeItem to viewModel
-            viewModel.insertFoodItem(foodItem)
-            //To do navigation-> after click add, add it to the FridgeFragment
-            findNavController().navigate(com.example.fridgeapp.R.id.action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment)
-        }
-
-        binding.itemImage.setOnClickListener {
-            pickLauncher.launch(arrayOf("image/*"))
-        }
-
-        binding.productCategory
-
+        setupCategorySpinner()
+        setupAddButton()
+        setupImagePicker()
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        requireActivity().onBackPressedDispatcher.addCallback(
-            viewLifecycleOwner,
-            object : OnBackPressedCallback(true) {
-                override fun handleOnBackPressed() {
-                    if (hasUnsavedChanges()) {
-                        DialogUtils.showConfirmDiscardChangesDialog(requireContext(), onConfirm = {
-                            // Navigate back
-                            findNavController().popBackStack()
-                        }, onCancel = {
-                            // Do nothing, just dismiss the dialog
-                        })
-                    } else {
-                        // Navigate back if there are no changes
-                        findNavController().popBackStack()
-                    }
-                }
-            })
-
+        handleBackPressed()
     }
 
     override fun onDestroyView() {
@@ -126,12 +49,102 @@ class AddItemToFavoriteFragment : Fragment() {
         _binding = null
     }
 
+    private fun setupCategorySpinner() {
+        val categories = viewModel.categories
+        val adapter = CustomArrayAdapter(
+            requireContext(), R.layout.simple_spinner_item, categories,
+            com.example.fridgeapp.R.font.amaranth
+        )
+        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        binding.productCategory.adapter = adapter
+    }
+
+    private fun setupAddButton() {
+        binding.addItemButton.setOnClickListener {
+            if (validateInput()) {
+                addItemToFavorites()
+                navigateToExpirationDates()
+            }
+        }
+    }
+
+    private fun setupImagePicker() {
+        binding.itemImage.setOnClickListener {
+            pickLauncher.launch(arrayOf("image/*"))
+        }
+    }
+
+    private fun handleImagePicked(uri: Uri) {
+        binding.itemImage.setImageURI(uri)
+        requireActivity().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        imageUri = uri
+    }
+
+    private fun validateInput(): Boolean {
+        val name = binding.productName.text.toString()
+        val daysToExpireStr = binding.productDaysToExpire.text.toString()
+        val daysToExpire = daysToExpireStr.toIntOrNull()
+
+        return when {
+            name.toString().length < 2 -> {
+                showToast(getString(com.example.fridgeapp.R.string.please_enter_a_valid_product_name))
+                false
+            }
+            daysToExpire == null || daysToExpire <= 0 -> {
+                showToast(getString(com.example.fridgeapp.R.string.please_enter_a_valid_number_of_days_to_expire))
+                false
+            }
+            else -> {
+                true
+            }
+        }
+    }
+
+    private fun addItemToFavorites() {
+        val name = binding.productName.text.toString()
+        val category = binding.productCategory.selectedItem.toString()
+        val daysToExpire = binding.productDaysToExpire.text.toString().toInt()
+        val photoUrl = imageUri?.toString()
+
+        val foodItem = FoodItem(
+            name = name, photoUrl = photoUrl, category = category, daysToExpire = daysToExpire
+        )
+        viewModel.insertFoodItem(foodItem)
+    }
+
+    private fun navigateToExpirationDates() {
+        findNavController().navigate(com.example.fridgeapp.R.id.action_addItemToFavoriteFragment_to_defaultExpirationDatesFragment)
+    }
+
+    private fun handleBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (hasUnsavedChanges()) {
+                    showConfirmDiscardChangesDialog()
+                } else {
+                    findNavController().popBackStack()
+                }
+            }
+        })
+    }
+
+    private fun showConfirmDiscardChangesDialog() {
+        DialogUtils.showConfirmDiscardChangesDialog(
+            requireContext(),
+            onConfirm = { findNavController().popBackStack() },
+            onCancel = { /* Do nothing */ }
+        )
+    }
+
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = "Breads"
-        return binding.productName.text.toString() != "" ||
+        val defaultCategory = getString(com.example.fridgeapp.R.string.breads)
+        return binding.productName.text.toString().isNotEmpty() ||
                 binding.productCategory.selectedItem.toString() != defaultCategory ||
-                binding.productDaysToExpire.text.toString() != "" ||
-                imageUri?.toString() != null
+                binding.productDaysToExpire.text.toString().isNotEmpty() ||
+                imageUri != null
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 }
-

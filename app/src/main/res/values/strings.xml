@@ -18,4 +18,14 @@
     <string name="answer">Answer</string>
     <string name="item_name">Item Name</string>
     <string name="remove">Remove</string>
+    <string name="please_fill_in_all_fields_correctly">Please fill in all fields correctly</string>
+    <string name="please_enter_a_valid_product_name">Please enter a valid product name</string>
+    <string name="please_enter_a_valid_number_of_days_to_expire">Please enter a valid number of days to expire</string>
+    <string name="breads">Breads</string>
+    <string name="are_you_sure_you_want_to_discard_changes">Are you sure you want to discard changes?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="are_you_sure_you_want_to_delete_this_item">Are you sure you want to delete this item?</string>
+    <string name="swipe_to_delete">Swipe to delete</string>
+    <string name="days">days</string>
 </resources>
