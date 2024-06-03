@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Item Name"
+                android:text="@string/item_name"
                 android:textColor="@color/black"
                 android:textSize="40sp" />
 
@@ -89,11 +89,13 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Answer"
+                android:text="@string/answer"
                 android:textColor="@color/black"
                 android:textSize="20sp"
                 android:inputType="text"
-                android:imeOptions="actionDone" />
+                android:imeOptions="actionDone"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"/>
 
         </LinearLayout>
 
@@ -120,6 +122,7 @@
             <Spinner
                 android:id="@+id/product_category"
                 android:layout_width="match_parent"
+                android:layout_marginEnd="80dp"
                 android:layout_height="42dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="16dp"
@@ -159,10 +162,12 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Answer"
+                android:text="@string/answer"
                 android:textColor="@color/black"
                 android:textSize="20sp"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:paddingEnd="20dp"
+                android:paddingStart="20dp"/>
 
         </LinearLayout>
 
@@ -179,7 +184,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@android:color/transparent"
-                android:text="@string/throw_out"
+                android:text="@string/remove"
                 android:textColor="@color/red"
                 android:textSize="23sp"
                 android:textStyle="bold" />

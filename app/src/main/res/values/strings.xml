@@ -14,4 +14,8 @@
     <string name="save">Save</string>
     <string name="add_item_to_nfavorites">Add item to \nFavorites</string>
     <string name="days_to_expire">Days to expire</string>
+    <string name="remove_from_favorites">Remove from\nfavorites</string>
+    <string name="answer">Answer</string>
+    <string name="item_name">Item Name</string>
+    <string name="remove">Remove</string>
 </resources>

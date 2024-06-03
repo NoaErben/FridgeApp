@@ -45,7 +45,7 @@ class AddItemToFridgeFragment : Fragment() {
             val count = binding.quantity.text.toString().toIntOrNull() ?: 0
             val countMeasure = binding.amountMeasure.text.toString()
             val buyingDate = binding.buyingDate.text.toString().toLongOrNull() ?: System.currentTimeMillis()
-            val expiryDate = binding.productExpiryDate.text.toString().toLongOrNull() ?: System.currentTimeMillis()
+            val expiryDate = binding.productDaysToExpire.text.toString().toLongOrNull() ?: System.currentTimeMillis()
             val category = binding.productCategory.selectedItem.toString()
             val photoUrl = imageUri?.toString()
 

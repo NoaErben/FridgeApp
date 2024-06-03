@@ -1,20 +1,16 @@
 package com.example.fridgeapp.data.ui.favoritesItems
 
 import android.R
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -62,7 +58,7 @@ class AddItemToFavoriteFragment : Fragment() {
         //Defines what happens when the "Add" button is clicked
         binding.addItemButton.setOnClickListener {
             val name = binding.productName.text.toString()
-            val daysToExpireStr = binding.productExpiryDate.text.toString()
+            val daysToExpireStr = binding.productDaysToExpire.text.toString()
             val category = binding.productCategory.selectedItem.toString()
             val photoUrl = imageUri?.toString()
 
@@ -104,38 +100,38 @@ class AddItemToFavoriteFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (hasUnsavedChanges()) {
+                        DialogUtils.showConfirmDiscardChangesDialog(requireContext(), onConfirm = {
+                            // Navigate back
+                            findNavController().popBackStack()
+                        }, onCancel = {
+                            // Do nothing, just dismiss the dialog
+                        })
+                    } else {
+                        // Navigate back if there are no changes
+                        findNavController().popBackStack()
+                    }
+                }
+            })
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-}
 
-class CustomArrayAdapter(
-    context: Context,
-    resource: Int,
-    objects: List<String>,
-    private val fontResId: Int
-) : ArrayAdapter<String>(context, resource, objects) {
-
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = super.getView(position, convertView, parent)
-        applyCustomFont(view)
-        return view
-    }
-
-    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = super.getDropDownView(position, convertView, parent)
-        applyCustomFont(view)
-        return view
-    }
-
-    private fun applyCustomFont(view: View) {
-        if (view is TextView) {
-            val customFont = ResourcesCompat.getFont(context, fontResId)
-            view.typeface = customFont
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f) // Set text size to 20sp
-        }
+    private fun hasUnsavedChanges(): Boolean {
+        val defaultCategory = "Breads"
+        return binding.productName.text.toString() != "" ||
+                binding.productCategory.selectedItem.toString() != defaultCategory ||
+                binding.productDaysToExpire.text.toString() != "" ||
+                imageUri?.toString() != null
     }
 }
+

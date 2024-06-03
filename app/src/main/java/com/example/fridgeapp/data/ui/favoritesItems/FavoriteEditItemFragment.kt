@@ -3,10 +3,12 @@ package com.example.fridgeapp.data.ui.favoritesItems
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -120,7 +122,11 @@ class FavoriteEditItemFragment : Fragment() {
                     findNavController().navigate(R.id.action_editItemFavoriteFragment_to_defaultExpirationDatesFragment)
                 } else {
                     // Handle error: show a message or alert if needed
-                    Toast.makeText(context, "Please fill in all fields correctly", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        "Please fill in all fields correctly",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -129,26 +135,53 @@ class FavoriteEditItemFragment : Fragment() {
             showConfirmationDialog()
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (hasUnsavedChanges()) {
+                        DialogUtils.showConfirmDiscardChangesDialog(requireContext(), onConfirm = {
+                            // Navigate back
+                            findNavController().popBackStack()
+                        }, onCancel = {
+                            // Do nothing, just dismiss the dialog
+                        })
+                    } else {
+                        // Navigate back if there are no changes
+                        findNavController().popBackStack()
+                    }
+                }
+            })
+
     }
 
     private fun showConfirmationDialog() {
-        AlertDialog.Builder(requireContext())
-            .setMessage("Are you sure you want to throw out this item?")
-            //TODO: add to strings
-            .setPositiveButton("Yes") { _, _ ->
-                // Call the method to throw out the item
+        DialogUtils.showConfirmDeleteDialog(
+            requireContext(),
+            onConfirm = {
                 viewModel.chosenFoodItem.value?.let { item ->
                     viewModel.deleteFoodItem(item)
                     findNavController().navigate(R.id.action_editItemFavoriteFragment_to_defaultExpirationDatesFragment)
                 }
+            },
+            onCancel = {
+                null
             }
-            .setNegativeButton("Cancel", null)
-            .show()
+        )
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+
+    private fun hasUnsavedChanges(): Boolean {
+        val currentItem = viewModel.chosenFoodItem.value
+        return currentItem?.name != binding.nameData.text.toString() ||
+                currentItem?.category != binding.productCategory.selectedItem.toString() ||
+                currentItem?.daysToExpire.toString() != binding.daysToExpireData.text.toString() ||
+                (currentItem?.photoUrl != imageUri?.toString() && imageUri?.toString() != null)
     }
 }
 

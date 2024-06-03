@@ -1,15 +1,24 @@
 package com.example.fridgeapp.data.ui.favoritesItems
 
+import android.content.Context
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
@@ -22,9 +31,7 @@ class FavoriteExpirationFragment : Fragment() {
     private val viewModel: FridgeViewModel by activityViewModels()
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
         binding.addProductExpiryBtn.setOnClickListener {
@@ -55,10 +62,97 @@ class FavoriteExpirationFragment : Fragment() {
         viewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
             adapter.setItems(foodItems)
         })
+
+        // Add swipe-to-delete functionality using the provided format
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(viewHolder.adapterPosition)
+                DialogUtils.showConfirmDeleteDialog(requireContext(),
+                    onConfirm = {
+                        viewModel.deleteFoodItem(item)
+                    },
+                    onCancel = {
+                        (binding.productRecyclerView.adapter as FavoriteItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
+                    }
+                )
+            }
+        }).attachToRecyclerView(binding.productRecyclerView)
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+}
+
+object DialogUtils {
+    fun showConfirmDeleteDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context)
+            .setMessage("Are you sure you want to delete this item?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                onConfirm()
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                onCancel()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
+    fun showConfirmDiscardChangesDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context)
+            .setMessage("Are you sure you want to discard changes?")
+            .setPositiveButton("Yes") { dialog, _ ->
+                onConfirm()
+                dialog.dismiss()
+            }
+            .setNegativeButton("No") { dialog, _ ->
+                onCancel()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+}
+
+class CustomArrayAdapter(
+    context: Context,
+    resource: Int,
+    objects: List<String>,
+    private val fontResId: Int
+) : ArrayAdapter<String>(context, resource, objects) {
+
+    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = super.getView(position, convertView, parent)
+        applyCustomFont(view)
+        return view
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        val view = super.getDropDownView(position, convertView, parent)
+        applyCustomFont(view)
+        return view
+    }
+
+    private fun applyCustomFont(view: View) {
+        if (view is TextView) {
+            val customFont = ResourcesCompat.getFont(context, fontResId)
+            view.typeface = customFont
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f) // Set text size to 20sp
+        }
     }
 }
