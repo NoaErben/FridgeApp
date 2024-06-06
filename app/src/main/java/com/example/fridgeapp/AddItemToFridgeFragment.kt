@@ -37,7 +37,7 @@ class AddItemToFridgeFragment : Fragment() {
     private val binding
         get() = _binding!!
 
-    private val viewModel: FridgeViewModel by activityViewModels()
+    private val viewModel: FridgeLiveDataViewModel by activityViewModels()
 
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) {
@@ -67,7 +67,6 @@ class AddItemToFridgeFragment : Fragment() {
             val buyingDate = binding.buyingDate.text.toString().toLongOrNull() ?: System.currentTimeMillis()
             val expiryDate = binding.productDaysToExpire.text.toString().toLongOrNull() ?: System.currentTimeMillis()
             val productCategory = binding.productCategory.selectedItem.toString()
-
             val photoUrl = imageUri.toString()
 
             val fridgeItem = FridgeItem(
@@ -83,6 +82,7 @@ class AddItemToFridgeFragment : Fragment() {
                 databaseReference.child(uid).setValue(fridgeItem).addOnCompleteListener {
                     if (it.isSuccessful) {
                         uploadItemToFridge(uid, fridgeItem)
+                        viewModel.addItem(fridgeItem)
                     } else {
                         hideProgressBar()
                         Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()

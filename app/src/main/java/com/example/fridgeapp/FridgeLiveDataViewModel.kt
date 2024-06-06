@@ -8,6 +8,8 @@ import com.example.fridgeapp.data.model.FridgeItem
 class FridgeLiveDataViewModel : ViewModel() {
 
     private val _items = MutableLiveData<List<FridgeItem>>(mutableListOf())
+
+    val categories = listOf("Breads", "Dairy", "Vegetables", "Meat" , "Sauces", "Fish")
     val items: LiveData<List<FridgeItem>> get() = _items
 
     fun addItem(item: FridgeItem) {
