@@ -7,7 +7,7 @@ data class FridgeItem(
     val buyingDate: Long,
     val expiryDate: Long,
     val category: String = "",
-    val photoUrl: String? // Nullable in case there is no photo
+    var photoUrl: String? // Nullable in case there is no photo
 )
 
 

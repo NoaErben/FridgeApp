@@ -74,7 +74,7 @@ dependencies {
     implementation(libs.github.glide)
 
     //FireBase Libraries
-    implementation("com.google.firebase:firebase-storage:16.0.1")
+    implementation ("com.google.firebase:firebase-storage:21.0.0")
 
     // LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
