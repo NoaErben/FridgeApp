@@ -20,12 +20,15 @@ class FridgeManagerFragment: Fragment() {
     ): View? {
         _binding = FridgeFragmentBinding.inflate(inflater, container, false)
         binding.addProductExpiryBtn.setOnClickListener {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_addItemToFridgeFragment)
+        }
+        binding.favProductBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
         }
-
         binding.itemImage.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
         }
+
 
         return binding.root
     }

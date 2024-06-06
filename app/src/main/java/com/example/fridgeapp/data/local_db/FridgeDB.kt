@@ -20,7 +20,7 @@ abstract class FridgeDB : RoomDatabase() {
         private var instance: FridgeDB? = null
 
         fun getDatabase(context: Context): FridgeDB {
-            //context.deleteDatabase("fridge_database")
+//            context.deleteDatabase("fridge_database")
             if (instance == null) {
                 synchronized(this) {
                     instance = Room.databaseBuilder(
