@@ -1,4 +1,7 @@
 buildscript {
+    repositories{
+        google()
+    }
     dependencies {
         classpath(libs.google.services)
     }

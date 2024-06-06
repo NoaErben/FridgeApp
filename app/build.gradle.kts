@@ -72,6 +72,9 @@ dependencies {
     testImplementation(libs.room.testing)
     implementation(libs.github.glide)
 
+    //FireBase Libraries
+    implementation("com.google.firebase:firebase-storage:16.0.1")
+
     // LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
