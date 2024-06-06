@@ -1,11 +1,13 @@
 package com.example.fridgeapp
 
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -18,6 +20,7 @@ import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
 //import org.threeten.bp.LocalDate
@@ -30,6 +33,7 @@ class AddItemToFridgeFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var storageReference: StorageReference
     private lateinit var imageUri : Uri
+    private lateinit var dialog : Dialog
 
     private val binding
         get() = _binding!!
@@ -53,10 +57,11 @@ class AddItemToFridgeFragment : Fragment() {
         _binding = AddItemToFridgeBinding.inflate(inflater, container, false)
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+        databaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
 
         // Set up the add button click listener
         binding.addItemButton.setOnClickListener {
+            showProgressBar()
             val productName = binding.productName.text.toString()
             val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
             val amountMeasure = binding.amountMeasure.text.toString()
@@ -77,8 +82,8 @@ class AddItemToFridgeFragment : Fragment() {
             // Create a FridgeItem by the fields
             val fridgeItem = FridgeItem(
                 name = productName,
-                count = quantity,
-                countMeasure = amountMeasure,
+                quantity = quantity,
+                amountMeasure = amountMeasure,
                 photoUrl = photoUrl,
                 buyingDate = buyingDate,
                 expiryDate = expiryDate,
@@ -88,11 +93,12 @@ class AddItemToFridgeFragment : Fragment() {
                 databaseReference.child(uid).setValue(fridgeItem).addOnCompleteListener{
                     if (it.isSuccessful){
 
-                        uploadItemPic()
+                        uploadItemToFridge()
 
 
                     }
                     else{
+                        hideProgressBar()
                         Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()
 
 
@@ -115,7 +121,7 @@ class AddItemToFridgeFragment : Fragment() {
         return binding.root
     }
 
-    private fun uploadItemPic() {
+    private fun uploadItemToFridge() {
        //todo
     }
 
@@ -126,6 +132,19 @@ class AddItemToFridgeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun showProgressBar(){
+        dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_wait)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+
+    }
+
+    private fun hideProgressBar(){
+        dialog.dismiss()
     }
 
 }
