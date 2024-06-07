@@ -55,6 +55,7 @@ dependencies {
     implementation(libs.androidx.navigation.ui.ktx)
     implementation(libs.firebase.database)
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.protolite.well.known.types)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -71,6 +72,9 @@ dependencies {
     // Room testing dependency
     testImplementation(libs.room.testing)
     implementation(libs.github.glide)
+
+    //FireBase Libraries
+    implementation ("com.google.firebase:firebase-storage:21.0.0")
 
     // LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
