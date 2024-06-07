@@ -13,5 +13,11 @@
             android:id="@+id/shopping_list"
             android:icon="@drawable/baseline_list_alt_24"
             android:title="My shopping list" />
+        <item
+            android:id="@+id/Favorite_items"
+            android:title="My favorite items" />
+        <item
+            android:id="@+id/My_profile"
+            android:title="My profile" />
     </group>
 </menu>
