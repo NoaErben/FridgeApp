@@ -97,8 +97,6 @@ class AddItemToFridgeFragment : Fragment() {
                     }
                 }
             }
-
-            findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
         }
 
         binding.itemImage.setOnClickListener {
@@ -138,13 +136,14 @@ class AddItemToFridgeFragment : Fragment() {
                                 if (task.isSuccessful) {
                                     hideProgressBar()
                                     Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
+                                    // Navigate to FridgeManagerFragment
+                                    findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
                                 } else {
                                     hideProgressBar()
                                     Toast.makeText(requireContext(), "Failed to update item with photo URL", Toast.LENGTH_SHORT).show()
                                 }
                             }
                     }
-                    findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
                 }
                 .addOnFailureListener { exception ->
                     hideProgressBar()
