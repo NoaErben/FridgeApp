@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.webkit.MimeTypeMap
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -16,7 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.FridgeLiveDataViewModel
 import com.example.fridgeapp.data.ui.favoritesItems.CustomArrayAdapter
 import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -45,6 +46,7 @@ class AddItemToFridgeFragment : Fragment() {
                 binding.itemImage.setImageURI(it)
                 requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 imageUri = it
+                Log.d("ImagePicker", "Image selected: $imageUri")
             }
         }
 
@@ -53,12 +55,18 @@ class AddItemToFridgeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = AddItemToFridgeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setupCategorySpinner()
+
         auth = FirebaseAuth.getInstance()
         val uid = auth.currentUser?.uid
         databaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
+        storageReference = FirebaseStorage.getInstance().reference
 
-        // Set up the add button click listener
         binding.addItemButton.setOnClickListener {
             showProgressBar()
             val productName = binding.productName.text.toString()
@@ -93,12 +101,9 @@ class AddItemToFridgeFragment : Fragment() {
             findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
         }
 
-        // Set up the image picker click listener
         binding.itemImage.setOnClickListener {
             pickLauncher.launch(arrayOf("image/*"))
         }
-
-        return binding.root
     }
 
     private fun setupCategorySpinner() {
@@ -112,33 +117,44 @@ class AddItemToFridgeFragment : Fragment() {
     }
 
     private fun uploadItemToFridge(uid: String, fridgeItem: FridgeItem) {
-        val storageRef = FirebaseStorage.getInstance().reference.child("images/${uid}/${System.currentTimeMillis()}.jpg")
-        storageRef.putFile(imageUri)
-            .addOnSuccessListener {
-                Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
-                storageRef.downloadUrl.addOnSuccessListener { uri ->
-                    fridgeItem.photoUrl = uri.toString()
-                    databaseReference.child(uid).setValue(fridgeItem)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-                                hideProgressBar()
-                                Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
-                            } else {
-                                hideProgressBar()
-                                Toast.makeText(requireContext(), "Failed to update item with photo URL", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                }
-                findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
-            }
-            .addOnFailureListener {
-                hideProgressBar()
-                Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
-            }
-    }
+        if (::imageUri.isInitialized) {
+            val resolver = requireActivity().contentResolver
+            val mimeType = resolver.getType(imageUri)
+            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+            val storageRef = storageReference.child("images/${uid}/${System.currentTimeMillis()}.$extension")
+            Log.d("StoragePath", "Uploading to: ${storageRef.path}")
+            Log.d("ImageUri", "Image URI: $imageUri")
+            Log.d("MimeType", "MIME Type: $mimeType")
+            Log.d("FileExtension", "File Extension: $extension")
+
+            storageRef.putFile(imageUri)
+                .addOnSuccessListener {
+                    Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show()
+                    storageRef.downloadUrl.addOnSuccessListener { uri ->
+                        fridgeItem.photoUrl = uri.toString()
+                        databaseReference.child(uid).setValue(fridgeItem)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    hideProgressBar()
+                                    Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
+                                } else {
+                                    hideProgressBar()
+                                    Toast.makeText(requireContext(), "Failed to update item with photo URL", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                    }
+                    findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
+                }
+                .addOnFailureListener { exception ->
+                    hideProgressBar()
+                    Log.e("Upload", "Failed to upload image", exception)
+                    Toast.makeText(requireContext(), "Failed to upload image: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+        } else {
+            hideProgressBar()
+            Toast.makeText(requireContext(), "No image selected", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroyView() {
