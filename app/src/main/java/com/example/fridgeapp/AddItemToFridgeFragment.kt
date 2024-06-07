@@ -87,9 +87,10 @@ class AddItemToFridgeFragment : Fragment() {
                 category = productCategory
             )
             if (uid != null) {
-                databaseReference.child(uid).setValue(fridgeItem).addOnCompleteListener {
+                databaseReference.child(uid).child(productName).setValue(fridgeItem).addOnCompleteListener {
                     if (it.isSuccessful) {
                         uploadItemToFridge(uid, fridgeItem)
+                        //todo- problem
                         viewModel.addItem(fridgeItem)
                     } else {
                         hideProgressBar()
@@ -131,7 +132,7 @@ class AddItemToFridgeFragment : Fragment() {
                     Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show()
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
                         fridgeItem.photoUrl = uri.toString()
-                        databaseReference.child(uid).setValue(fridgeItem)
+                        databaseReference.child(uid).child(fridgeItem.name).setValue(fridgeItem)
                             .addOnCompleteListener { task ->
                                 if (task.isSuccessful) {
                                     hideProgressBar()
