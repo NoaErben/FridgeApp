@@ -1,6 +1,7 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.fridge
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,17 +12,15 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.fridgeapp.data.ui.FridgeItemAdapter
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
+import com.example.fridgeapp.R
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
 
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModelNew: FridgeLiveDataViewModel by activityViewModels()
-    // TODO: merge VMs
-    private val viewModel: FridgeViewModel by activityViewModels()
+    private val viewModel: FridgeLiveDataViewModel by activityViewModels()
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     override fun onCreateView(
@@ -35,12 +34,12 @@ class FridgeManagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbar.setNavigationOnClickListener {
-            // Handle navigation icon press
-            showPopupMenu(it)
-        }
 
-        // Set up RecyclerView and Adapter
+        // Set up RecyclerView
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        // Set up Adapter
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 // Handle item click
@@ -50,15 +49,17 @@ class FridgeManagerFragment : Fragment() {
                 // Handle item long click
             }
         })
-        binding.recyclerView.apply {
-            adapter = fridgeItemAdapter
-            layoutManager = LinearLayoutManager(context)
-        }
+        recyclerView.adapter = fridgeItemAdapter
 
         // Observe LiveData from ViewModel
-        viewModelNew.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            Log.d("MyTag", "Observed items: ${items.size}")
             fridgeItemAdapter.updateItems(items)
         })
+
+        binding.toolbar.setNavigationOnClickListener {
+            showPopupMenu(it)
+        }
 
         // Navigation button click listeners
         binding.addProductExpiryBtn.setOnClickListener {
@@ -80,9 +81,9 @@ class FridgeManagerFragment : Fragment() {
                     true
                 }
                 R.id.shopping_list -> {
-                findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
-                Toast.makeText(context, "shopping list clicked", Toast.LENGTH_SHORT).show()
-                true
+                    findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
+                    Toast.makeText(context, "shopping list clicked", Toast.LENGTH_SHORT).show()
+                    true
                 }
                 R.id.Favorite_items -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
@@ -90,17 +91,15 @@ class FridgeManagerFragment : Fragment() {
                     true
                 }
                 R.id.My_profile -> {
-                    if (viewModel.isUserLoggedIn()){
+                    if (viewModel.isUserLoggedIn()) {
                         findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
                         Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
+                    } else {
                         findNavController().navigate(R.id.action_fridgeManagerFragment_to_loginFragment)
                         Toast.makeText(context, "No user logged-in", Toast.LENGTH_SHORT).show()
                     }
                     true
                 }
-
                 else -> false
             }
         }

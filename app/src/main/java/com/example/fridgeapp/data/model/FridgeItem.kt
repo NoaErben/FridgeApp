@@ -1,45 +1,35 @@
 package com.example.fridgeapp.data.model
 
-data class FridgeItem(
-    val name: String = "",
-    val quantity: Int = 0,
-    val amountMeasure: String = "",
-    val buyingDate: Long,
-    val expiryDate: Long,
-    val category: String = "",
-    var photoUrl: String? // Nullable in case there is no photo
-)
+import com.google.firebase.database.IgnoreExtraProperties
 
+@IgnoreExtraProperties
+class FridgeItem {
+    var name: String? = null
+    var category: String? = null
+    var quantity: Int = 0
+    var amountMeasure: String? = null
+    var buyingDate: Long = 0
+    var expiryDate: Long = 0
+    var photoUrl: String? = null
 
-//package com.example.fridgeapp.data.model
-//
-//import androidx.room.ColumnInfo
-//import androidx.room.Entity
-//import androidx.room.PrimaryKey
-//
-//@Entity(tableName = "FridgeItem")
-//data class FridgeItem (
-//    @ColumnInfo(name = "item_name")
-//    val name: String,
-//
-//    @ColumnInfo(name = "amount")
-//    val count: Int,
-//
-//    @ColumnInfo(name = "amount_measure")
-//    val countMeasure: String,
-//
-//    @ColumnInfo(name = "image_url")
-//    val photoUrl: String?, // Nullable in case there is no photo
-//
-//    @ColumnInfo(name = "buying_date")
-//    val buyingDate: Long, // Unix timestamp
-//
-//    @ColumnInfo(name = "expiry_date")
-//    val expiryDate: Long, // Unix timestamp
-//
-//    @ColumnInfo(name = "category")
-//    val category: String
-//) {
-//    @PrimaryKey(autoGenerate = true)
-//    var id: Int = 0
-//}
+    // Default constructor
+    constructor()
+
+    constructor(
+        name: String?,
+        category: String?,
+        quantity: Int,
+        amountMeasure: String?,
+        buyingDate: Long,
+        expiryDate: Long,
+        photoUrl: String?
+    ) {
+        this.name = name
+        this.category = category
+        this.quantity = quantity
+        this.amountMeasure = amountMeasure
+        this.buyingDate = buyingDate
+        this.expiryDate = expiryDate
+        this.photoUrl = photoUrl
+    }
+}

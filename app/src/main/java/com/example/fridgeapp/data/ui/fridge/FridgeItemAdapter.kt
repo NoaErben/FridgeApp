@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data.ui
+package com.example.fridgeapp.data.ui.fridge
 
 import com.bumptech.glide.Glide
 import android.view.LayoutInflater
@@ -28,7 +28,7 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
             val currentTime = System.currentTimeMillis() // Current time in milliseconds
             // Calculate milliseconds until expiry milliseconds and convert it to days
             val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
-            binding.itemExpired.text = "Expired in: ${daysUntilExpiry} days"
+            binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
 
             Glide.with(binding.root).load(item.photoUrl).circleCrop().into(binding.itemImage)
         }

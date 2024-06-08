@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.shoppingList
 
 import android.os.Bundle
 import android.view.LayoutInflater

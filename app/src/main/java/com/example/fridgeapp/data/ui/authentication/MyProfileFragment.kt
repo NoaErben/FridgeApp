@@ -10,7 +10,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
 
 class MyProfileFragment: Fragment() {
@@ -42,6 +41,7 @@ class MyProfileFragment: Fragment() {
             if (user != null) {
                 // User is logged in, navigate to the next screen or update the UI
                 binding.tvEmail.text = "E-mail: " + user.email.toString()
+//                binding.tvName.text = "Hello, " +
                 // Navigate to the next screen
             } else {
                 // User is not logged in, show the login screen or update the UI
