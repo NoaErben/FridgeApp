@@ -84,7 +84,8 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/scale"
             android:fontFamily="@font/amaranth"
-            android:hint="Amount Measure" />
+            android:hint="Amount Measure"
+            android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,7 +99,9 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
             android:fontFamily="@font/amaranth"
-            android:hint="Buying Date" />
+            android:hint="Buying Date"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -112,7 +115,9 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/expire_svgrepo_com"
             android:fontFamily="@font/amaranth"
-            android:hint="Expiry Date" />
+            android:hint="Expiry Date"
+            android:calendarViewShown="false"
+            android:datePickerMode="spinner"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
