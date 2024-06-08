@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Logo designed by Naveen -->
+<?xml version="1.0" encoding="utf-8"?><!-- Logo designed by Naveen -->
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/register"
@@ -44,9 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="register yourself"
-                android:textColor="@color/white"
                 android:fontFamily="@font/amaranth"
+                android:text="@string/register_yourself"
+                android:textColor="@color/white"
                 android:textSize="30sp"
                 android:textStyle="bold" />
 
@@ -61,7 +60,7 @@
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/io_person_icon"
                 android:drawablePadding="4dp"
-                android:hint="name min 3 characters"
+                android:hint="@string/namee"
                 android:inputType="text"
                 android:maxLength="20"
                 android:padding="14dp"
@@ -78,15 +77,12 @@
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_email"
                 android:drawablePadding="4dp"
-                android:hint="email address"
+                android:hint="@string/e_mail_address"
                 android:inputType="textEmailAddress"
                 android:maxLength="40"
                 android:padding="14dp"
                 android:textSize="18sp"
                 tools:ignore="Autofill" />
-
-
-
 
 
             <EditText
@@ -99,7 +95,7 @@
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_password"
                 android:drawablePadding="4dp"
-                android:hint="password (min 6 digits)"
+                android:hint="@string/password_min_6_digits"
                 android:inputType="textPassword"
                 android:padding="14dp"
                 android:singleLine="true"
@@ -116,7 +112,7 @@
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_password"
                 android:drawablePadding="4dp"
-                android:hint="confirm password"
+                android:hint="@string/confirm_password"
                 android:inputType="textPassword"
                 android:padding="14dp"
                 android:textSize="18sp" />
@@ -130,7 +126,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/fridgeColor"
-                android:text="register"
+                android:text="@string/register"
                 android:textColor="#fff"
                 android:textSize="20sp"
                 tools:ignore="UnusedAttribute" />

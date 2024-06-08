@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.LoginFragmentBinding
+import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 
 class LoginFragment : Fragment() {
 
-    private var _binding: LoginFragmentBinding? = null
+    private var _binding: AuthLoginFragmentBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FridgeViewModel by activityViewModels()
@@ -22,7 +23,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = LoginFragmentBinding.inflate(inflater, container, false)
+        _binding = AuthLoginFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -37,7 +38,7 @@ class LoginFragment : Fragment() {
             viewModel.signIn(email, password, onSuccess = {
                 // Sign in success, navigate to the next screen or perform any other action
                 Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(com.example.fridgeapp.R.id.action_loginFragment_to_fridgeManagerFragment)
+                findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
             }, onFailure = { exception ->
                 // If sign in fails, display a message to the user.
                 Toast.makeText(requireContext(), "Authentication failed: username or password incorrect", Toast.LENGTH_SHORT).show()
@@ -45,11 +46,20 @@ class LoginFragment : Fragment() {
         }
 
         binding.txtSignUp.setOnClickListener {
-            findNavController().navigate(com.example.fridgeapp.R.id.action_loginFragment_to_registerFragment)
+            findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
         binding.txtForgotPassword.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordInputFragment)
+        }
+
+        binding.txtForgotPassword.setOnClickListener {
+            val email = binding.etEmailAddress.text.toString().trim()
+            if (email.isEmpty()) {
+                Toast.makeText(requireContext(), "Please enter your email", Toast.LENGTH_SHORT).show()
+            } else {
+                sendPasswordResetEmail(email)
+            }
         }
 
     }
@@ -58,5 +68,14 @@ class LoginFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun sendPasswordResetEmail(email: String) {
+        viewModel.sendPasswordResetEmail(email, {
+            Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
+        }, { exception ->
+            val errorMessage = exception.message ?: "Error sending password reset email"
+            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        })
     }
 }

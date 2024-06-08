@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
@@ -81,6 +82,39 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
             } catch (e: Exception) {
                 onFailure(e)
             }
+        }
+    }
+
+    fun isUserLoggedIn(): Boolean {
+        return auth.currentUser != null
+    }
+
+    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        viewModelScope.launch {
+            try {
+                auth.sendPasswordResetEmail(email).await()
+                onSuccess()
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
+    }
+
+    fun changePassword(oldPassword: String, newPassword: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        val user = auth.currentUser
+        if (user != null && user.email != null) {
+            val credential = EmailAuthProvider.getCredential(user.email!!, oldPassword)
+            viewModelScope.launch {
+                try {
+                    user.reauthenticate(credential).await()
+                    user.updatePassword(newPassword).await()
+                    onSuccess()
+                } catch (e: Exception) {
+                    onFailure(e)
+                }
+            }
+        } else {
+            onFailure(Exception("No authenticated user found"))
         }
     }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
     android:padding="16dp">
@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Create New Fridge"
+        android:text="Join Existing Fridge"
         android:textColor="@color/white"
         android:background="@color/fridgeColor"
         android:textSize="42sp"
@@ -67,6 +67,6 @@
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
-        android:text="Add" />
+        android:text="Join" />
 
 </LinearLayout>

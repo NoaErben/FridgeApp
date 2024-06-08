@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.MyProfileBinding
+import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
+import com.example.fridgeapp.databinding.AuthMyProfileBinding
 
 class MyProfileFragment: Fragment() {
 
-    private var _binding: MyProfileBinding? = null
+    private var _binding: AuthMyProfileBinding? = null
     private val binding
         get() = _binding!!
     private val viewModel: FridgeViewModel by activityViewModels()
@@ -23,12 +25,9 @@ class MyProfileFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = MyProfileBinding.inflate(inflater, container, false)
-        binding.login.setOnClickListener {
-            findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
-        }
+        _binding = AuthMyProfileBinding.inflate(inflater, container, false)
 
-        binding.logout.setOnClickListener{
+        binding.btnSignOut.setOnClickListener{
             viewModel.signOut()
             findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
         }
@@ -42,7 +41,7 @@ class MyProfileFragment: Fragment() {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 // User is logged in, navigate to the next screen or update the UI
-                binding.username.text = user.email.toString()
+                binding.tvEmail.text = "E-mail: " + user.email.toString()
                 // Navigate to the next screen
             } else {
                 // User is not logged in, show the login screen or update the UI

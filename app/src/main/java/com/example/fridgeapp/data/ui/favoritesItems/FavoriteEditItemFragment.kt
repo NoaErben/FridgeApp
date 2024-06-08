@@ -3,6 +3,7 @@ package com.example.fridgeapp.data.ui.favoritesItems
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -178,10 +179,20 @@ class FavoriteEditItemFragment : Fragment() {
 
     private fun hasUnsavedChanges(): Boolean {
         val currentItem = viewModel.chosenFoodItem.value
-        return currentItem?.name != binding.nameData.text.toString() ||
+
+        val unsavedChanges = currentItem?.name != binding.nameData.text.toString() ||
                 currentItem?.category != binding.productCategory.selectedItem.toString() ||
                 currentItem?.daysToExpire.toString() != binding.daysToExpireData.text.toString() ||
                 (currentItem?.photoUrl != imageUri?.toString() && imageUri?.toString() != null)
+
+        if (unsavedChanges){
+            Log.d("MyTag", currentItem?.name + " " + binding.nameData.text.toString() + " " +
+                    currentItem?.category + " " + binding.productCategory.selectedItem.toString() + " " +
+                    currentItem?.daysToExpire.toString() + " " + binding.daysToExpireData.text.toString() + " " +
+                    currentItem?.photoUrl + " " + imageUri?.toString() + " " + imageUri?.toString() + " " )
+        }
+
+        return unsavedChanges
     }
 
     private fun showToast(message: String) {

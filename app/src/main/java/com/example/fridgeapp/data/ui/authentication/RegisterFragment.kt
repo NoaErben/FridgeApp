@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.authentication
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.databinding.LoginFragmentBinding
-import com.example.fridgeapp.databinding.RegisterBinding
+import com.example.fridgeapp.databinding.AuthRegisterBinding
 
 class RegisterFragment : Fragment() {
 
-    private var _binding: RegisterBinding? = null
+    private var _binding: AuthRegisterBinding? = null
     private val binding get() = _binding!!
 
     private val viewModel: FridgeViewModel by activityViewModels()
@@ -23,7 +23,7 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = RegisterBinding.inflate(inflater, container, false)
+        _binding = AuthRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 

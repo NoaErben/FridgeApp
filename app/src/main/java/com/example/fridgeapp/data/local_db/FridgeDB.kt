@@ -1,13 +1,12 @@
 package com.example.fridgeapp.data.local_db
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.model.FridgeItem
 import kotlinx.coroutines.runBlocking
 
 @Database(entities = arrayOf(FoodItem::class), version = 1, exportSchema = false)
@@ -30,7 +29,7 @@ abstract class FridgeDB : RoomDatabase() {
                     // Default items for foodDB
                     instance?.let { database ->
                         runBlocking {
-                            foodTableDefaultValues(database.foodDao())
+                            foodTableDefaultValues(database.foodDao(), context)
                         }
                     }
                 }
@@ -38,17 +37,21 @@ abstract class FridgeDB : RoomDatabase() {
             return instance!!
         }
 
-        private suspend fun foodTableDefaultValues(foodDao: FoodDao) {
+        private suspend fun foodTableDefaultValues(foodDao: FoodDao, context: Context) {
             val count = foodDao.getCount()
             if (count == 0) {
+//                val breadID = context.resources.getIdentifier("bread", "drawable", context?.packageName)
+//                Log.d("MyTag", breadID.toString())
+//                Log.d("MyTag",R.drawable.bread.toString())
+
                 // Default items for foodDB
                 val defaultFoodItems = listOf(
                     FoodItem(name = "Bread", category = "Breads", daysToExpire = 8, photoUrl = "drawable://" + R.drawable.bread.toString()),
-                    FoodItem(name = "Butter", category = "Diary", daysToExpire = 21, photoUrl = "drawable://" + R.drawable.butter.toString()),
-                    FoodItem(name = "Eggs", category = "Diary", daysToExpire = 21, photoUrl = "drawable://" + R.drawable.egg.toString()),
-                    FoodItem(name = "Milk", category = "Diary", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.milk.toString()),
-                    FoodItem(name = "Yellow Cheese", category = "Diary", daysToExpire = 10, photoUrl = "drawable://" + R.drawable.cheese.toString()),
-                    FoodItem(name = "Yogurt", category = "Diary", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.yogurt.toString()),
+                    FoodItem(name = "Butter", category = "Dairy", daysToExpire = 21, photoUrl = "drawable://" + R.drawable.butter.toString()),
+                    FoodItem(name = "Eggs", category = "Dairy", daysToExpire = 21, photoUrl = "drawable://" + R.drawable.egg.toString()),
+                    FoodItem(name = "Milk", category = "Dairy", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.milk.toString()),
+                    FoodItem(name = "Yellow Cheese", category = "Dairy", daysToExpire = 10, photoUrl = "drawable://" + R.drawable.cheese.toString()),
+                    FoodItem(name = "Yogurt", category = "Dairy", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.yogurt.toString()),
                     FoodItem(name = "Chicken", category = "Meat", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.chicken_breast.toString()),
                     FoodItem(name = "Ground Beef", category = "Meat", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.beef.toString()),
                     FoodItem(name = "Carrot", category = "Vegetables", daysToExpire = 7, photoUrl = "drawable://" + R.drawable.carrot.toString()),

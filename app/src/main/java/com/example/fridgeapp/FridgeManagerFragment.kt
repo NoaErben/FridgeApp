@@ -2,9 +2,6 @@ package com.example.fridgeapp
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
@@ -15,13 +12,16 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fridgeapp.data.ui.FridgeItemAdapter
+import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
 
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FridgeLiveDataViewModel by activityViewModels()
+    private val viewModelNew: FridgeLiveDataViewModel by activityViewModels()
+    // TODO: merge VMs
+    private val viewModel: FridgeViewModel by activityViewModels()
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     override fun onCreateView(
@@ -56,7 +56,7 @@ class FridgeManagerFragment : Fragment() {
         }
 
         // Observe LiveData from ViewModel
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModelNew.items.observe(viewLifecycleOwner, Observer { items ->
             fridgeItemAdapter.updateItems(items)
         })
 
@@ -90,8 +90,14 @@ class FridgeManagerFragment : Fragment() {
                     true
                 }
                 R.id.My_profile -> {
-                    findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
-                    Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
+                    if (viewModel.isUserLoggedIn()){
+                        findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
+                        Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        findNavController().navigate(R.id.action_fridgeManagerFragment_to_loginFragment)
+                        Toast.makeText(context, "No user logged-in", Toast.LENGTH_SHORT).show()
+                    }
                     true
                 }
 
