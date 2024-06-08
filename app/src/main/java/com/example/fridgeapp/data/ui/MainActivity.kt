@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui
 
 import android.os.Bundle
 import android.view.MenuItem
@@ -10,8 +10,8 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.local_db.FridgeDB
-import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
@@ -47,7 +47,8 @@ class MainActivity : AppCompatActivity() {
         FridgeDB.getDatabase(this)
 
         // Initialize ViewModel
-        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FridgeViewModel::class.java)
+        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+            FridgeViewModel::class.java)
 
         // Show food db context for example
         fridgeViewModel.foodItemsNames?.observe(this, Observer<List<String>> { foodNames ->

@@ -46,7 +46,7 @@
 
     <fragment
         android:id="@+id/fridgeManagerFragment"
-        android:name="com.example.fridgeapp.FridgeManagerFragment"
+        android:name="com.example.fridgeapp.data.ui.fridge.FridgeManagerFragment"
         android:label="FridgeManagerFragment" >
         <action
             android:id="@+id/action_fridgeManagerFragment_to_addItemToFridgeFragment"
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/addItemToFridgeFragment"
-        android:name="com.example.fridgeapp.AddItemToFridgeFragment"
+        android:name="com.example.fridgeapp.data.ui.fridge.AddItemToFridgeFragment"
         android:label="AddItemToFridgeFragment" >
         <action
             android:id="@+id/action_addItemToFridgeFragment_to_fridgeManagerFragment"
@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/editFridgeItemFragment"
-        android:name="com.example.fridgeapp.EditFridgeItemFragment"
+        android:name="com.example.fridgeapp.data.ui.fridge.EditFridgeItemFragment"
         android:label="EditFridgeItemFragment" >
         <action
             android:id="@+id/action_editFridgeItemFragment_to_fridgeManagerFragment"
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/fridgeShoppingListFragment"
-        android:name="com.example.fridgeapp.FridgeShoppingListFragment"
+        android:name="com.example.fridgeapp.data.ui.shoppingList.FridgeShoppingListFragment"
         android:label="FridgeShoppingListFragment" >
         <action
             android:id="@+id/action_fridgeShoppingListFragment_to_editItemShoppingListFragment"
@@ -99,7 +99,7 @@
     </fragment>
     <fragment
         android:id="@+id/editItemShoppingListFragment"
-        android:name="com.example.fridgeapp.EditItemShoppingListFragment"
+        android:name="com.example.fridgeapp.data.ui.shoppingList.EditItemShoppingListFragment"
         android:label="EditItemShoppingListFragment" >
         <action
             android:id="@+id/action_editItemShoppingListFragment_to_fridgeShoppingListFragment"
@@ -107,7 +107,7 @@
     </fragment>
     <fragment
         android:id="@+id/addItemToShoppingList"
-        android:name="com.example.fridgeapp.AddItemToShoppingListFragment"
+        android:name="com.example.fridgeapp.data.ui.shoppingList.AddItemToShoppingListFragment"
         android:label="AddItemToShoppingList" >
         <action
             android:id="@+id/action_addItemToShoppingList_to_fridgeShoppingListFragment"

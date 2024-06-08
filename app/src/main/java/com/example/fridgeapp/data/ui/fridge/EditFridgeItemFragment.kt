@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.fridge
 
 import android.content.Intent
 import android.net.Uri

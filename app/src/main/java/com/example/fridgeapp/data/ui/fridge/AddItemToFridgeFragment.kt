@@ -1,4 +1,4 @@
-package com.example.fridgeapp
+package com.example.fridgeapp.data.ui.fridge
 
 import android.app.Dialog
 import android.content.Intent
@@ -17,7 +17,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.FridgeLiveDataViewModel
+import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.favoritesItems.CustomArrayAdapter
 import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -66,7 +67,7 @@ class AddItemToFridgeFragment : Fragment() {
         val uid = auth.currentUser?.uid
         databaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
         storageReference = FirebaseStorage.getInstance().reference
-
+;
         binding.addItemButton.setOnClickListener {
             showProgressBar()
             val productName = binding.productName.text.toString()
@@ -91,7 +92,7 @@ class AddItemToFridgeFragment : Fragment() {
                     if (it.isSuccessful) {
                         uploadItemToFridge(uid, fridgeItem)
                         //todo- problem
-                        viewModel.addItem(fridgeItem)
+//                        viewModel.addItem(fridgeItem)
                     } else {
                         hideProgressBar()
                         Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()
@@ -132,18 +133,20 @@ class AddItemToFridgeFragment : Fragment() {
                     Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show()
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
                         fridgeItem.photoUrl = uri.toString()
-                        databaseReference.child(uid).child(fridgeItem.name).setValue(fridgeItem)
-                            .addOnCompleteListener { task ->
-                                if (task.isSuccessful) {
-                                    hideProgressBar()
-                                    Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
-                                    // Navigate to FridgeManagerFragment
-                                    findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
-                                } else {
-                                    hideProgressBar()
-                                    Toast.makeText(requireContext(), "Failed to update item with photo URL", Toast.LENGTH_SHORT).show()
+                        fridgeItem.name?.let {
+                            databaseReference.child(uid).child(it).setValue(fridgeItem)
+                                .addOnCompleteListener { task ->
+                                    if (task.isSuccessful) {
+                                        hideProgressBar()
+                                        Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
+                                        // Navigate to FridgeManagerFragment
+                                        findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
+                                    } else {
+                                        hideProgressBar()
+                                        Toast.makeText(requireContext(), "Failed to update item with photo URL", Toast.LENGTH_SHORT).show()
+                                    }
                                 }
-                            }
+                        }
                     }
                 }
                 .addOnFailureListener { exception ->
