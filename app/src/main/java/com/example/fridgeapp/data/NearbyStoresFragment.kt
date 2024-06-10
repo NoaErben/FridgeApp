@@ -28,7 +28,9 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
 
     private lateinit var mapView: MapView
     private lateinit var googleMap: GoogleMap
+//    variable to get location data
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+//    to interact with the Places API.
     private lateinit var placesClient: PlacesClient
 
     private val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -41,8 +43,9 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
 
         mapView = view.findViewById(R.id.mapView)
         mapView.onCreate(savedInstanceState)
+//        Sets up the callback when the map is ready.
         mapView.getMapAsync(this)
-
+//        Initializes the location client.
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
 
         // Initialize Places API
@@ -52,6 +55,7 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
         return view
     }
 
+//    Called when the map is ready to be used
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
         requestLocationPermission()
@@ -63,11 +67,14 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED) {
             try {
+//                Gets the last known location.
                 fusedLocationClient.lastLocation
                     .addOnSuccessListener { location: Location? ->
                         location?.let {
                             val currentLatLng = LatLng(it.latitude, it.longitude)
+//                            Moves the camera to the current location.
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15f))
+//                            Calls the method to show nearby grocery stores.
                             showNearbyGroceryStores(currentLatLng)
                         }
                     }
@@ -78,7 +85,9 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
+//    Defines a private method to show nearby grocery stores.
     private fun showNearbyGroceryStores(location: LatLng) {
+//    Creates a request to find nearby places.
         val request = FindCurrentPlaceRequest.newInstance(
             listOf(Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.TYPES)
         )
@@ -89,6 +98,7 @@ class NearbyStoresFragment : Fragment(), OnMapReadyCallback {
                     val response = task.result
                     response?.placeLikelihoods?.forEach { placeLikelihood ->
                         val place = placeLikelihood.place
+                        //Checks if the place is a grocery store or supermarket.
                         if (place.types?.contains(Place.Type.GROCERY_OR_SUPERMARKET) == true) {
                             googleMap.addMarker(
                                 MarkerOptions()
