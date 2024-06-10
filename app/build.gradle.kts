@@ -79,4 +79,8 @@ dependencies {
     // LiveData
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.lifecycle.livedata.ktx)
+
+    //gradle
+    implementation ("com.google.android.gms:play-services-location:21.3.0")
+
 }
