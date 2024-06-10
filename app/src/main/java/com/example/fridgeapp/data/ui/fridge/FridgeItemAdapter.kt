@@ -30,7 +30,23 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
             val currentTime = System.currentTimeMillis() // Current time in milliseconds
             // Calculate milliseconds until expiry milliseconds and convert it to days
             val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
-            binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
+
+            if ((item.expiryDate - currentTime) > 0) {
+                daysUntilExpiry + 1
+            } else {
+                daysUntilExpiry
+            }
+
+            if (daysUntilExpiry > 2) {
+                binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
+                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_green_dark))
+            } else if (daysUntilExpiry >= 0) {
+                binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
+                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_orange_dark))
+            } else {
+                binding.itemExpired.text = "Expired before: ${daysUntilExpiry * -1} days"
+                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_red_dark))
+            }
 
             if (item.photoUrl != null)
                 Glide.with(binding.root)

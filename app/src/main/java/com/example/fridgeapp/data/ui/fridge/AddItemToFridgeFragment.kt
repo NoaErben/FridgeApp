@@ -216,7 +216,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-
     private fun validateInput(): Boolean {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString()

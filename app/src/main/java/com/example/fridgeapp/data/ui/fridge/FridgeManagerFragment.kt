@@ -63,7 +63,13 @@ class FridgeManagerFragment : Fragment() {
         // Observe LiveData from ViewModel
         NewViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
-            fridgeItemAdapter.updateItems(items)
+            // Sort items by daysUntilExpiry
+            val sortedItems = items.sortedBy { item ->
+                val currentTime = System.currentTimeMillis()
+                (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
+            }
+
+            fridgeItemAdapter.updateItems(sortedItems)
         })
 
         binding.toolbar.setNavigationOnClickListener {
@@ -93,7 +99,14 @@ class FridgeManagerFragment : Fragment() {
                 val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
                 Dialogs.showConfirmDeleteDialog(requireContext(),
                     onConfirm = {
-                        //viewModel.deleteFoodItem(item)
+                        viewModel.deleteItemFromFridgeDatabase(item) { result ->
+                            result.onSuccess {
+                                showToast("Item deleted successfully")
+                            }.onFailure { exception ->
+                                showToast("Failed to delete item: ${exception.message}")
+                                (binding.recyclerView.adapter as FridgeItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
+                            }
+                        }
                     },
                     onCancel = {
                         (binding.recyclerView.adapter as FridgeItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
@@ -140,6 +153,10 @@ class FridgeManagerFragment : Fragment() {
             }
         }
         popupMenu.show()
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {

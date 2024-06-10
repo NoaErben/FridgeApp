@@ -42,7 +42,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
     private val _fridgeDatabaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
     private val _storageReference = FirebaseStorage.getInstance().reference
-    val fridgeDatabaseReference get() = _fridgeDatabaseReference
+    private val fridgeDatabaseReference get() = _fridgeDatabaseReference
     val storageReference get() = _storageReference
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
@@ -51,6 +51,24 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     init {
         // Check if the user is already logged in
         _currentUser.value = auth.currentUser
+    }
+
+    private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
+    val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
+
+    private val _chosenFoodItem = MutableLiveData<FoodItem>()
+    val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
+
+    private val _chosenCartItem = MutableLiveData<CartItem>()
+    val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
+
+
+    fun setFoodChosenItem(foodItem: FoodItem) {
+        _chosenFoodItem.value = foodItem
+    }
+
+    fun setFridgeChosenItem(fridgeItem: FridgeItem) {
+        _chosenFridgeItem.value = fridgeItem
     }
 
     // Function to get the concatenated string
@@ -142,23 +160,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         return context.resources.getIdentifier(photoUrl, "drawable", context.packageName)
     }
 
-    private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
-    val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
-
-    private val _chosenFoodItem = MutableLiveData<FoodItem>()
-    val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
-
-    private val _chosenCartItem = MutableLiveData<CartItem>()
-    val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
-
-
-    fun setFoodChosenItem(foodItem: FoodItem) {
-        _chosenFoodItem.value = foodItem
-    }
-
-    fun setFridgeChosenItem(fridgeItem: FridgeItem) {
-        _chosenFridgeItem.value = fridgeItem
-    }
 
     // Methods to use repository functions
     fun insertFoodItem(foodItem: FoodItem) {
@@ -333,17 +334,69 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun deleteItemFromFridgeDatabase(productName: String, onComplete: (Result<Unit>) -> Unit) {
+    fun updateFridgeItemInDatabase(
+        productName: String?,
+        quantity: Int,
+        buyingDate: Long,
+        expiryDate: Long,
+        productCategory: String?,
+        amountMeasure: String?,
+        photoUri: Uri?,
+        isImageChanged: Boolean,
+        onComplete: (Result<Unit>) -> Unit
+    ) {
+        val fridgeItem = FridgeItem(
+            name = productName,
+            category = productCategory,
+            quantity = quantity,
+            amountMeasure = amountMeasure,
+            buyingDate = buyingDate,
+            expiryDate = expiryDate,
+            photoUrl = photoUri.toString()
+        )
+
         val uid = currentUser.value?.uid
         uid?.let {
-            fridgeDatabaseReference.child(it).child(productName).removeValue()
+            if (photoUri != null && isImageChanged) {
+                uploadFridgeItemImage(uid, fridgeItem, photoUri, onComplete)
+            } else {
+                updateFridgeDatabaseItem(uid, fridgeItem, onComplete)
+            }
+        } ?: run {
+            onComplete(Result.failure(Exception("User not logged in")))
+        }
+    }
+
+    private fun updateFridgeDatabaseItem(
+        uid: String,
+        fridgeItem: FridgeItem,
+        onComplete: (Result<Unit>) -> Unit
+    ) {
+        fridgeItem.name?.let {
+            fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         onComplete(Result.success(Unit))
                     } else {
-                        onComplete(Result.failure(Exception("Failed to delete item")))
+                        onComplete(Result.failure(Exception("Failed to update item")))
                     }
                 }
+        }
+    }
+
+    fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+        val uid = currentUser.value?.uid
+        uid?.let {
+            fridgeItem.name?.let { it1 ->
+                fridgeDatabaseReference.child(it).child(it1).removeValue()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            onComplete(Result.success(Unit))
+                        } else {
+                            onComplete(Result.failure(Exception("Failed to delete item")))
+                        }
+                    }
+            }
         } ?: run {
             onComplete(Result.failure(Exception("User not logged in")))
         }
