@@ -20,6 +20,7 @@ import android.view.Window
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.FirebaseAuth
 import android.webkit.MimeTypeMap
+import com.bumptech.glide.Glide
 
 class AddItemToShoppingListFragment : Fragment() {
 
@@ -77,9 +78,14 @@ class AddItemToShoppingListFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             selectedImageUri = data.data
-            itemImageView.setImageURI(selectedImageUri)
+            // Apply circular crop when setting the image URI
+            Glide.with(itemImageView.context)
+                .load(selectedImageUri)
+                .circleCrop()
+                .into(itemImageView)
         }
     }
+
 
     private fun uploadImageAndSaveItem(uid: String) {
         showProgressBar()

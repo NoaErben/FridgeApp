@@ -16,6 +16,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
 import com.example.fridgeapp.R
@@ -26,6 +27,8 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 
 class AddItemToFridgeFragment : Fragment() {
 
@@ -47,6 +50,11 @@ class AddItemToFridgeFragment : Fragment() {
                 binding.itemImage.setImageURI(it)
                 requireActivity().contentResolver.takePersistableUriPermission(it, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 imageUri = it
+                // Apply circular crop when setting the image URI
+                Glide.with(binding.itemImage.context)
+                    .load(imageUri)
+                    .circleCrop()
+                    .into(binding.itemImage)
                 Log.d("ImagePicker", "Image selected: $imageUri")
             }
         }
@@ -67,7 +75,7 @@ class AddItemToFridgeFragment : Fragment() {
         val uid = auth.currentUser?.uid
         databaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
         storageReference = FirebaseStorage.getInstance().reference
-;
+
         binding.addItemButton.setOnClickListener {
             showProgressBar()
             val productName = binding.productName.text.toString()
@@ -91,7 +99,6 @@ class AddItemToFridgeFragment : Fragment() {
                 databaseReference.child(uid).child(productName).setValue(fridgeItem).addOnCompleteListener {
                     if (it.isSuccessful) {
                         uploadItemToFridge(uid, fridgeItem)
-//                        viewModel.addItem(fridgeItem)
                     } else {
                         hideProgressBar()
                         Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()

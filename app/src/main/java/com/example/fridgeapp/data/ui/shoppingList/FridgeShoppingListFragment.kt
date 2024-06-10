@@ -46,7 +46,6 @@ class FridgeShoppingListFragment : Fragment() {
         binding.addProductExpiryBtn.setOnClickListener {
             // Navigate to AddItemToShoppingListFragment
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
-//            findNavController().navigate(R.id.action_addItemToShoppingList_to_fridgeShoppingListFragment)
         }
     }
 }

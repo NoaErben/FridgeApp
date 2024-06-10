@@ -30,6 +30,7 @@ class CartItemAdapter(private val items: List<CartItem>) : RecyclerView.Adapter<
             if (item.photoUrl != null) {
                 Glide.with(binding.itemImage.context)
                     .load(item.photoUrl)
+                    .circleCrop()
                     .into(binding.itemImage)
             } else {
                 binding.itemImage.setImageResource(R.drawable.dish) // Default image
