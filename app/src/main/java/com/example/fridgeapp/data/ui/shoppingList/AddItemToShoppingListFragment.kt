@@ -15,6 +15,10 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import android.app.Dialog
+import android.view.Window
+import androidx.navigation.fragment.findNavController
+
 
 class AddItemToShoppingListFragment : Fragment() {
 
@@ -26,6 +30,7 @@ class AddItemToShoppingListFragment : Fragment() {
     private lateinit var database: DatabaseReference
     private lateinit var storage: StorageReference
     private var selectedImageUri: Uri? = null
+    private lateinit var dialog: Dialog
 
     private val PICK_IMAGE_REQUEST = 1
 
@@ -69,6 +74,7 @@ class AddItemToShoppingListFragment : Fragment() {
     }
 
     private fun uploadImageAndSaveItem() {
+        showProgressBar()
         if (selectedImageUri != null) {
             val fileReference = storage.child("uploads/${System.currentTimeMillis()}.jpg")
             fileReference.putFile(selectedImageUri!!)
@@ -78,7 +84,8 @@ class AddItemToShoppingListFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener {
-                    // Handle failure
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
                 }
         } else {
             saveItem("")
@@ -91,12 +98,29 @@ class AddItemToShoppingListFragment : Fragment() {
         val itemCategory = itemCategorySpinner.selectedItem.toString()
         val addedDate = System.currentTimeMillis()
         val item = CartItem(itemName, itemCategory, itemQuantity, addedDate, imageUrl)
+
         database.child("shoppingCartItems").push().setValue(item)
             .addOnSuccessListener {
-                // Handle success
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
+                // Navigate to the shopping list fragment
+                findNavController().navigate(R.id.action_addItemToShoppingList_to_fridgeShoppingListFragment)
             }
             .addOnFailureListener {
-                // Handle failure
+                hideProgressBar()
+                Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    private fun showProgressBar() {
+        dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_wait)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+    }
+
+    private fun hideProgressBar() {
+        dialog.dismiss()
     }
 }
