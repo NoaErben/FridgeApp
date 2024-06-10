@@ -39,21 +39,21 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val stringListLiveData: LiveData<List<String>>? get() = foodItemsNames
 
     // Function to get the concatenated string
+    // TODO: delete
     fun getConcatenatedString(): String {
         //foodRepository.deleteAllFoodTable()
         return foodItemsNames?.value?.joinToString(separator = ", ") ?: ""
     }
 
-    fun signIn(
-        email: String,
-        password: String,
-        onSuccess: () -> Unit,
-        onFailure: (Exception) -> Unit
-    ) {
+    private fun setCurrentUser(user: FirebaseUser?) {
+        _currentUser.value = user
+    }
+
+    fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         viewModelScope.launch {
             try {
                 auth.signInWithEmailAndPassword(email, password).await()
-                _currentUser.value = auth.currentUser
+                setCurrentUser(auth.currentUser)
                 onSuccess()
             } catch (e: Exception) {
                 onFailure(e)
@@ -63,7 +63,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun signOut() {
         auth.signOut()
-        _currentUser.value = null
+        setCurrentUser(null)
     }
 
     fun signUp(
@@ -76,7 +76,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             try {
                 auth.createUserWithEmailAndPassword(email, password).await()
-                _currentUser.value = auth.currentUser
+                setCurrentUser(auth.currentUser)
                 handleName(name)
                 onSuccess()
             } catch (e: Exception) {

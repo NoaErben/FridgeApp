@@ -1,5 +1,6 @@
 package com.example.fridgeapp.data.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -10,8 +11,11 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.NavHostFragment
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.local_db.FridgeDB
+import com.example.fridgeapp.data.ui.authentication.LoginFragment
+import com.example.fridgeapp.data.ui.fridge.FridgeManagerFragment
 import com.example.fridgeapp.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
@@ -57,6 +61,19 @@ class MainActivity : AppCompatActivity() {
             // For example, you can update a TextView with the concatenated string
             //binding.textv.setText("From Db: " + concatenatedNames)
         })
+
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+
+        // Check if the user is logged in
+        if (fridgeViewModel.isUserLoggedIn()) {
+            // User is logged in, navigate to the FridgeFragment
+            navController.navigate(R.id.loginFragment)
+        } else {
+            // User is not logged in, navigate to the LoginActivity
+            navController.navigate(R.id.fridgeManagerFragment)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
