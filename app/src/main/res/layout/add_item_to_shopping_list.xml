@@ -99,8 +99,8 @@
         android:dropDownHorizontalOffset="8dp"
         android:dropDownVerticalOffset="8dp"
         android:fontFamily="@font/amaranth"
-        android:padding="8dp"
-        android:entries="@array/category_array"/>
+        android:padding="8dp" />
+<!--        android:entries="@array/category_array"/>-->
 
 
     <Button

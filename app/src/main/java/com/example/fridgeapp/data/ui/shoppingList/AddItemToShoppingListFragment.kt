@@ -1,26 +1,29 @@
 package com.example.fridgeapp.data.ui.shoppingList
 
 import android.app.Activity
+import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.Window
+import android.webkit.MimeTypeMap
 import android.widget.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.CartItem
+import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import android.app.Dialog
-import android.view.Window
-import androidx.navigation.fragment.findNavController
-import com.google.firebase.auth.FirebaseAuth
-import android.webkit.MimeTypeMap
-import com.bumptech.glide.Glide
 
 class AddItemToShoppingListFragment : Fragment() {
 
@@ -34,6 +37,7 @@ class AddItemToShoppingListFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private lateinit var dialog: Dialog
     private lateinit var auth: FirebaseAuth
+    private lateinit var fridgeViewModel: FridgeLiveDataViewModel
 
     private val PICK_IMAGE_REQUEST = 1
 
@@ -51,6 +55,8 @@ class AddItemToShoppingListFragment : Fragment() {
         storageReference = FirebaseStorage.getInstance().reference
         auth = FirebaseAuth.getInstance()
 
+        fridgeViewModel = ViewModelProvider(requireActivity()).get(FridgeLiveDataViewModel::class.java)
+
         itemImageView.setOnClickListener {
             openFileChooser()
         }
@@ -64,7 +70,17 @@ class AddItemToShoppingListFragment : Fragment() {
             }
         }
 
+        observeCategories()
+
         return view
+    }
+
+    private fun observeCategories() {
+        fridgeViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            itemCategorySpinner.adapter = adapter
+        })
     }
 
     private fun openFileChooser() {
@@ -85,7 +101,6 @@ class AddItemToShoppingListFragment : Fragment() {
                 .into(itemImageView)
         }
     }
-
 
     private fun uploadImageAndSaveItem(uid: String) {
         showProgressBar()

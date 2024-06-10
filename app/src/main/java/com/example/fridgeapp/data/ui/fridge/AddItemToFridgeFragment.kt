@@ -15,11 +15,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
-import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.favoritesItems.CustomArrayAdapter
 import com.example.fridgeapp.databinding.AddItemToFridgeBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -27,8 +28,6 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import androidx.fragment.app.activityViewModels
-import androidx.navigation.fragment.findNavController
 
 class AddItemToFridgeFragment : Fragment() {
 
@@ -113,13 +112,14 @@ class AddItemToFridgeFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = viewModel.categories
-        val adapter = CustomArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_item, categories,
-            R.font.amaranth
-        )
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.productCategory.adapter = adapter
+        viewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
+            val adapter = CustomArrayAdapter(
+                requireContext(), android.R.layout.simple_spinner_item, categories,
+                R.font.amaranth
+            )
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            binding.productCategory.adapter = adapter
+        })
     }
 
     private fun uploadItemToFridge(uid: String, fridgeItem: FridgeItem) {
