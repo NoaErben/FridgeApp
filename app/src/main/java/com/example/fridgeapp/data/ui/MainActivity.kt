@@ -1,11 +1,8 @@
 package com.example.fridgeapp.data.ui
 
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.Observer
@@ -57,47 +54,6 @@ class MainActivity : AppCompatActivity() {
             // For example, you can update a TextView with the concatenated string
             //binding.textv.setText("From Db: " + concatenatedNames)
         })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.create_household -> {
-                // Handle create household action
-                true
-            }
-            R.id.join_household -> {
-                // Handle join household action
-                true
-            }
-            R.id.shopping_list -> {
-                // Handle shopping list action
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.inflate(R.menu.popup_menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.create_household -> {
-                    // Handle create household action
-                    true
-                }
-                R.id.join_household -> {
-                    // Handle join household action
-                    true
-                }
-                R.id.shopping_list -> {
-                    // Handle shopping list action
-                    true
-                }
-                else -> false
-            }
-        }
-        popupMenu.show()
     }
 
     override fun onDestroy() {
