@@ -81,6 +81,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     //gradle
+    //for trying location
     implementation ("com.google.android.gms:play-services-location:21.3.0")
-
+    //for Grocery Store Locator
+    implementation ("com.google.android.gms:play-services-maps:18.0.2")
+    implementation ("com.google.android.gms:play-services-places:17.0.0")
 }
