@@ -77,4 +77,8 @@ class FoodRepository(application: Application) {
     suspend fun updateCategory(id: Int, newCategory: String) {
         foodDao?.updateCategory(id, newCategory)
     }
+
+    suspend fun getFoodItem(name: String): FoodItem? {
+        return foodDao?.getFoodItem(name)
+    }
 }

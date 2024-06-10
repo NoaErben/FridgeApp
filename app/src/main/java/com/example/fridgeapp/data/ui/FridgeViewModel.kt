@@ -25,6 +25,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
 
     val categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
+    val unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
 
@@ -194,6 +195,14 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         viewModelScope.launch {
             foodRepository.updateDaysToExpire(id, daysToExpire)
         }
+    }
+
+    fun getFoodItem(name: String): FoodItem? {
+        var item: FoodItem? = null
+        viewModelScope.launch {
+            item = foodRepository.getFoodItem(name)!!
+        }
+        return item
     }
 
 }

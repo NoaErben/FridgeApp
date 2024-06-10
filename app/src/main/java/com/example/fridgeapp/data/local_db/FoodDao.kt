@@ -47,4 +47,7 @@ interface FoodDao {
 
     @Query("SELECT COUNT(*) FROM FoodItem")
     suspend fun getCount(): Int
+
+    @Query("SELECT * from FoodItem WHERE item_name LIKE :name")
+    fun getFoodItem(name: String) : FoodItem
 }

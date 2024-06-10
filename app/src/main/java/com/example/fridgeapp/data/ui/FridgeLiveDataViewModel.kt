@@ -21,7 +21,7 @@ class FridgeLiveDataViewModel : ViewModel() {
         }
     }
 
-    val categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
+//    val categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
 
     fun isUserLoggedIn(): Boolean {
         val auth = FirebaseAuth.getInstance()

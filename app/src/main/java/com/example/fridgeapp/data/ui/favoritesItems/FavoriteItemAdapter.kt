@@ -1,5 +1,6 @@
 package com.example.fridgeapp.data.ui.favoritesItems
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,15 +29,19 @@ class FavoriteItemAdapter(private var items: List<FoodItem>, private val callBac
             print(item.photoUrl)
             binding.itemName.text = item.name
             binding.itemExpired.text = "${item.daysToExpire} ${binding.root.context.getString(R.string.days)}"
+            Log.d("FIA", item.photoUrl.toString())
             if (item.photoUrl != null)
-                if (item.photoUrl.contains("drawable"))
-                    Glide.with(binding.root).load(item.photoUrl.substringAfter("drawable://").toInt()).circleCrop().into(binding.itemImage)
-                else
-                    Glide.with(binding.root).load(item.photoUrl).circleCrop().error(R.drawable.dish).into(binding.itemImage)
+                Glide.with(binding.root)
+                    .load(item.photoUrl)
+                    .circleCrop()
+                    .error(R.drawable.dish)
+
+                    .into(binding.itemImage)
             else
-                Glide.with(binding.root).load(ContextCompat.getDrawable(binding.root.context,
-                    R.drawable.dish
-                )).circleCrop().into(binding.itemImage)
+                Glide.with(binding.root)
+                    .load(ContextCompat.getDrawable(binding.root.context, R.drawable.dish))
+                    .circleCrop()
+                    .into(binding.itemImage)
 
         }
 

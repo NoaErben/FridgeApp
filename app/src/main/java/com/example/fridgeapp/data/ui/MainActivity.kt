@@ -2,6 +2,7 @@ package com.example.fridgeapp.data.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -67,7 +68,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         // Check if the user is logged in
-        if (fridgeViewModel.isUserLoggedIn()) {
+        if (!fridgeViewModel.isUserLoggedIn()) {
             // User is logged in, navigate to the FridgeFragment
             navController.navigate(R.id.loginFragment)
         } else {
