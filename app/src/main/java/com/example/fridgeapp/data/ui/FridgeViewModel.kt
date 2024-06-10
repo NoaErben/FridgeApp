@@ -3,6 +3,8 @@ package com.example.fridgeapp.data.ui
 import FoodRepository
 import android.app.Application
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -14,8 +16,15 @@ import com.example.fridgeapp.data.model.FridgeItem
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import java.io.ByteArrayOutputStream
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 class FridgeViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -28,6 +37,10 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
     val unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
     private val auth: FirebaseAuth by lazy { FirebaseAuth.getInstance() }
+    private val _fridgeDatabaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
+    private val _storageReference = FirebaseStorage.getInstance().reference
+    val fridgeDatabaseReference get() = _fridgeDatabaseReference
+    val storageReference get() = _storageReference
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
@@ -205,6 +218,29 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
             item = foodRepository.getFoodItem(name)!!
         }
         return item
+    }
+
+    fun parseDate(dateStr: String): Long {
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+        return try {
+            dateFormat.parse(dateStr)?.time ?: System.currentTimeMillis()
+        } catch (e: Exception) {
+            System.currentTimeMillis()
+        }
+    }
+
+    fun compressBitmap(bitmap: Bitmap, maxSizeKb: Int): Bitmap {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        var quality = 100
+        while (byteArrayOutputStream.toByteArray().size / 1024 > maxSizeKb) {
+            byteArrayOutputStream.reset()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
+            quality -= 10
+        }
+        val compressedBitmap = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.toByteArray().size)
+        byteArrayOutputStream.close()
+        return compressedBitmap
     }
 
 }

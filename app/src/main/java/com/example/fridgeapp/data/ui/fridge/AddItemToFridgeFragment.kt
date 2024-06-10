@@ -47,8 +47,6 @@ import com.bumptech.glide.request.transition.Transition
 class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FridgeAddItemBinding? = null
-    private lateinit var databaseReference: DatabaseReference
-    private lateinit var storageReference: StorageReference
     private lateinit var dialog: Dialog
     private var imageUri: Uri? = null
     private var currentImage: String? = null
@@ -75,7 +73,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initializeFirebase()
         setupCategorySpinner()
         setupMeasureSpinner()
         setupNameSpinner()
@@ -83,11 +80,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         setupAddItemButton()
         setupImagePicker()
         handleBackPressed()
-    }
-
-    private fun initializeFirebase() {
-        databaseReference = FirebaseDatabase.getInstance().getReference("itemsInFridge")
-        storageReference = FirebaseStorage.getInstance().reference
     }
 
     private fun setupCategorySpinner() {
@@ -171,7 +163,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-
     private fun setupDatePickers() {
         // Initialize buyingDate to today
         val today = Calendar.getInstance().time
@@ -226,7 +217,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 false
             }
 
-            parseDate(expiringDate) <= parseDate(buyingDate) -> {
+            viewModel.parseDate(expiringDate) <= viewModel.parseDate(buyingDate) -> {
                 showToast(getString(R.string.expiry_date_must_be_after_buying_date))
                 false
             }
@@ -238,8 +229,8 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun saveItemToDatabase() {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
-        val buyingDate = parseDate(binding.buyingDate.text.toString())
-        val expiryDate = parseDate(binding.productDaysToExpire.text.toString())
+        val buyingDate = viewModel.parseDate(binding.buyingDate.text.toString())
+        val expiryDate = viewModel.parseDate(binding.productDaysToExpire.text.toString())
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
         val photoUrl = imageUri.toString()
@@ -258,7 +249,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
         val uid = viewModel.currentUser.value?.uid
         uid?.let {
-            databaseReference.child(it).child(productName).setValue(fridgeItem)
+            viewModel.fridgeDatabaseReference.child(it).child(productName).setValue(fridgeItem)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         // Only upload the image if it has been changed
@@ -284,7 +275,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 .into(object : CustomTarget<Bitmap>() {
                     override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
                         // Compress the bitmap
-                        val compressedBitmap = compressBitmap(resource, 1024) // TODO: Adjust size as needed
+                        val compressedBitmap = viewModel.compressBitmap(resource, 1024) // TODO: Adjust size as needed
 
                         // Convert the compressed bitmap to a byte array
                         val outputStream = ByteArrayOutputStream()
@@ -292,7 +283,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                         val data = outputStream.toByteArray()
 
                         // Upload the compressed image data
-                        val storageRef = storageReference.child("images/$uid/${System.currentTimeMillis()}.jpg")
+                        val storageRef = viewModel.storageReference.child("images/$uid/${System.currentTimeMillis()}.jpg")
                         val uploadTask = storageRef.putBytes(data)
 
                         uploadTask.addOnSuccessListener {
@@ -317,23 +308,9 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    private fun compressBitmap(bitmap: Bitmap, maxSizeKb: Int): Bitmap {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        var quality = 100
-        while (byteArrayOutputStream.toByteArray().size / 1024 > maxSizeKb) {
-            byteArrayOutputStream.reset()
-            bitmap.compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
-            quality -= 10
-        }
-        val compressedBitmap = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.toByteArray().size)
-        byteArrayOutputStream.close()
-        return compressedBitmap
-    }
-
     private fun updateDatabaseWithPhotoUrl(uid: String, fridgeItem: FridgeItem) {
         fridgeItem.name?.let {
-            databaseReference.child(uid).child(it).setValue(fridgeItem)
+            viewModel.fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
                 .addOnCompleteListener { task ->
                     hideProgressBar()
                     if (task.isSuccessful) {
@@ -392,15 +369,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             binding.buyingDate.setText(date)
         } else {
             binding.productDaysToExpire.setText(date)
-        }
-    }
-
-    private fun parseDate(dateStr: String): Long {
-        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-        return try {
-            dateFormat.parse(dateStr)?.time ?: System.currentTimeMillis()
-        } catch (e: Exception) {
-            System.currentTimeMillis()
         }
     }
 
