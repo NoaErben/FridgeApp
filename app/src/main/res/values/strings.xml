@@ -37,4 +37,12 @@
     <string name="register_yourself">Register yourself</string>
     <string name="sign_out">Sign Out</string>
     <string name="hello">Hello,</string>
+    <string-array name="category_array">
+        <item>Fruits</item>
+        <item>Vegetables</item>
+        <item>Dairy</item>
+        <item>Meat</item>
+        <item>Beverages</item>
+        <item>Sauces</item>
+    </string-array>
 </resources>
