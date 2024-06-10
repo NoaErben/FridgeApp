@@ -16,6 +16,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
+import com.example.fridgeapp.data.ui.utils.DialogsForEditAdd
 import com.example.fridgeapp.databinding.FavoriteAddItemBinding
 
 class AddItemToFavoriteFragment : Fragment() {
@@ -129,7 +131,7 @@ class AddItemToFavoriteFragment : Fragment() {
     }
 
     private fun showConfirmDiscardChangesDialog() {
-        DialogUtils.showConfirmDiscardChangesDialog(
+        DialogsForEditAdd.showConfirmDiscardChangesDialog(
             requireContext(),
             onConfirm = { findNavController().popBackStack() },
             onCancel = { /* Do nothing */ }

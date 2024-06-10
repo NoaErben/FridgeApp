@@ -19,6 +19,8 @@ import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
+import com.example.fridgeapp.data.ui.utils.DialogsForEditAdd
 import com.example.fridgeapp.databinding.FavoriteEditItemBinding
 
 class FavoriteEditItemFragment : Fragment() {
@@ -145,7 +147,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun showConfirmationDialog() {
-        DialogUtils.showConfirmDeleteDialog(
+        DialogsForEditAdd.showConfirmDeleteDialog(
             requireContext(),
             onConfirm = {
                 viewModel.chosenFoodItem.value?.let { item ->
@@ -170,7 +172,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun showDiscardChangesDialog() {
-        DialogUtils.showConfirmDiscardChangesDialog(
+        DialogsForEditAdd.showConfirmDiscardChangesDialog(
             requireContext(),
             onConfirm = { findNavController().popBackStack() },
             onCancel = { /* Do nothing */ }
