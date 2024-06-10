@@ -29,13 +29,13 @@ class FavoriteItemAdapter(private var items: List<FoodItem>, private val callBac
             print(item.photoUrl)
             binding.itemName.text = item.name
             binding.itemExpired.text = "${item.daysToExpire} ${binding.root.context.getString(R.string.days)}"
-            Log.d("FIA", item.photoUrl.toString())
+//                Log.d("FIA", item.photoUrl.toString())
             if (item.photoUrl != null)
                 Glide.with(binding.root)
                     .load(item.photoUrl)
                     .circleCrop()
+                    .placeholder(R.drawable.dish) // Placeholder while loading
                     .error(R.drawable.dish)
-
                     .into(binding.itemImage)
             else
                 Glide.with(binding.root)

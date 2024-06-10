@@ -37,8 +37,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         _currentUser.value = auth.currentUser
     }
 
-    val stringListLiveData: LiveData<List<String>>? get() = foodItemsNames
-
     // Function to get the concatenated string
     // TODO: delete
     fun getConcatenatedString(): String {
@@ -140,6 +138,10 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     fun setFoodChosenItem(foodItem: FoodItem) {
         _chosenFoodItem.value = foodItem
+    }
+
+    fun setFridgeChosenItem(fridgeItem: FridgeItem) {
+        _chosenFridgeItem.value = fridgeItem
     }
 
     // Methods to use repository functions

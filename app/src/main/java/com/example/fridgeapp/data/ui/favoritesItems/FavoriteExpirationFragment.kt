@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
-import com.example.fridgeapp.data.ui.utils.DialogsForEditAdd
+import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
 class FavoriteExpirationFragment : Fragment() {
@@ -73,7 +73,7 @@ class FavoriteExpirationFragment : Fragment() {
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                 val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(viewHolder.adapterPosition)
-                DialogsForEditAdd.showConfirmDeleteDialog(requireContext(),
+                Dialogs.showConfirmDeleteDialog(requireContext(),
                     onConfirm = {
                         viewModel.deleteFoodItem(item)
                     },

@@ -11,16 +11,22 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
 
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: FridgeLiveDataViewModel by activityViewModels()
+    private val NewViewModel: FridgeLiveDataViewModel by activityViewModels()
+    // TODO: merge VM?
+    private val viewModel: FridgeViewModel by activityViewModels()
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     override fun onCreateView(
@@ -42,17 +48,20 @@ class FridgeManagerFragment : Fragment() {
         // Set up Adapter
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
-                // Handle item click
+                val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(index)
+                viewModel.setFridgeChosenItem(item)
+                findNavController().navigate(R.id.action_fridgeManagerFragment_to_editFridgeItemFragment)
             }
 
             override fun onItemLongClick(index: Int) {
-                // Handle item long click
+                Toast.makeText(requireActivity(),
+                    getString(R.string.swipe_to_delete), Toast.LENGTH_SHORT).show()
             }
         })
         recyclerView.adapter = fridgeItemAdapter
 
         // Observe LiveData from ViewModel
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        NewViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
             fridgeItemAdapter.updateItems(items)
         })
@@ -65,6 +74,33 @@ class FridgeManagerFragment : Fragment() {
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeManagerFragment_to_addItemToFridgeFragment)
         }
+
+        // Add swipe-to-delete functionality using the provided format
+        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
+                Dialogs.showConfirmDeleteDialog(requireContext(),
+                    onConfirm = {
+                        //viewModel.deleteFoodItem(item)
+                    },
+                    onCancel = {
+                        (binding.recyclerView.adapter as FridgeItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
+                    }
+                )
+            }
+        }).attachToRecyclerView(binding.recyclerView)
     }
 
     private fun showPopupMenu(view: View) {
@@ -91,7 +127,7 @@ class FridgeManagerFragment : Fragment() {
                     true
                 }
                 R.id.My_profile -> {
-                    if (viewModel.isUserLoggedIn()) {
+                    if (NewViewModel.isUserLoggedIn()) {
                         findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
                         Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
                     } else {

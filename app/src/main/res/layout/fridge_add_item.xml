@@ -94,7 +94,6 @@
         </LinearLayout>
     </LinearLayout>
 
-    <!-- TextInputLayouts for other input fields -->
     <LinearLayout
         android:id="@+id/measure_container"
         android:layout_width="match_parent"
@@ -154,12 +153,12 @@
             android:id="@+id/product_days_to_expire"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawableStart="@drawable/expire_svgrepo_com"
-            android:fontFamily="@font/amaranth"
-            android:hint=" Expiry Date"
-            android:focusable="false"
+            android:layout_marginBottom="5dp"
             android:clickable="true"
-            android:layout_marginBottom="5dp"/>
+            android:drawableStart="@drawable/expire_svgrepo_com"
+            android:focusable="false"
+            android:fontFamily="@font/amaranth"
+            android:hint=" Expiry Date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

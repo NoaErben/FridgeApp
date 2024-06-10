@@ -22,6 +22,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,7 +32,7 @@ import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
-import com.example.fridgeapp.data.ui.utils.DialogsForEditAdd
+import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -141,7 +142,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                         currentImage = R.drawable.dish.toString()
                     }
                     "Other" -> {
-                        showCustomProductNameDialog()
+                        Dialogs.showCustomProductNameDialog(requireContext(), binding.productName, binding.productName.adapter as ArrayAdapter<String>)
                     }
                     else -> {
                         val foodItem = viewModel.getFoodItem(selectedName)
@@ -157,6 +158,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                                 .placeholder(R.drawable.dish) // Placeholder while loading
                                 .error(R.drawable.dish) // Placeholder in case of error
                                 .into(binding.itemImage)
+                            imageUri = it.photoUrl?.toUri()
                             currentImage = it.photoUrl
                         }
                     }
@@ -167,36 +169,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 // Do nothing
             }
         }
-    }
-
-    private fun showCustomProductNameDialog() {
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_custom_product_name, null)
-        val customProductNameEditText = dialogView.findViewById<EditText>(R.id.customProductNameEditText)
-
-        val dialog = AlertDialog.Builder(requireContext())
-            .setView(dialogView)
-            .setTitle("Enter Custom Product Name")
-            .setPositiveButton("OK") { dialog, _ ->
-                val customProductName = customProductNameEditText.text.toString()
-                if (customProductName.isNotBlank()) {
-                    // Update the spinner text with the custom product name
-                    val adapter = binding.productName.adapter as? ArrayAdapter<String>
-                    adapter?.let {
-                        val position = it.getPosition("Other")
-                        if (position != -1) {
-                            it.remove("Other")
-                            it.insert(customProductName, position)
-                            binding.productName.setSelection(position)
-                        }
-                    }
-                }
-                dialog.dismiss()
-            }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                dialog.dismiss()
-            }
-            .create()
-        dialog.show()
     }
 
 
@@ -262,7 +234,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             else -> true
         }
     }
-
 
     private fun saveItemToDatabase() {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
@@ -346,7 +317,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-    // Function to compress the bitmap
     private fun compressBitmap(bitmap: Bitmap, maxSizeKb: Int): Bitmap {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
@@ -360,7 +330,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         byteArrayOutputStream.close()
         return compressedBitmap
     }
-
 
     private fun updateDatabaseWithPhotoUrl(uid: String, fridgeItem: FridgeItem) {
         fridgeItem.name?.let {
@@ -460,7 +429,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun showConfirmDiscardChangesDialog() {
-        DialogsForEditAdd.showConfirmDiscardChangesDialog(
+        Dialogs.showConfirmDiscardChangesDialog(
             requireContext(),
             onConfirm = { findNavController().popBackStack() },
             onCancel = { /* Do nothing */ }

@@ -4,7 +4,9 @@ import com.bumptech.glide.Glide
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.databinding.ItemLayoutBinding
 
@@ -30,7 +32,19 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
             val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
             binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
 
-            Glide.with(binding.root).load(item.photoUrl).circleCrop().into(binding.itemImage)
+            if (item.photoUrl != null)
+                Glide.with(binding.root)
+                    .load(item.photoUrl)
+                    .circleCrop()
+                    .placeholder(R.drawable.dish) // Placeholder while loading
+                    .error(R.drawable.dish)
+                    .into(binding.itemImage)
+            else
+                Glide.with(binding.root)
+                    .load(ContextCompat.getDrawable(binding.root.context, R.drawable.dish))
+                    .circleCrop()
+                    .into(binding.itemImage)
+
         }
 
         override fun onClick(p0: View?) {
