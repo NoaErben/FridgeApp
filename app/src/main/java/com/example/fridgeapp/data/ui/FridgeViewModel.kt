@@ -365,6 +365,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
+
     private fun updateFridgeDatabaseItem(
         uid: String,
         fridgeItem: FridgeItem,
