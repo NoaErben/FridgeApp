@@ -5,21 +5,24 @@ import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
@@ -241,6 +244,125 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         val compressedBitmap = BitmapFactory.decodeByteArray(byteArrayOutputStream.toByteArray(), 0, byteArrayOutputStream.toByteArray().size)
         byteArrayOutputStream.close()
         return compressedBitmap
+    }
+
+    fun saveFridgeItemToDatabase(
+        productName: String,
+        quantity: Int,
+        buyingDate: Long,
+        expiryDate: Long,
+        productCategory: String,
+        amountMeasure: String,
+        photoUrl: String,
+        imageChanged: Boolean,
+        imageUri: Uri?,
+        onComplete: (Result<Unit>) -> Unit
+    ) {
+        val fridgeItem = FridgeItem(
+            name = productName,
+            quantity = quantity,
+            amountMeasure = amountMeasure,
+            photoUrl = photoUrl,
+            buyingDate = buyingDate,
+            expiryDate = expiryDate,
+            category = productCategory
+        )
+
+        val uid = currentUser.value?.uid
+        uid?.let {
+            fridgeDatabaseReference.child(it).child(productName).setValue(fridgeItem)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        if (imageChanged) {
+                            uploadFridgeItemImage(uid, fridgeItem, imageUri, onComplete)
+                        } else {
+                            updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
+                        }
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to add item")))
+                    }
+                }
+        }
+    }
+
+    private fun uploadFridgeItemImage(uid: String, fridgeItem: FridgeItem, imageUri: Uri?, onComplete: (Result<Unit>) -> Unit) {
+        if (imageUri != null) {
+            Glide.with(getApplication<Application>().applicationContext)
+                .asBitmap()
+                .load(imageUri)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
+                        val compressedBitmap = compressBitmap(resource, 1024)
+                        val outputStream = ByteArrayOutputStream()
+                        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream)
+                        val data = outputStream.toByteArray()
+
+                        val storageRef = storageReference.child("images/$uid/${System.currentTimeMillis()}.jpg")
+                        val uploadTask = storageRef.putBytes(data)
+
+                        uploadTask.addOnSuccessListener {
+                            storageRef.downloadUrl.addOnSuccessListener { uri ->
+                                fridgeItem.photoUrl = uri.toString()
+                                updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
+                            }.addOnFailureListener { exception ->
+                                onComplete(Result.failure(Exception("Failed to get download URL", exception)))
+                            }
+                        }.addOnFailureListener { exception ->
+                            onComplete(Result.failure(Exception("Failed to upload image", exception)))
+                        }
+                    }
+
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                    }
+                })
+        } else {
+            onComplete(Result.failure(Exception("No image selected")))
+        }
+    }
+
+    private fun updateFridgeDatabaseWithPhotoUrl(uid: String, fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+        fridgeItem.name?.let {
+            fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onComplete(Result.success(Unit))
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to update photo URL")))
+                    }
+                }
+        }
+    }
+
+    fun deleteItemFromFridgeDatabase(productName: String, onComplete: (Result<Unit>) -> Unit) {
+        val uid = currentUser.value?.uid
+        uid?.let {
+            fridgeDatabaseReference.child(it).child(productName).removeValue()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onComplete(Result.success(Unit))
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to delete item")))
+                    }
+                }
+        } ?: run {
+            onComplete(Result.failure(Exception("User not logged in")))
+        }
+    }
+
+    fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit) {
+        val uid = currentUser.value?.uid
+        uid?.let {
+            fridgeDatabaseReference.child(it).removeValue()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onComplete(Result.success(Unit))
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to delete all items")))
+                    }
+                }
+        } ?: run {
+            onComplete(Result.failure(Exception("User not logged in")))
+        }
     }
 
 }

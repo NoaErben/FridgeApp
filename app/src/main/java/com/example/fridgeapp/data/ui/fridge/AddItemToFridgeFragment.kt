@@ -3,9 +3,6 @@ package com.example.fridgeapp.data.ui.fridge
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -16,32 +13,22 @@ import android.view.Window
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.DatePicker
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
-import com.bumptech.glide.request.transition.Transition
 
 
 class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -195,6 +182,41 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
+    private fun saveItemToDatabase() {
+        val productName =
+            binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+        val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
+        val buyingDate = viewModel.parseDate(binding.buyingDate.text.toString())
+        val expiryDate = viewModel.parseDate(binding.productDaysToExpire.text.toString())
+        val productCategory = binding.productCategory.selectedItem.toString()
+        val amountMeasure = binding.measureCategory.selectedItem.toString()
+        val photoUrl = imageUri.toString()
+        val imageChanged =
+            !(currentImage != null && currentImage!!.contains("firebase")) && currentImage != R.drawable.dish.toString()
+
+        viewModel.saveFridgeItemToDatabase(
+            productName,
+            quantity,
+            buyingDate,
+            expiryDate,
+            productCategory,
+            amountMeasure,
+            photoUrl,
+            imageChanged,
+            imageUri,
+        ) { result ->
+            result.onSuccess {
+                hideProgressBar()
+                showToast("Added successfully")
+                findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
+            }.onFailure { exception ->
+                hideProgressBar()
+                showToast("Failed to add item: ${exception.message}")
+            }
+        }
+    }
+
+
     private fun validateInput(): Boolean {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString()
@@ -223,103 +245,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
 
             else -> true
-        }
-    }
-
-    private fun saveItemToDatabase() {
-        val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
-        val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
-        val buyingDate = viewModel.parseDate(binding.buyingDate.text.toString())
-        val expiryDate = viewModel.parseDate(binding.productDaysToExpire.text.toString())
-        val productCategory = binding.productCategory.selectedItem.toString()
-        val amountMeasure = binding.measureCategory.selectedItem.toString()
-        val photoUrl = imageUri.toString()
-        val imageChanged = !(currentImage!= null && currentImage!!.contains("firebase")) && currentImage != R.drawable.dish.toString()
-
-        val fridgeItem = FridgeItem(
-            name = productName,
-            quantity = quantity,
-            amountMeasure = amountMeasure,
-            photoUrl = photoUrl,
-            buyingDate = buyingDate,
-            expiryDate = expiryDate,
-            category = productCategory
-        )
-
-
-        val uid = viewModel.currentUser.value?.uid
-        uid?.let {
-            viewModel.fridgeDatabaseReference.child(it).child(productName).setValue(fridgeItem)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // Only upload the image if it has been changed
-                        if (imageChanged) {
-                            uploadItemImage(it, fridgeItem)
-                        } else {
-                            updateDatabaseWithPhotoUrl(uid, fridgeItem)
-                        }
-                    } else {
-                        hideProgressBar()
-                        showToast("Failed to add item")
-                    }
-                }
-        }
-    }
-
-    private fun uploadItemImage(uid: String, fridgeItem: FridgeItem) {
-        if (imageUri != null) {
-            // Load the image with Glide
-            Glide.with(requireContext())
-                .asBitmap()
-                .load(imageUri)
-                .into(object : CustomTarget<Bitmap>() {
-                    override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                        // Compress the bitmap
-                        val compressedBitmap = viewModel.compressBitmap(resource, 1024) // TODO: Adjust size as needed
-
-                        // Convert the compressed bitmap to a byte array
-                        val outputStream = ByteArrayOutputStream()
-                        compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, outputStream) // TODO: Adjust compression quality as needed
-                        val data = outputStream.toByteArray()
-
-                        // Upload the compressed image data
-                        val storageRef = viewModel.storageReference.child("images/$uid/${System.currentTimeMillis()}.jpg")
-                        val uploadTask = storageRef.putBytes(data)
-
-                        uploadTask.addOnSuccessListener {
-                            storageRef.downloadUrl.addOnSuccessListener { uri ->
-                                fridgeItem.photoUrl = uri.toString()
-                                updateDatabaseWithPhotoUrl(uid, fridgeItem)
-                            }
-                        }.addOnFailureListener { exception ->
-                            hideProgressBar()
-                            Log.e("Upload", "Failed to upload image", exception)
-                            showToast("Failed to upload image: ${exception.message}")
-                        }
-                    }
-
-                    override fun onLoadCleared(placeholder: Drawable?) {
-                        // Handle case where the image load is cleared
-                    }
-                })
-        } else {
-            hideProgressBar()
-            showToast("No image selected")
-        }
-    }
-
-    private fun updateDatabaseWithPhotoUrl(uid: String, fridgeItem: FridgeItem) {
-        fridgeItem.name?.let {
-            viewModel.fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
-                .addOnCompleteListener { task ->
-                    hideProgressBar()
-                    if (task.isSuccessful) {
-                        showToast("Item added successfully")
-                        findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
-                    } else {
-                        showToast("Failed to update item with photo URL")
-                    }
-                }
         }
     }
 
