@@ -37,6 +37,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val binding get() = _binding!!
 
     private var imageUri: Uri? = null
+    private var imageUriStr: String? = null
     private val viewModel: FridgeViewModel by activityViewModels()
 
     private var imageChanged = false
@@ -57,6 +58,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     it, Intent.FLAG_GRANT_READ_URI_PERMISSION
                 )
                 imageUri = it
+                imageUriStr = it.toString()
                 imageChanged = true
             }
         }
@@ -88,9 +90,9 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun observeChosenFridgeItem() {
         viewModel.chosenFridgeItem.observe(viewLifecycleOwner) { item ->
             val currentTime = System.currentTimeMillis()
-            val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
-            if ((item.expiryDate - currentTime) > 0) {
-                daysUntilExpiry + 1
+            var daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
+            if ((item.expiryDate - currentTime) >= 0) {
+                daysUntilExpiry += 1
             } else {
                 daysUntilExpiry
             }
@@ -98,7 +100,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             binding.itemDays.text = "${daysUntilExpiry} days for:"
             if (daysUntilExpiry > 2) {
                 binding.itemDays.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_green_dark))
-            } else if (daysUntilExpiry >= 0) {
+            } else if (daysUntilExpiry > 0) {
                 binding.itemDays.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_orange_dark))
             } else {
                 binding.itemDays.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_red_dark))
@@ -125,10 +127,12 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun loadImage(photoUrl: String?) {
-        val context = binding.root.context
-        Glide.with(context).load(photoUrl?.let { uri ->
-            if (uri.contains("drawable")) uri.substringAfter("drawable://").toInt() else uri
-        } ?: ContextCompat.getDrawable(context, com.example.fridgeapp.R.drawable.dish)).circleCrop().into(binding.imageView)
+        // Load the image URI using Glide
+        Glide.with(requireContext())
+            .load(photoUrl)
+            .error(com.example.fridgeapp.R.drawable.dish) // Placeholder in case of error
+            .into(binding.imageView)
+        imageUriStr = photoUrl
     }
 
     private fun setupCategorySpinner() {
@@ -299,8 +303,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             expiryDate,
             productCategory,
             amountMeasure,
-            imageUri,
-            imageChanged
+            imageUriStr,
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
@@ -329,7 +332,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 false
             }
 
-            viewModel.parseDate(expiringDate) <= viewModel.parseDate(buyingDate) -> {
+            viewModel.parseDate(expiringDate) < viewModel.parseDate(buyingDate) -> {
                 showToast(getString(com.example.fridgeapp.R.string.expiry_date_must_be_after_buying_date))
                 false
             }

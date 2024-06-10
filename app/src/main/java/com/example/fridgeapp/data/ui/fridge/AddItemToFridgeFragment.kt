@@ -238,7 +238,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 false
             }
 
-            viewModel.parseDate(expiringDate) <= viewModel.parseDate(buyingDate) -> {
+            viewModel.parseDate(expiringDate) < viewModel.parseDate(buyingDate) -> {
                 showToast(getString(R.string.expiry_date_must_be_after_buying_date))
                 false
             }

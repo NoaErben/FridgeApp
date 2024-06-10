@@ -156,10 +156,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         // For example, save them to a database, update user profile, etc.
     }
 
-    fun getImageResource(context: Context, photoUrl: String): Int {
-        return context.resources.getIdentifier(photoUrl, "drawable", context.packageName)
-    }
-
 
     // Methods to use repository functions
     fun insertFoodItem(foodItem: FoodItem) {
@@ -275,7 +271,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         if (imageChanged) {
-                            uploadFridgeItemImage(uid, fridgeItem, imageUri, onComplete)
+                            uploadFridgeItemImage(uid, fridgeItem, imageUri.toString(), onComplete)
                         } else {
                             updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
                         }
@@ -286,7 +282,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    private fun uploadFridgeItemImage(uid: String, fridgeItem: FridgeItem, imageUri: Uri?, onComplete: (Result<Unit>) -> Unit) {
+    private fun uploadFridgeItemImage(uid: String, fridgeItem: FridgeItem, imageUri: String?, onComplete: (Result<Unit>) -> Unit) {
         if (imageUri != null) {
             Glide.with(getApplication<Application>().applicationContext)
                 .asBitmap()
@@ -341,8 +337,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         expiryDate: Long,
         productCategory: String?,
         amountMeasure: String?,
-        photoUri: Uri?,
-        isImageChanged: Boolean,
+        photoUri: String?,
         onComplete: (Result<Unit>) -> Unit
     ) {
         val fridgeItem = FridgeItem(
@@ -357,10 +352,13 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
         val uid = currentUser.value?.uid
         uid?.let {
-            if (photoUri != null && isImageChanged) {
+            if (!photoUri?.contains("firebase")!!) {
+                Log.d("FVM", "doesnt contain FB")
                 uploadFridgeItemImage(uid, fridgeItem, photoUri, onComplete)
             } else {
-                updateFridgeDatabaseItem(uid, fridgeItem, onComplete)
+                Log.d("FVM", chosenFridgeItem.value?.photoUrl.toString())
+                fridgeItem.photoUrl = photoUri.toString()
+                updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
             }
         } ?: run {
             onComplete(Result.failure(Exception("User not logged in")))

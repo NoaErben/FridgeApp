@@ -29,10 +29,10 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
             binding.itemName.text = item.name
             val currentTime = System.currentTimeMillis() // Current time in milliseconds
             // Calculate milliseconds until expiry milliseconds and convert it to days
-            val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
+            var daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
 
-            if ((item.expiryDate - currentTime) > 0) {
-                daysUntilExpiry + 1
+            if ((item.expiryDate - currentTime) >= 0) {
+                daysUntilExpiry += 1
             } else {
                 daysUntilExpiry
             }
@@ -40,11 +40,14 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
             if (daysUntilExpiry > 2) {
                 binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
                 binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_green_dark))
-            } else if (daysUntilExpiry >= 0) {
+            } else if (daysUntilExpiry > 0) {
                 binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
                 binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_orange_dark))
             } else {
-                binding.itemExpired.text = "Expired before: ${daysUntilExpiry * -1} days"
+                if (daysUntilExpiry.toInt() == 0)
+                    binding.itemExpired.text = "Expires today"
+                else
+                    binding.itemExpired.text = "Expired before: ${daysUntilExpiry * -1} days"
                 binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_red_dark))
             }
 
