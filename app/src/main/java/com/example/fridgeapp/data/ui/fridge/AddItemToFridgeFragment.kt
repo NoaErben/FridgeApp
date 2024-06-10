@@ -20,6 +20,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
@@ -27,6 +28,7 @@ import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
+import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -124,21 +126,23 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                         Dialogs.showCustomProductNameDialog(requireContext(), binding.productName, binding.productName.adapter as ArrayAdapter<String>)
                     }
                     else -> {
-                        val foodItem = viewModel.getFoodItem(selectedName)
-                        foodItem?.let {
-                            binding.productCategory.setSelection(viewModel.categories.indexOf(it.category ?: viewModel.categories[0]))
-                            val calendar = Calendar.getInstance()
-                            calendar.add(Calendar.DATE, it.daysToExpire ?: 7)
-                            val expiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
-                            binding.productDaysToExpire.setText(expiryDate)
-                            // Load image with Glide
-                            Glide.with(requireContext())
-                                .load(it.photoUrl)
-                                .placeholder(R.drawable.dish) // Placeholder while loading
-                                .error(R.drawable.dish) // Placeholder in case of error
-                                .into(binding.itemImage)
-                            imageUri = it.photoUrl?.toUri()
-                            currentImage = it.photoUrl
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            val foodItem = viewModel.getFoodItem(selectedName)
+                            foodItem?.let {
+                                binding.productCategory.setSelection(viewModel.categories.indexOf(it.category ?: viewModel.categories[0]))
+                                val calendar = Calendar.getInstance()
+                                calendar.add(Calendar.DATE, it.daysToExpire ?: 7)
+                                val expiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
+                                binding.productDaysToExpire.setText(expiryDate)
+                                // Load image with Glide
+                                Glide.with(requireContext())
+                                    .load(it.photoUrl)
+                                    .placeholder(R.drawable.dish) // Placeholder while loading
+                                    .error(R.drawable.dish) // Placeholder in case of error
+                                    .into(binding.itemImage)
+                                imageUri = it.photoUrl?.toUri()
+                                currentImage = it.photoUrl
+                            }
                         }
                     }
                 }

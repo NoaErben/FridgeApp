@@ -122,7 +122,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setMeasureSpinnerSelection(item: FridgeItem) {
-        val defaultMeasureIndex = viewModel.categories.indexOf(item.amountMeasure)
+        val defaultMeasureIndex = viewModel.unitMeasures.indexOf(item.amountMeasure)
         binding.measureCategory.setSelection(defaultMeasureIndex)
     }
 
@@ -130,9 +130,12 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         // Load the image URI using Glide
         Glide.with(requireContext())
             .load(photoUrl)
-            .error(com.example.fridgeapp.R.drawable.dish) // Placeholder in case of error
+            .error(com.example.fridgeapp.R.drawable.new_food_option_2) // Placeholder in case of error
             .into(binding.imageView)
-        imageUriStr = photoUrl
+        if (photoUrl != null && photoUrl.toString() != "null"){
+            Log.d("EFIF", photoUrl)
+            imageUriStr = photoUrl
+        }
     }
 
     private fun setupCategorySpinner() {
@@ -222,6 +225,9 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val expiryDate = binding.productDaysToExpire.text.toString()
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
+
+//        Log.d("EFIF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
+//        Log.d("EFIF", viewModel.chosenFridgeItem.value!!.name.toString() + ", " + viewModel.chosenFridgeItem.value!!.quantity.toString() + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.buyingDate) + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.expiryDate) + ", " + viewModel.chosenFridgeItem.value!!.category.toString() + ", " + viewModel.chosenFridgeItem.value!!.amountMeasure.toString() + ", " )
 
         return productName != viewModel.chosenFridgeItem.value!!.name.toString()  ||
                 quantity != viewModel.chosenFridgeItem.value!!.quantity.toString() ||

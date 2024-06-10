@@ -24,7 +24,7 @@ abstract class FridgeDB : RoomDatabase() {
                 synchronized(this) {
                     instance = Room.databaseBuilder(
                         context.applicationContext, FridgeDB::class.java, "fridge_database"
-                    ).allowMainThreadQueries().build()
+                    ).build()
 
                     // Default items for foodDB
                     instance?.let { database ->

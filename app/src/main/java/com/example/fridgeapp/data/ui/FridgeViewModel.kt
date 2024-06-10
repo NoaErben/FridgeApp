@@ -23,8 +23,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -212,12 +214,10 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
         }
     }
 
-    fun getFoodItem(name: String): FoodItem? {
-        var item: FoodItem? = null
-        viewModelScope.launch {
-            item = foodRepository.getFoodItem(name)!!
+    suspend fun getFoodItem(name: String): FoodItem? {
+        return withContext(Dispatchers.IO) {
+            foodRepository.getFoodItem(name)
         }
-        return item
     }
 
     fun parseDate(dateStr: String): Long {
@@ -352,7 +352,7 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
         val uid = currentUser.value?.uid
         uid?.let {
-            if (!photoUri?.contains("firebase")!!) {
+            if (photoUri != null && !photoUri.contains("firebase")) {
                 Log.d("FVM", "doesnt contain FB")
                 uploadFridgeItemImage(uid, fridgeItem, photoUri, onComplete)
             } else {
