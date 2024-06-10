@@ -1,29 +1,29 @@
 package com.example.fridgeapp.data.model
 
-import androidx.room.ColumnInfo
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.google.firebase.database.IgnoreExtraProperties
 
-@Entity(tableName = "CartItem")
-data class CartItem (
-    @ColumnInfo(name = "item_name")
-    val name: String,
+@IgnoreExtraProperties
+class CartItem {
+    var name: String? = null
+    var category: String? = null
+    var quantity: Int = 0
+    var addedDate: Long = 0
+    var photoUrl: String? = null
 
-    @ColumnInfo(name = "amount")
-    val count: Int,
+    // Default constructor
+    constructor()
 
-    @ColumnInfo(name = "amount_measure")
-    val countMeasure: String,
-
-    @ColumnInfo(name = "image_url")
-    val photoUrl: String?, // Nullable in case there is no photo
-
-    @ColumnInfo(name = "category")
-    val category: String? = null,
-
-    @ColumnInfo(name = "remarks")
-    val remarks: String? = null
-) {
-    @PrimaryKey(autoGenerate = true)
-    var id: Int = 0
+    constructor(
+        name: String?,
+        category: String?,
+        quantity: Int,
+        addedDate: Long,
+        photoUrl: String?
+    ) {
+        this.name = name
+        this.category = category
+        this.quantity = quantity
+        this.addedDate = addedDate
+        this.photoUrl = photoUrl
+    }
 }

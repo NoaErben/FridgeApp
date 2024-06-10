@@ -5,23 +5,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
+import com.example.fridgeapp.databinding.FridgeShoppingListBinding
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.fridgeapp.R
+import com.example.fridgeapp.data.ShoppingListViewModel
+import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
+import com.example.fridgeapp.data.model.CartItem
+
 
 class FridgeShoppingListFragment : Fragment() {
-    private var _binding: FavoriteExpirationDatesBinding? = null
-    private val binding get() = _binding!!
+
+    private lateinit var viewModel: ShoppingListViewModel
+    private lateinit var binding: FridgeShoppingListBinding
+    private lateinit var adapter: CartItemAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View {
-        _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
+    ): View? {
+        binding = FridgeShoppingListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        viewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
+
+        adapter = CartItemAdapter(emptyList())
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView.adapter = adapter
+
+        viewModel.shoppingList.observe(viewLifecycleOwner, Observer { items ->
+            adapter = CartItemAdapter(items)
+            binding.recyclerView.adapter = adapter
+        })
+
+        binding.addProductExpiryBtn.setOnClickListener {
+            // Navigate to AddItemToShoppingListFragment
+            findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
+        }
     }
 }
