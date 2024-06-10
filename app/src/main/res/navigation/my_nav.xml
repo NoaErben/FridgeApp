@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/fridgeManagerFragment">
+    app:startDestination="@id/splashScreen">
 <!--    app:startDestination="">-->
 
 <!--    <fragment-->
@@ -206,5 +206,16 @@
             app:destination="@id/defaultExpirationDatesFragment"
             app:popUpTo="@id/fridgeManagerFragment"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.example.fridgeapp.data.ui.SplashScreenFragment"
+        android:label="SplashScreen" >
+        <action
+            android:id="@+id/action_splashScreen_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_splashScreen_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
     </fragment>
 </navigation>

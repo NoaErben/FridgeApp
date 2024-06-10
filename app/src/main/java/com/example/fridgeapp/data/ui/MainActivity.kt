@@ -10,7 +10,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.example.fridgeapp.data.MainActivityViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
