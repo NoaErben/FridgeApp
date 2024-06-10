@@ -91,7 +91,6 @@ class AddItemToFridgeFragment : Fragment() {
                 databaseReference.child(uid).child(productName).setValue(fridgeItem).addOnCompleteListener {
                     if (it.isSuccessful) {
                         uploadItemToFridge(uid, fridgeItem)
-                        //todo- problem
 //                        viewModel.addItem(fridgeItem)
                     } else {
                         hideProgressBar()

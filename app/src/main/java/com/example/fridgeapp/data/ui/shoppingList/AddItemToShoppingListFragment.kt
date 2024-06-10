@@ -18,7 +18,8 @@ import com.google.firebase.storage.StorageReference
 import android.app.Dialog
 import android.view.Window
 import androidx.navigation.fragment.findNavController
-
+import com.google.firebase.auth.FirebaseAuth
+import android.webkit.MimeTypeMap
 
 class AddItemToShoppingListFragment : Fragment() {
 
@@ -27,10 +28,11 @@ class AddItemToShoppingListFragment : Fragment() {
     private lateinit var itemCategorySpinner: Spinner
     private lateinit var itemImageView: ImageView
     private lateinit var addItemButton: Button
-    private lateinit var database: DatabaseReference
-    private lateinit var storage: StorageReference
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
     private var selectedImageUri: Uri? = null
     private lateinit var dialog: Dialog
+    private lateinit var auth: FirebaseAuth
 
     private val PICK_IMAGE_REQUEST = 1
 
@@ -44,15 +46,21 @@ class AddItemToShoppingListFragment : Fragment() {
         itemCategorySpinner = view.findViewById(R.id.product_category_spinner)
         itemImageView = view.findViewById(R.id.item_image)
         addItemButton = view.findViewById(R.id.add_item_button)
-        database = FirebaseDatabase.getInstance().reference
-        storage = FirebaseStorage.getInstance().reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("shoppingCartItems")
+        storageReference = FirebaseStorage.getInstance().reference
+        auth = FirebaseAuth.getInstance()
 
         itemImageView.setOnClickListener {
             openFileChooser()
         }
 
         addItemButton.setOnClickListener {
-            uploadImageAndSaveItem()
+            val uid = auth.currentUser?.uid
+            if (uid != null) {
+                uploadImageAndSaveItem(uid)
+            } else {
+                Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
+            }
         }
 
         return view
@@ -73,14 +81,18 @@ class AddItemToShoppingListFragment : Fragment() {
         }
     }
 
-    private fun uploadImageAndSaveItem() {
+    private fun uploadImageAndSaveItem(uid: String) {
         showProgressBar()
         if (selectedImageUri != null) {
-            val fileReference = storage.child("uploads/${System.currentTimeMillis()}.jpg")
+            val resolver = requireActivity().contentResolver
+            val mimeType = resolver.getType(selectedImageUri!!)
+            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+
+            val fileReference = storageReference.child("uploads/${uid}/${System.currentTimeMillis()}.$extension")
             fileReference.putFile(selectedImageUri!!)
                 .addOnSuccessListener {
                     fileReference.downloadUrl.addOnSuccessListener { uri ->
-                        saveItem(uri.toString())
+                        saveItem(uid, uri.toString())
                     }
                 }
                 .addOnFailureListener {
@@ -88,18 +100,18 @@ class AddItemToShoppingListFragment : Fragment() {
                     Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
                 }
         } else {
-            saveItem("")
+            saveItem(uid, "")
         }
     }
 
-    private fun saveItem(imageUrl: String) {
+    private fun saveItem(uid: String, imageUrl: String) {
         val itemName = itemNameEditText.text.toString()
         val itemQuantity = itemQuantityEditText.text.toString().toInt()
         val itemCategory = itemCategorySpinner.selectedItem.toString()
         val addedDate = System.currentTimeMillis()
-        val item = CartItem(itemName, itemCategory, itemQuantity, addedDate, imageUrl)
+        val cartItem = CartItem(itemName, itemCategory, itemQuantity, addedDate, imageUrl)
 
-        database.child("shoppingCartItems").push().setValue(item)
+        databaseReference.child(uid).child(itemName).setValue(cartItem)
             .addOnSuccessListener {
                 hideProgressBar()
                 Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
