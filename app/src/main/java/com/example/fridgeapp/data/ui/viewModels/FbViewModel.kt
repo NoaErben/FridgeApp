@@ -335,4 +335,21 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
         }
     }
 
+    fun checkItemExists(itemName: String, callback: (Boolean) -> Unit) {
+        val uid = currentUser.value?.uid
+        uid?.let {
+            fridgeDatabaseReference.child(it).child(itemName).get()
+                .addOnSuccessListener { dataSnapshot ->
+                    callback(dataSnapshot.exists())
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("FbViewModel", "Error checking item existence", exception)
+                    callback(false)
+                }
+        } ?: run {
+            callback(false)
+        }
+    }
+
+
 }

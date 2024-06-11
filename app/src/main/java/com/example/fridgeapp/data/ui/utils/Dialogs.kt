@@ -69,5 +69,20 @@ object Dialogs {
         dialog.show()
     }
 
+    fun showReplaceDiscardDialog(context: Context, onReplace: () -> Unit, onDiscard: () -> Unit) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle("Item Exists")
+            .setMessage("An item with this name already exists. Do you want to replace it or discard the changes?")
+            .setPositiveButton("Replace") { dialog, _ ->
+                onReplace()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Discard") { dialog, _ ->
+                onDiscard()
+                dialog.dismiss()
+            }
+        builder.create().show()
+    }
+
 
 }

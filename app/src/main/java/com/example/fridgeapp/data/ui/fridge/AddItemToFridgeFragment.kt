@@ -189,10 +189,11 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             }
             if (validateInput()) {
                 showProgressBar()
-                saveItemToDatabase()
+                checkItemExistsAndSave()
             }
         }
     }
+
 
     private fun saveItemToDatabase() {
         val productName =
@@ -362,6 +363,34 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 amountMeasure != defaultMeasure ||
                 currentImage != R.drawable.dish.toString()
     }
+
+    private fun checkItemExistsAndSave() {
+        val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+
+        fbViewModel.checkItemExists(productName) { exists ->
+            if (exists) {
+                showReplaceDiscardDialog {
+                    saveItemToDatabase()
+                }
+            } else {
+                saveItemToDatabase()
+            }
+        }
+    }
+
+    private fun showReplaceDiscardDialog(onReplace: () -> Unit) {
+        Dialogs.showReplaceDiscardDialog(
+            requireContext(),
+            onReplace = {
+                onReplace()
+            },
+            onDiscard = {
+                hideProgressBar()
+                findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
+            }
+        )
+    }
+
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
