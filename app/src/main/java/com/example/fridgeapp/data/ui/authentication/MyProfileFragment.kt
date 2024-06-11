@@ -21,7 +21,6 @@ class MyProfileFragment: Fragment() {
     private var _binding: AuthMyProfileBinding? = null
     private val binding
         get() = _binding!!
-    private val viewModel: FridgeViewModel by activityViewModels()
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private val fbViewModel: FbViewModel by activityViewModels()
@@ -45,7 +44,7 @@ class MyProfileFragment: Fragment() {
         auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
         binding.btnSignOut.setOnClickListener {
-            viewModel.signOut()
+            fbViewModel.signOut()
             findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
         }
 

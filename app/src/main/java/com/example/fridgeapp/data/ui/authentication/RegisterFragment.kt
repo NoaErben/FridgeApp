@@ -14,9 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.User
-import com.example.fridgeapp.data.ui.FridgeViewModel
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -29,7 +27,6 @@ class RegisterFragment : Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private lateinit var dialog: Dialog
-    private val viewModel: FridgeViewModel by activityViewModels()
 
     private val fbViewModel: FbViewModel by activityViewModels()
 
