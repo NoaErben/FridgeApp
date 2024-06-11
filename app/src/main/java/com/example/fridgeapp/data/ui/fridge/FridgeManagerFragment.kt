@@ -15,18 +15,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
-import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
 
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
-
     private val fbViewModel: FbViewModel by activityViewModels()
-
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     override fun onCreateView(
@@ -40,12 +38,18 @@ class FridgeManagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupRecyclerView()
+        setupAdapter()
+        observeViewModel()
+        setupNavigation()
+        setupSwipeActions()
+    }
 
-        // Set up RecyclerView
-        val recyclerView = binding.recyclerView
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    private fun setupRecyclerView() {
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-        // Set up Adapter
+    private fun setupAdapter() {
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(index)
@@ -54,65 +58,64 @@ class FridgeManagerFragment : Fragment() {
             }
 
             override fun onItemLongClick(index: Int) {
-                Toast.makeText(requireActivity(),
-                    getString(R.string.swipe_to_delete), Toast.LENGTH_SHORT).show()
+                showToast(getString(R.string.swipe_to_delete))
             }
         })
-        recyclerView.adapter = fridgeItemAdapter
+        binding.recyclerView.adapter = fridgeItemAdapter
+    }
 
-        // Observe LiveData from ViewModel
+    private fun observeViewModel() {
         fbViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
-            // Sort items by daysUntilExpiry
-            val sortedItems = items.sortedBy { item ->
-                val currentTime = System.currentTimeMillis()
-                item.expiryDate - currentTime
-            }
+            val sortedItems = items.sortedBy { it.timeUntilExpiry() }
             fridgeItemAdapter.updateItems(sortedItems)
         })
+    }
 
+    private fun setupNavigation() {
         binding.toolbar.setNavigationOnClickListener {
             showPopupMenu(it)
         }
 
-        // Navigation button click listeners
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeManagerFragment_to_addItemToFridgeFragment)
         }
+    }
 
-        // Add swipe-to-delete functionality using the provided format
-        ItemTouchHelper(object : ItemTouchHelper.Callback() {
+    private fun setupSwipeActions() {
+        ItemTouchHelper(createSwipeCallback()).attachToRecyclerView(binding.recyclerView)
+    }
 
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+    private fun createSwipeCallback() = object : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
 
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ) = false
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ) = false
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
-                Dialogs.showConfirmDeleteDialog(requireContext(),
-                    onConfirm = {
-                        fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
-                            result.onSuccess {
-                                showToast("Item deleted successfully")
-                            }.onFailure { exception ->
-                                showToast("Failed to delete item: ${exception.message}")
-                                (binding.recyclerView.adapter as FridgeItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
-                            }
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
+            Dialogs.showConfirmDeleteDialog(requireContext(),
+                onConfirm = {
+                    fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
+                        result.onSuccess {
+                            showToast("Item deleted successfully")
+                        }.onFailure { exception ->
+                            showToast("Failed to delete item: ${exception.message}")
+                            fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
-                    },
-                    onCancel = {
-                        (binding.recyclerView.adapter as FridgeItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
                     }
-                )
-            }
-        }).attachToRecyclerView(binding.recyclerView)
+                },
+                onCancel = {
+                    fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                }
+            )
+        }
     }
 
     private fun showPopupMenu(view: View) {
@@ -121,31 +124,25 @@ class FridgeManagerFragment : Fragment() {
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.create_household -> {
-                    Toast.makeText(context, "create household clicked", Toast.LENGTH_SHORT).show()
+                    showToast("create household clicked")
                     true
                 }
                 R.id.join_household -> {
-                    Toast.makeText(context, "join household clicked", Toast.LENGTH_SHORT).show()
+                    showToast("join household clicked")
                     true
                 }
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
-                    Toast.makeText(context, "shopping list clicked", Toast.LENGTH_SHORT).show()
+                    showToast("shopping list clicked")
                     true
                 }
                 R.id.Favorite_items -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
-                    Toast.makeText(context, "Favorite items clicked", Toast.LENGTH_SHORT).show()
+                    showToast("Favorite items clicked")
                     true
                 }
                 R.id.My_profile -> {
-                    if (fbViewModel.isUserLoggedIn()) {
-                        findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
-                        Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
-                    } else {
-                        findNavController().navigate(R.id.action_fridgeManagerFragment_to_loginFragment)
-                        Toast.makeText(context, "No user logged-in", Toast.LENGTH_SHORT).show()
-                    }
+                    handleProfileClick()
                     true
                 }
                 else -> false
@@ -154,8 +151,23 @@ class FridgeManagerFragment : Fragment() {
         popupMenu.show()
     }
 
+    private fun handleProfileClick() {
+        if (fbViewModel.isUserLoggedIn()) {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
+            showToast("My profile clicked")
+        } else {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_loginFragment)
+            showToast("No user logged-in")
+        }
+    }
+
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun FridgeItem.timeUntilExpiry(): Long {
+        val currentTime = System.currentTimeMillis()
+        return expiryDate - currentTime
     }
 
     override fun onDestroyView() {

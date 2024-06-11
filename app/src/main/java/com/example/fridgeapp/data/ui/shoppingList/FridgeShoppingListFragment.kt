@@ -16,20 +16,16 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.ui.fridge.FridgeItemAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
-import java.text.SimpleDateFormat
-import java.util.Locale
-
 
 class FridgeShoppingListFragment : Fragment() {
 
     private var _binding: FridgeShoppingListBinding? = null
     private val binding get() = _binding!!
-
     private val fbViewModel: FbViewModel by activityViewModels()
-
     private lateinit var cartItemAdapter: CartItemAdapter
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
@@ -42,27 +38,29 @@ class FridgeShoppingListFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        // Set up RecyclerView
-        val cartRecyclerView = binding.cartRecyclerView
-        cartRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        setupRecyclerViews()
+        setupAdapters()
+        observeViewModel()
+        setupNavigation()
+        setupSwipeActions()
+    }
 
-        val expireRecyclerView = binding.expireRecyclerView
-        expireRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    private fun setupRecyclerViews() {
+        binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.expireRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
 
-        // Set up Adapter
+    private fun setupAdapters() {
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
-//                val item = (binding.cartRecyclerView.adapter as FridgeItemAdapter).itemAt(index)
-//                Toast.makeText(requireActivity(),
-//                    item.name, Toast.LENGTH_SHORT).show()
+                // Implement item click action if needed
             }
 
             override fun onItemLongClick(index: Int) {
-                Toast.makeText(requireActivity(),
-                    "Swipe right to add to cart", Toast.LENGTH_SHORT).show()
+                showToast("Swipe right to add to cart")
             }
         })
-        expireRecyclerView.adapter = fridgeItemAdapter
+        binding.expireRecyclerView.adapter = fridgeItemAdapter
 
         cartItemAdapter = CartItemAdapter(emptyList(), object : CartItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
@@ -72,129 +70,134 @@ class FridgeShoppingListFragment : Fragment() {
             }
 
             override fun onItemLongClick(index: Int) {
-                Toast.makeText(requireActivity(),
-                    getString(R.string.swipe_to_delete), Toast.LENGTH_SHORT).show()
+                showToast(getString(R.string.swipe_to_delete))
             }
         })
-        cartRecyclerView.adapter = cartItemAdapter
+        binding.cartRecyclerView.adapter = cartItemAdapter
+    }
 
-        // Observe LiveData from ViewModel
+    private fun observeViewModel() {
         fbViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
-            // Sort items by daysUntilExpiry
             val sortedItems = items
-                .filter { item ->
-                    val currentTime = System.currentTimeMillis()
-                    val daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
-                    daysUntilExpiry <= 2
-                }
-                .sortedBy { item ->
-                    val currentTime = System.currentTimeMillis()
-                    item.expiryDate - currentTime
-                }
+                .filter { it.isExpiringSoon() }
+                .sortedBy { it.timeUntilExpiry() }
             fridgeItemAdapter.updateItems(sortedItems)
         })
 
         fbViewModel.cartItems.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
-            // Sort items by category
-            val sortedItems = items.sortedBy { item ->
-                item.category
-            }
+            val sortedItems = items.sortedBy { it.category }
             cartItemAdapter.updateItems(sortedItems)
         })
+    }
 
+    private fun setupNavigation() {
         binding.toolbar.setNavigationOnClickListener {
-//            showPopupMenu(it)
+            // Implement navigation if needed
         }
-
-        // Navigation button click listeners
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
         }
-
-        ItemTouchHelper(object : ItemTouchHelper.Callback() {
-
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ) = false
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = (binding.cartRecyclerView.adapter as CartItemAdapter).itemAt(viewHolder.adapterPosition)
-                Dialogs.showConfirmDeleteDialog(requireContext(),
-                    onConfirm = {
-                        fbViewModel.deleteItemFromCartDatabase(item) { result ->
-                            result.onSuccess {
-                                Toast.makeText(requireContext(), "Item deleted successfully", Toast.LENGTH_SHORT).show()
-                            }.onFailure { exception ->
-                                Toast.makeText(requireContext(), "Failed to delete item: ${exception.message}", Toast.LENGTH_SHORT).show()
-                                (binding.cartRecyclerView.adapter as CartItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
-                            }
-                        }
-                    },
-                    onCancel = {
-                        (binding.cartRecyclerView.adapter as CartItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
-                    }
-                )
-            }
-        }).attachToRecyclerView(binding.cartRecyclerView)
-
-        ItemTouchHelper(object : ItemTouchHelper.Callback() {
-
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT)
-
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ) = false
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val item = fridgeItemAdapter.itemAt(viewHolder.adapterPosition)
-                Dialogs.showInsertNumberDialog(requireContext(),
-                    onConfirm = { quantity ->
-                        fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
-                            result.onSuccess {
-                                Toast.makeText(requireContext(), "Item deleted successfully", Toast.LENGTH_SHORT).show()
-                            }.onFailure { exception ->
-                                Toast.makeText(requireContext(), "Failed to delete item: ${exception.message}", Toast.LENGTH_SHORT).show()
-                                (binding.cartRecyclerView.adapter as CartItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
-                            }
-                        }
-                        fbViewModel.saveCartItemToDatabase(
-                            item.name!!,
-                            quantity,
-                            item.category!!,
-                            item.amountMeasure!!,
-                            System.currentTimeMillis(),
-                            item.photoUrl!!,
-                            true,
-                            item.photoUrl!!.toUri(),
-                        ) { result ->
-                            result.onSuccess {
-                                Toast.makeText(requireContext(), "Item deleted successfully", Toast.LENGTH_SHORT).show()
-                            }.onFailure { exception ->
-                                Toast.makeText(requireContext(), "Failed to delete item: ${exception.message}", Toast.LENGTH_SHORT).show()
-                            }
-                        }
-                    },
-                    onCancel = {
-                        fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
-                    }
-                )
-            }
-        }).attachToRecyclerView(expireRecyclerView)
-
     }
 
+    private fun setupSwipeActions() {
+        ItemTouchHelper(createCartSwipeCallback()).attachToRecyclerView(binding.cartRecyclerView)
+        ItemTouchHelper(createFridgeSwipeCallback()).attachToRecyclerView(binding.expireRecyclerView)
+    }
+
+    private fun createCartSwipeCallback() = object : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ) = false
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val item = (binding.cartRecyclerView.adapter as CartItemAdapter).itemAt(viewHolder.adapterPosition)
+            Dialogs.showConfirmDeleteDialog(requireContext(),
+                onConfirm = {
+                    fbViewModel.deleteItemFromCartDatabase(item) { result ->
+                        result.onSuccess {
+                            showToast("Item deleted successfully")
+                        }.onFailure { exception ->
+                            showToast("Failed to delete item: ${exception.message}")
+                            cartItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                        }
+                    }
+                },
+                onCancel = {
+                    cartItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                }
+            )
+        }
+    }
+
+    private fun createFridgeSwipeCallback() = object : ItemTouchHelper.Callback() {
+        override fun getMovementFlags(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder
+        ) = makeFlag(ItemTouchHelper.ACTION_STATE_SWIPE, ItemTouchHelper.RIGHT)
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ) = false
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val item = fridgeItemAdapter.itemAt(viewHolder.adapterPosition)
+            Dialogs.showInsertNumberDialog(requireContext(),
+                onConfirm = { quantity ->
+                    fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
+                        result.onSuccess {
+                            showToast("Item deleted successfully")
+                        }.onFailure { exception ->
+                            showToast("Failed to delete item: ${exception.message}")
+                            fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                        }
+                    }
+                    fbViewModel.saveCartItemToDatabase(
+                        item.name!!,
+                        quantity,
+                        item.category!!,
+                        item.amountMeasure!!,
+                        System.currentTimeMillis(),
+                        item.photoUrl!!,
+                        true,
+                        item.photoUrl!!.toUri(),
+                    ) { result ->
+                        result.onSuccess {
+                            showToast("Item deleted successfully")
+                        }.onFailure { exception ->
+                            showToast("Failed to delete item: ${exception.message}")
+                        }
+                    }
+                },
+                onCancel = {
+                    fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                }
+            )
+        }
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireActivity(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun FridgeItem.timeUntilExpiry(): Long {
+        val currentTime = System.currentTimeMillis()
+        return expiryDate - currentTime
+    }
+
+    private fun FridgeItem.isExpiringSoon(): Boolean {
+        val currentTime = System.currentTimeMillis()
+        val daysUntilExpiry = (expiryDate - currentTime) / (1000 * 60 * 60 * 24)
+        return daysUntilExpiry <= 2
+    }
 }
