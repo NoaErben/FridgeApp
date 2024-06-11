@@ -7,6 +7,7 @@ class CartItem {
     var name: String? = null
     var category: String? = null
     var quantity: Int = 0
+    var amountMeasure: String? = null
     var addedDate: Long = 0
     var photoUrl: String? = null
 
@@ -17,12 +18,14 @@ class CartItem {
         name: String?,
         category: String?,
         quantity: Int,
+        amountMeasure: String?,
         addedDate: Long,
         photoUrl: String?
     ) {
         this.name = name
         this.category = category
         this.quantity = quantity
+        this.amountMeasure = amountMeasure
         this.addedDate = addedDate
         this.photoUrl = photoUrl
     }

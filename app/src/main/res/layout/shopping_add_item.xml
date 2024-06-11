@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title TextView -->
+    <TextView
+        android:id="@+id/dialog_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/fridgeColor"
+        android:fontFamily="@font/amaranth"
+        android:gravity="center"
+        android:text="Add item\nto shpping list"
+        android:textColor="@color/white"
+        android:textSize="42sp"
+        android:textStyle="bold" />
+
+    <!-- Container for ImageView and Add item Button -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <!-- ImageView for the image -->
+
+        <!-- TextInputLayouts -->
+        <ImageView
+            android:id="@+id/item_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:src="@drawable/add_photo_svgrepo_com" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/name_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/name_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_marginEnd="5dp"
+                    android:layout_marginBottom="3dp"
+                    android:fontFamily="@font/amaranth"
+                    android:gravity="center"
+                    android:text="Product: "
+                    android:textColor="@color/black"
+                    android:textSize="22sp" />
+
+                <Spinner
+                    android:id="@+id/product_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/rounded_frame"
+                    android:dropDownHorizontalOffset="8dp"
+                    android:dropDownVerticalOffset="8dp"
+                    android:fontFamily="@font/amaranth"
+                    android:padding="8dp" />
+
+            </LinearLayout>
+
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/quantity"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/bag_svgrepo_com"
+                    android:fontFamily="@font/amaranth"
+                    android:hint=" Quantity"
+                    android:inputType="number" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/measure_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/measure_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/amaranth"
+            android:gravity="center"
+            android:text="Measure:"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <Spinner
+            android:id="@+id/measure_category"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_frame"
+            android:dropDownHorizontalOffset="8dp"
+            android:dropDownVerticalOffset="8dp"
+            android:fontFamily="@font/amaranth"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/expire_date_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/category_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp"
+            android:layout_marginEnd="29dp"
+            android:layout_marginBottom="3dp"
+            android:fontFamily="@font/amaranth"
+            android:gravity="center"
+            android:text="@string/category"
+            android:textColor="@color/black"
+            android:textSize="22sp" />
+
+        <Spinner
+            android:id="@+id/product_category"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_frame"
+            android:dropDownHorizontalOffset="8dp"
+            android:dropDownVerticalOffset="8dp"
+            android:fontFamily="@font/amaranth"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/add_item_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/fridgeColor"
+        android:fontFamily="@font/amaranth"
+        android:foregroundGravity="center_horizontal"
+        android:text="Add" />
+
+</LinearLayout>

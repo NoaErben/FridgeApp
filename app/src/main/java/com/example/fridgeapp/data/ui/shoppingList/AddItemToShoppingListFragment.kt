@@ -1,148 +1,250 @@
 package com.example.fridgeapp.data.ui.shoppingList
 
-import android.app.Activity
+import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.webkit.MimeTypeMap
 import android.widget.*
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.model.CartItem
-import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
+import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
+import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
+import com.example.fridgeapp.databinding.ShoppingAddItemBinding
+import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Locale
 
-class AddItemToShoppingListFragment : Fragment() {
+class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-    private lateinit var itemNameEditText: EditText
-    private lateinit var itemQuantityEditText: EditText
-    private lateinit var itemCategorySpinner: Spinner
-    private lateinit var itemImageView: ImageView
-    private lateinit var addItemButton: Button
-    private lateinit var databaseReference: DatabaseReference
-    private lateinit var storageReference: StorageReference
-    private var selectedImageUri: Uri? = null
+    private var _binding: ShoppingAddItemBinding? = null
+    private val binding get() = _binding!!
+
+    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val fbViewModel: FbViewModel by activityViewModels()
+
     private lateinit var dialog: Dialog
-    private lateinit var auth: FirebaseAuth
-    private lateinit var fridgeViewModel: FridgeLiveDataViewModel
+    private var imageUri: Uri? = null
+    private var currentImage: String? = null
+    private var isBuyingDate: Boolean = false
 
-    private val PICK_IMAGE_REQUEST = 1
+
+    private val pickLauncher: ActivityResultLauncher<Array<String>> =
+        registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+            uri?.let {
+                handleImageSelection(it)
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.add_item_to_shopping_list, container, false)
-        itemNameEditText = view.findViewById(R.id.product_name)
-        itemQuantityEditText = view.findViewById(R.id.quantity)
-        itemCategorySpinner = view.findViewById(R.id.product_category_spinner)
-        itemImageView = view.findViewById(R.id.item_image)
-        addItemButton = view.findViewById(R.id.add_item_button)
-        databaseReference = FirebaseDatabase.getInstance().getReference("shoppingCartItems")
-        storageReference = FirebaseStorage.getInstance().reference
-        auth = FirebaseAuth.getInstance()
-
-        fridgeViewModel = ViewModelProvider(requireActivity()).get(FridgeLiveDataViewModel::class.java)
-
-        itemImageView.setOnClickListener {
-            openFileChooser()
-        }
-
-        addItemButton.setOnClickListener {
-            val uid = auth.currentUser?.uid
-            if (uid != null) {
-                uploadImageAndSaveItem(uid)
-            } else {
-                Toast.makeText(requireContext(), "User not authenticated", Toast.LENGTH_SHORT).show()
-            }
-        }
-
-        observeCategories()
-
-        return view
+        _binding = ShoppingAddItemBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
-    private fun observeCategories() {
-        fridgeViewModel.categories.observe(viewLifecycleOwner, Observer { categories ->
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, categories)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            itemCategorySpinner.adapter = adapter
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupCategorySpinner()
+        setupMeasureSpinner()
+        setupAddItemButton()
+        setupImagePicker()
+        handleBackPressed()
+
+        // Observe the LiveData
+        roomViewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
+            setupNameSpinner()
         })
     }
 
-    private fun openFileChooser() {
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_GET_CONTENT
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    private fun setupCategorySpinner() {
+        val categories = roomViewModel.categories
+        val adapter = CustomArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_item, categories,
+            R.font.amaranth
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.productCategory.adapter = adapter
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            selectedImageUri = data.data
-            // Apply circular crop when setting the image URI
-            Glide.with(itemImageView.context)
-                .load(selectedImageUri)
-                .circleCrop()
-                .into(itemImageView)
+    private fun setupMeasureSpinner() {
+        val categories = roomViewModel.unitMeasures
+        val adapter = CustomArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_item, categories,
+            R.font.amaranth
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.measureCategory.adapter = adapter
+    }
+
+    private fun setupNameSpinner() {
+        var foodItemsNames = roomViewModel.foodItemsNames?.value?.toMutableList()
+        if (foodItemsNames != null) {
+            foodItemsNames.add(0, "")
+            foodItemsNames.add("Other")
+        } else {
+            foodItemsNames = arrayOf("Other").toMutableList()
         }
-    }
 
-    private fun uploadImageAndSaveItem(uid: String) {
-        showProgressBar()
-        if (selectedImageUri != null) {
-            val resolver = requireActivity().contentResolver
-            val mimeType = resolver.getType(selectedImageUri!!)
-            val extension = MimeTypeMap.getSingleton().getExtensionFromMimeType(mimeType) ?: "jpg"
+        val adapter = CustomArrayAdapter(
+            requireContext(), android.R.layout.simple_spinner_item, foodItemsNames,
+            R.font.amaranth
+        )
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.productName.adapter = adapter
 
-            val fileReference = storageReference.child("uploads/${uid}/${System.currentTimeMillis()}.$extension")
-            fileReference.putFile(selectedImageUri!!)
-                .addOnSuccessListener {
-                    fileReference.downloadUrl.addOnSuccessListener { uri ->
-                        saveItem(uid, uri.toString())
+        binding.productName.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val selectedName = foodItemsNames[position]
+                when (selectedName) {
+                    "" -> {
+                        Glide.with(requireContext())
+                            .load(R.drawable.dish)
+                            .into(binding.itemImage)
+                        currentImage = R.drawable.dish.toString()
+                    }
+                    "Other" -> {
+                        Dialogs.showCustomProductNameDialog(requireContext(), binding.productName, binding.productName.adapter as ArrayAdapter<String>)
+                    }
+                    else -> {
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            val foodItem = roomViewModel.getFoodItem(selectedName)
+                            foodItem?.let {
+                                binding.productCategory.setSelection(roomViewModel.categories.indexOf(it.category ?: roomViewModel.categories[0]))
+                                // Load image with Glide
+                                Glide.with(requireContext())
+                                    .load(it.photoUrl)
+                                    .placeholder(R.drawable.dish) // Placeholder while loading
+                                    .error(R.drawable.dish) // Placeholder in case of error
+                                    .into(binding.itemImage)
+                                imageUri = it.photoUrl?.toUri()
+                                currentImage = it.photoUrl
+                            }
+                        }
                     }
                 }
-                .addOnFailureListener {
-                    hideProgressBar()
-                    Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
-                }
-        } else {
-            saveItem(uid, "")
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Do nothing
+            }
         }
     }
 
-    private fun saveItem(uid: String, imageUrl: String) {
-        val itemName = itemNameEditText.text.toString()
-        val itemQuantity = itemQuantityEditText.text.toString().toInt()
-        val itemCategory = itemCategorySpinner.selectedItem.toString()
-        val addedDate = System.currentTimeMillis()
-        val cartItem = CartItem(itemName, itemCategory, itemQuantity, addedDate, imageUrl)
 
-        databaseReference.child(uid).child(itemName).setValue(cartItem)
-            .addOnSuccessListener {
+    private fun setupAddItemButton() {
+        binding.addItemButton.setOnClickListener {
+            if (!fbViewModel.isUserLoggedIn()){
+                showToast(getString(R.string.please_login_to_add_items))
+            }
+            if (validateInput()) {
+                showProgressBar()
+                checkItemExistsAndSave()
+            }
+        }
+    }
+
+
+    private fun saveItemToDatabase() {
+        val productName =
+            binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+        val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
+        val productCategory = binding.productCategory.selectedItem.toString()
+        val amountMeasure = binding.measureCategory.selectedItem.toString()
+        val photoUrl = imageUri.toString()
+        val imageChanged =
+            !(currentImage != null && currentImage!!.contains("firebase")) && currentImage != R.drawable.dish.toString()
+        val addedDate = System.currentTimeMillis()
+
+        fbViewModel.saveCartItemToDatabase(
+            productName,
+            quantity,
+            productCategory,
+            amountMeasure,
+            addedDate,
+            photoUrl,
+            imageChanged,
+            imageUri,
+        ) { result ->
+            result.onSuccess {
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Item added successfully", Toast.LENGTH_SHORT).show()
-                // Navigate to the shopping list fragment
+                showToast("Added successfully")
                 findNavController().navigate(R.id.action_addItemToShoppingList_to_fridgeShoppingListFragment)
-            }
-            .addOnFailureListener {
+            }.onFailure { exception ->
                 hideProgressBar()
-                Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()
+                showToast("Failed to add item: ${exception.message}")
             }
+        }
+    }
+
+    private fun validateInput(): Boolean {
+        val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+        val quantity = binding.quantity.text.toString()
+
+        return when {
+            productName.length < 2 -> {
+                showToast(getString(R.string.please_enter_a_valid_product_name))
+                false
+            }
+
+            quantity.isBlank() -> {
+                showToast(getString(R.string.please_enter_a_valid_quantity))
+                false
+            }
+
+            else -> true
+        }
+    }
+
+    private fun setupImagePicker() {
+        binding.itemImage.setOnClickListener {
+            pickLauncher.launch(arrayOf("image/*"))
+        }
+    }
+
+    private fun handleImageSelection(uri: Uri) {
+        // Load the image URI using Glide
+        Glide.with(requireContext())
+            .load(uri)
+            .placeholder(R.drawable.dish) // Placeholder while loading
+            .error(R.drawable.dish) // Placeholder in case of error
+            .into(binding.itemImage)
+        requireActivity().contentResolver.takePersistableUriPermission(
+            uri,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
+        imageUri = uri
+        currentImage = uri.toString()
+        Log.d("ImagePicker", "Image selected: $imageUri")
+    }
+
+    override fun onDateSet(view: DatePicker, year: Int, month: Int, dayOfMonth: Int) {
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, dayOfMonth)
+        val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
     }
 
     private fun showProgressBar() {
@@ -155,5 +257,79 @@ class AddItemToShoppingListFragment : Fragment() {
 
     private fun hideProgressBar() {
         dialog.dismiss()
+    }
+
+    private fun handleBackPressed() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (hasUnsavedChanges()) {
+                    showConfirmDiscardChangesDialog()
+                } else {
+                    findNavController().popBackStack()
+                }
+            }
+        })
+    }
+
+    private fun showConfirmDiscardChangesDialog() {
+        Dialogs.showConfirmDiscardChangesDialog(
+            requireContext(),
+            onConfirm = { findNavController().popBackStack() },
+            onCancel = { /* Do nothing */ }
+        )
+    }
+
+    private fun hasUnsavedChanges(): Boolean {
+        val defaultCategory = roomViewModel.categories[0]
+        val defaultMeasure = roomViewModel.unitMeasures[0]
+
+        val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+        val quantity = binding.quantity.text.toString()
+        val productCategory = binding.productCategory.selectedItem.toString()
+        val amountMeasure = binding.measureCategory.selectedItem.toString()
+//        Log.d("AITF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
+
+        return productName.isNotEmpty() ||
+                quantity.isNotEmpty() ||
+                productCategory != defaultCategory ||
+                amountMeasure != defaultMeasure ||
+                currentImage != R.drawable.dish.toString()
+    }
+
+    private fun checkItemExistsAndSave() {
+        val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
+
+        fbViewModel.checkCartItemExists(productName) { exists ->
+            if (exists) {
+                showReplaceDiscardDialog {
+                    saveItemToDatabase()
+                }
+            } else {
+                saveItemToDatabase()
+            }
+        }
+    }
+
+    private fun showReplaceDiscardDialog(onReplace: () -> Unit) {
+        Dialogs.showReplaceDiscardDialog(
+            requireContext(),
+            onReplace = {
+                onReplace()
+            },
+            onDiscard = {
+                hideProgressBar()
+                findNavController().navigate(R.id.action_addItemToShoppingList_to_fridgeShoppingListFragment)
+            }
+        )
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

@@ -12,8 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ShoppingListViewModel
-import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
-import com.example.fridgeapp.data.model.CartItem
 
 
 class FridgeShoppingListFragment : Fragment() {

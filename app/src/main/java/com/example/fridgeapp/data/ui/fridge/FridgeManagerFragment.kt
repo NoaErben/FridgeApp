@@ -14,7 +14,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
@@ -28,8 +27,6 @@ class FridgeManagerFragment : Fragment() {
 
     private val roomViewModel: RoomViewModel by activityViewModels()
     private val fbViewModel: FbViewModel by activityViewModels()
-    private val NewViewModel: FridgeLiveDataViewModel by activityViewModels()
-    // TODO: merge VM?
 
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
@@ -65,7 +62,7 @@ class FridgeManagerFragment : Fragment() {
         recyclerView.adapter = fridgeItemAdapter
 
         // Observe LiveData from ViewModel
-        NewViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        fbViewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
             // Sort items by daysUntilExpiry
             val sortedItems = items.sortedBy { item ->
@@ -143,7 +140,7 @@ class FridgeManagerFragment : Fragment() {
                     true
                 }
                 R.id.My_profile -> {
-                    if (NewViewModel.isUserLoggedIn()) {
+                    if (fbViewModel.isUserLoggedIn()) {
                         findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
                         Toast.makeText(context, "My profile clicked", Toast.LENGTH_SHORT).show()
                     } else {
