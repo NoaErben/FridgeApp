@@ -45,6 +45,17 @@
 <!--        tools:layout="@layout/detail_item_layout" />-->
 
     <fragment
+        android:id="@+id/splashScreen"
+        android:name="com.example.fridgeapp.data.ui.SplashScreenFragment"
+        android:label="SplashScreen">
+        <action
+            android:id="@+id/action_splashScreen_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+        <action
+            android:id="@+id/action_splashScreen_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/fridgeManagerFragment"
         android:name="com.example.fridgeapp.data.ui.fridge.FridgeManagerFragment"
         android:label="FridgeManagerFragment" >
@@ -206,16 +217,5 @@
             app:destination="@id/defaultExpirationDatesFragment"
             app:popUpTo="@id/fridgeManagerFragment"
             app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/splashScreen"
-        android:name="com.example.fridgeapp.data.ui.SplashScreenFragment"
-        android:label="SplashScreen" >
-        <action
-            android:id="@+id/action_splashScreen_to_loginFragment"
-            app:destination="@id/loginFragment" />
-        <action
-            android:id="@+id/action_splashScreen_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
     </fragment>
 </navigation>
