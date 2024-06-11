@@ -238,6 +238,11 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
+                            <entry key="action_fridgeManagerFragment_to_loginFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_fridgeManagerFragment_to_myProfileFragment">
                               <value>
                                 <LayoutPositions />
@@ -379,6 +384,18 @@
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="splashScreen">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-364" />
+                            <option name="y" value="-1670" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

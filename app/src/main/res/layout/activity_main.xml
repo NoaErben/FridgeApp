@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".data.ui.MainActivity">
 
+
     <androidx.fragment.app.FragmentContainerView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -19,5 +20,9 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/my_nav"/>
 
+    <FrameLayout
+        android:id="@+id/fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
