@@ -43,6 +43,12 @@ class MyProfileFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
         auth = FirebaseAuth.getInstance()
         databaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
+        // Handle arrow back button click
+        binding.arrowBack.setOnClickListener {
+            findNavController().navigate(R.id.action_myProfileFragment_to_fridgeManagerFragment)
+        }
+
         binding.btnSignOut.setOnClickListener {
             fbViewModel.signOut()
             findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
