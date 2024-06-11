@@ -1,103 +1,88 @@
 package com.example.fridgeapp.data.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.activity.enableEdgeToEdge
+import android.util.Log
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.PopupMenu
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.example.fridgeapp.R
-import com.example.fridgeapp.data.local_db.FridgeDB
+import androidx.core.content.ContextCompat
 import com.example.fridgeapp.databinding.ActivityMainBinding
-import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
+    private val viewModel : MainActivityViewModel by viewModels()
     private lateinit var fridgeViewModel: FridgeViewModel
+
+    private val locationRequestLauncher : ActivityResultLauncher<String>
+            = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+
+        if(it) {
+            startLocationService()
+        }
+    }
+
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        enableEdgeToEdge()
+//        enableEdgeToEdge()
+//
+//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+//            insets
+//        }
+//
+//        FirebaseApp.initializeApp(this)
+//
+//        /*setSupportActionBar(binding.toolbar)
+//
+//        binding.toolbar.setNavigationOnClickListener {
+//            showPopupMenu(it)
+//        }
+//
+//         */
+//
+//        // Initialize the database
+//        FridgeDB.getDatabase(this)
+//
+//        // Initialize ViewModel
+//        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+//            FridgeViewModel::class.java)
+//
+//        // Show food db context for example
+//        fridgeViewModel.foodItemsNames?.observe(this, Observer<List<String>> { foodNames ->
+//            // Update UI with the new food names
+//            val concatenatedNames = fridgeViewModel.getConcatenatedString()
+//            // For example, you can update a TextView with the concatenated string
+//            //binding.textv.setText("From Db: " + concatenatedNames)
+//        })
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+        if(ContextCompat.checkSelfPermission(
+                this,Manifest.permission.ACCESS_FINE_LOCATION)
+            == PackageManager.PERMISSION_GRANTED) {
+            startLocationService()
         }
-
-        FirebaseApp.initializeApp(this)
-
-        /*setSupportActionBar(binding.toolbar)
-
-        binding.toolbar.setNavigationOnClickListener {
-            showPopupMenu(it)
-        }
-
-         */
-
-        // Initialize the database
-        FridgeDB.getDatabase(this)
-
-        // Initialize ViewModel
-        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
-            FridgeViewModel::class.java)
-
-        // Show food db context for example
-        fridgeViewModel.foodItemsNames?.observe(this, Observer<List<String>> { foodNames ->
-            // Update UI with the new food names
-            val concatenatedNames = fridgeViewModel.getConcatenatedString()
-            // For example, you can update a TextView with the concatenated string
-            //binding.textv.setText("From Db: " + concatenatedNames)
-        })
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.create_household -> {
-                // Handle create household action
-                true
-            }
-            R.id.join_household -> {
-                // Handle join household action
-                true
-            }
-            R.id.shopping_list -> {
-                // Handle shopping list action
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
+        else {
+            locationRequestLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
         }
     }
 
-    private fun showPopupMenu(view: View) {
-        val popupMenu = PopupMenu(this, view)
-        popupMenu.inflate(R.menu.popup_menu)
-        popupMenu.setOnMenuItemClickListener { item ->
-            when (item.itemId) {
-                R.id.create_household -> {
-                    // Handle create household action
-                    true
-                }
-                R.id.join_household -> {
-                    // Handle join household action
-                    true
-                }
-                R.id.shopping_list -> {
-                    // Handle shopping list action
-                    true
-                }
-                else -> false
-            }
+    private fun startLocationService() {
+        Log.d("", "hereeee")
+        viewModel.address.observe(this) { address ->
+            Toast.makeText(this, "Your address is $address", Toast.LENGTH_SHORT).show()
         }
-        popupMenu.show()
     }
 
     override fun onDestroy() {
