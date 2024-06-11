@@ -15,6 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.databinding.SplashScreenBinding
 import android.util.Log
+import android.Manifest
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
@@ -23,6 +30,7 @@ class SplashScreenFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +45,15 @@ class SplashScreenFragment : Fragment() {
 
         // Initialize SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+        // Register for location permission result
+        locationRequestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startLocationService()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         // Load animations
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
@@ -77,16 +94,35 @@ class SplashScreenFragment : Fragment() {
             // Navigate to the next fragment after the animations are complete
             Handler(Looper.getMainLooper()).postDelayed({
                 if (findNavController().currentDestination?.id == R.id.splashScreen) {
-                    if (isFirstTime()) {
-                        Log.d("SplashScreenFragment", "First time user, navigating to login")
-                        findNavController().navigate(R.id.action_splashScreen_to_loginFragment)
-                        setFirstTimeFlag(false)
-                    } else {
-                        Log.d("SplashScreenFragment", "Returning user, navigating to fridge manager")
-                        findNavController().navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
-                    }
+                    checkLocationPermission()
                 }
             }, 4000) // Adjust the delay to fit your needs
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationService()
+        } else {
+            locationRequestLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        navigateNext()
+    }
+
+    private fun startLocationService() {
+        Log.d("SplashScreenFragment", "Starting location service")
+        // Handle location service start logic here
+    }
+
+    private fun navigateNext() {
+        val navController = findNavController()
+        if (isFirstTime()) {
+            Log.d("SplashScreenFragment", "First time user, navigating to login")
+            navController.navigate(R.id.action_splashScreen_to_loginFragment)
+            setFirstTimeFlag(false)
+        } else {
+            Log.d("SplashScreenFragment", "Returning user, navigating to fridge manager")
+            navController.navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
         }
     }
 

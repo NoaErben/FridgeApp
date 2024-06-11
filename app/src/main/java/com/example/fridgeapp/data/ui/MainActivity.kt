@@ -25,12 +25,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var fbViewModel: FbViewModel
     private val mainViewModel: MainActivityViewModel by viewModels()
 
-    private val locationRequestLauncher: ActivityResultLauncher<String> = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
-        if (it) {
-            startLocationService()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
@@ -43,26 +37,11 @@ class MainActivity : AppCompatActivity() {
         roomViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(RoomViewModel::class.java)
         fbViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FbViewModel::class.java)
 
-        // Check for location permissions
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            startLocationService()
-        } else {
-            locationRequestLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-
         // Set up the navigation controller
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
 
-        // Remove immediate navigation logic
         // Navigation will be handled in the SplashScreenFragment
-    }
-
-    private fun startLocationService() {
-        Log.d("", "hereeee")
-        mainViewModel.address.observe(this) { address ->
-            Toast.makeText(this, "Your address is $address", Toast.LENGTH_SHORT).show()
-        }
     }
 
     override fun onDestroy() {
