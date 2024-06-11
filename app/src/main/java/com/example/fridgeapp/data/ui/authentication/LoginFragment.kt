@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 
 class LoginFragment : Fragment() {
@@ -17,7 +18,7 @@ class LoginFragment : Fragment() {
     private var _binding: AuthLoginFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FridgeViewModel by activityViewModels()
+    private val fbViewModel: FbViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,7 +36,7 @@ class LoginFragment : Fragment() {
             val email = binding.etEmailAddress.text.toString()
             val password = binding.etPassword.text.toString()
 
-            viewModel.signIn(email, password, onSuccess = {
+            fbViewModel.signIn(email, password, onSuccess = {
                 // Sign in success, navigate to the next screen or perform any other action
                 Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
@@ -71,7 +72,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendPasswordResetEmail(email: String) {
-        viewModel.sendPasswordResetEmail(email, {
+        fbViewModel.sendPasswordResetEmail(email, {
             Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
         }, { exception ->
             val errorMessage = exception.message ?: "Error sending password reset email"

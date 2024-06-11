@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteAddItemBinding
@@ -24,8 +24,10 @@ class AddItemToFavoriteFragment : Fragment() {
 
     private var _binding: FavoriteAddItemBinding? = null
     private val binding get() = _binding!!
+    private val roomViewModel: RoomViewModel by activityViewModels()
+
     private var imageUri: Uri? = null
-    private val viewModel: FridgeViewModel by activityViewModels()
+
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let { handleImagePicked(it) }
@@ -52,7 +54,7 @@ class AddItemToFavoriteFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = viewModel.categories
+        val categories = roomViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -111,7 +113,7 @@ class AddItemToFavoriteFragment : Fragment() {
         val foodItem = FoodItem(
             name = name, photoUrl = photoUrl, category = category, daysToExpire = daysToExpire
         )
-        viewModel.insertFoodItem(foodItem)
+        roomViewModel.insertFoodItem(foodItem)
     }
 
     private fun navigateToExpirationDates() {

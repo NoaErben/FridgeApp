@@ -1,8 +1,6 @@
-package com.example.fridgeapp.data.ui
+package com.example.fridgeapp.data.ui.viewModels
 
-import FoodRepository
 import android.app.Application
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.drawable.Drawable
@@ -23,17 +21,13 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kotlinx.coroutines.withContext
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-class FridgeViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val foodRepository = FoodRepository(application)
+class FbViewModel (application: Application) : AndroidViewModel(application){
 
     private val fridgeDatabaseReference =
         FirebaseDatabase.getInstance().getReference("itemsInFridge")
@@ -42,28 +36,16 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
-    private val _chosenFoodItem = MutableLiveData<FoodItem>()
     private val _chosenCartItem = MutableLiveData<CartItem>()
-    private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
-    private val _unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
-    val foodItems: LiveData<List<FoodItem>>? = foodRepository.getAllFoodItems()
-    val foodItemsNames: LiveData<List<String>>? = foodRepository.getFoodsNameList()
-    val categories get() = _categories
-    val unitMeasures get() = _unitMeasures
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
-    val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
     val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
 
     // ################## VM functions ##################
     init {
         // Check if the user is already logged in
         _currentUser.value = auth.currentUser
-    }
-
-    fun setFoodChosenItem(foodItem: FoodItem) {
-        _chosenFoodItem.value = foodItem
     }
 
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
@@ -82,7 +64,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
             System.currentTimeMillis()
         }
     }
-
 
     // ################## FB authentication functions ##################
 
@@ -351,60 +332,6 @@ class FridgeViewModel(application: Application) : AndroidViewModel(application) 
                 }
         } ?: run {
             onComplete(Result.failure(Exception("User not logged in")))
-        }
-    }
-
-
-    // ################## Room functions ##################
-
-    fun insertFoodItem(foodItem: FoodItem) {
-        viewModelScope.launch {
-            foodRepository.insert(foodItem)
-        }
-    }
-
-    fun deleteFoodItem(foodItem: FoodItem) {
-        viewModelScope.launch {
-            foodRepository.delete(foodItem)
-            Log.d("FridgeViewModel", "Food item deleted from repository")
-        }
-    }
-
-    fun deleteAllFoodItems() {
-        // TODO: Add this option
-        viewModelScope.launch {
-            foodRepository.deleteAllFoodTable()
-        }
-    }
-
-    fun updateFoodName(id: Int, name: String) {
-        viewModelScope.launch {
-            foodRepository.updateName(id, name)
-        }
-    }
-
-    fun updateFoodCategory(id: Int, newCategory: String) {
-        viewModelScope.launch {
-            foodRepository.updateCategory(id, newCategory)
-        }
-
-    }
-
-    fun updateFoodPhotoUrl(id: Int, photoUrl: String?) {
-        viewModelScope.launch {
-            foodRepository.updatePhotoUrl(id, photoUrl)
-        }
-    }
-
-    fun updateFoodDaysToExpire(id: Int, daysToExpire: Int) {
-        viewModelScope.launch {
-            foodRepository.updateDaysToExpire(id, daysToExpire)
-        }
-    }
-
-    suspend fun getFoodItem(name: String): FoodItem? {
-        return withContext(Dispatchers.IO) {
-            foodRepository.getFoodItem(name)
         }
     }
 

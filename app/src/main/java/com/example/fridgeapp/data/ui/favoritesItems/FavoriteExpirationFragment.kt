@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
@@ -22,7 +22,7 @@ class FavoriteExpirationFragment : Fragment() {
     private var _binding: FavoriteExpirationDatesBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FridgeViewModel by activityViewModels()
+    private val roomViewModel: RoomViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -40,7 +40,7 @@ class FavoriteExpirationFragment : Fragment() {
         val adapter = FavoriteItemAdapter(emptyList(), object : FavoriteItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(index)
-                viewModel.setFoodChosenItem(item)
+                roomViewModel.setFoodChosenItem(item)
                 findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_editItemFavoriteFragment)
             }
 
@@ -53,7 +53,7 @@ class FavoriteExpirationFragment : Fragment() {
         binding.productRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productRecyclerView.adapter = adapter
 
-        viewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
+        roomViewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
             adapter.setItems(foodItems)
         })
 
@@ -75,7 +75,7 @@ class FavoriteExpirationFragment : Fragment() {
                 val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(viewHolder.adapterPosition)
                 Dialogs.showConfirmDeleteDialog(requireContext(),
                     onConfirm = {
-                        viewModel.deleteFoodItem(item)
+                        roomViewModel.deleteFoodItem(item)
                     },
                     onCancel = {
                         (binding.productRecyclerView.adapter as FavoriteItemAdapter).notifyItemChanged(viewHolder.adapterPosition)

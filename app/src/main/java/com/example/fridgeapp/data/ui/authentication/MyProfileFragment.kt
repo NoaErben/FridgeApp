@@ -9,7 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
 
 class MyProfileFragment: Fragment() {
@@ -17,8 +18,7 @@ class MyProfileFragment: Fragment() {
     private var _binding: AuthMyProfileBinding? = null
     private val binding
         get() = _binding!!
-    private val viewModel: FridgeViewModel by activityViewModels()
-
+    private val fbViewModel: FbViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +27,7 @@ class MyProfileFragment: Fragment() {
         _binding = AuthMyProfileBinding.inflate(inflater, container, false)
 
         binding.btnSignOut.setOnClickListener{
-            viewModel.signOut()
+            fbViewModel.signOut()
             findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
         }
 
@@ -37,7 +37,7 @@ class MyProfileFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.currentUser.observe(viewLifecycleOwner) { user ->
+        fbViewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
                 // User is logged in, navigate to the next screen or update the UI
                 binding.tvEmail.text = "E-mail: " + user.email.toString()

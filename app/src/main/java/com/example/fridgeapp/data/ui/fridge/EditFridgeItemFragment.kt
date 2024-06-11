@@ -22,9 +22,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.EditItemInFridgeBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -36,13 +37,13 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var _binding: EditItemInFridgeBinding? = null
     private val binding get() = _binding!!
 
+    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val fbViewModel: FbViewModel by activityViewModels()
+
     private var imageUri: Uri? = null
     private var imageUriStr: String? = null
-    private val viewModel: FridgeViewModel by activityViewModels()
-
     private var imageChanged = false
     private var isBuyingDate: Boolean = false
-
     private lateinit var dialog: Dialog
 
 
@@ -88,7 +89,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun observeChosenFridgeItem() {
-        viewModel.chosenFridgeItem.observe(viewLifecycleOwner) { item ->
+        fbViewModel.chosenFridgeItem.observe(viewLifecycleOwner) { item ->
             val currentTime = System.currentTimeMillis()
             var daysUntilExpiry = (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
             if ((item.expiryDate - currentTime) >= 0) {
@@ -117,12 +118,12 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setCategorySpinnerSelection(item: FridgeItem) {
-        val defaultCategoryIndex = viewModel.categories.indexOf(item.category)
+        val defaultCategoryIndex = roomViewModel.categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 
     private fun setMeasureSpinnerSelection(item: FridgeItem) {
-        val defaultMeasureIndex = viewModel.unitMeasures.indexOf(item.amountMeasure)
+        val defaultMeasureIndex = roomViewModel.unitMeasures.indexOf(item.amountMeasure)
         binding.measureCategory.setSelection(defaultMeasureIndex)
     }
 
@@ -139,7 +140,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupCategorySpinner() {
-        val categories = viewModel.categories
+        val categories = roomViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -149,7 +150,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupMeasureSpinner() {
-        val categories = viewModel.unitMeasures
+        val categories = roomViewModel.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -229,12 +230,12 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 //        Log.d("EFIF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
 //        Log.d("EFIF", viewModel.chosenFridgeItem.value!!.name.toString() + ", " + viewModel.chosenFridgeItem.value!!.quantity.toString() + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.buyingDate) + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.expiryDate) + ", " + viewModel.chosenFridgeItem.value!!.category.toString() + ", " + viewModel.chosenFridgeItem.value!!.amountMeasure.toString() + ", " )
 
-        return productName != viewModel.chosenFridgeItem.value!!.name.toString()  ||
-                quantity != viewModel.chosenFridgeItem.value!!.quantity.toString() ||
-                buyingDate != convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.buyingDate) ||
-                expiryDate != convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.expiryDate) ||
-                productCategory != viewModel.chosenFridgeItem.value!!.category.toString() ||
-                amountMeasure != viewModel.chosenFridgeItem.value!!.amountMeasure.toString() ||
+        return productName != fbViewModel.chosenFridgeItem.value!!.name.toString()  ||
+                quantity != fbViewModel.chosenFridgeItem.value!!.quantity.toString() ||
+                buyingDate != convertTimestampToDateString(fbViewModel.chosenFridgeItem.value!!.buyingDate) ||
+                expiryDate != convertTimestampToDateString(fbViewModel.chosenFridgeItem.value!!.expiryDate) ||
+                productCategory != fbViewModel.chosenFridgeItem.value!!.category.toString() ||
+                amountMeasure != fbViewModel.chosenFridgeItem.value!!.amountMeasure.toString() ||
                 imageChanged
     }
 
@@ -271,8 +272,8 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         Dialogs.showConfirmDeleteDialog(
             requireContext(),
             onConfirm = {
-                viewModel.chosenFridgeItem.value?.let { item ->
-                    viewModel.deleteItemFromFridgeDatabase(
+                fbViewModel.chosenFridgeItem.value?.let { item ->
+                    fbViewModel.deleteItemFromFridgeDatabase(
                         item,
                         onComplete = {})
                     navigateToMainFrag()
@@ -284,7 +285,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setupSaveButton() {
         binding.useUpButton.setOnClickListener {
-            if (!viewModel.isUserLoggedIn()){
+            if (!fbViewModel.isUserLoggedIn()){
                 showToast(getString(com.example.fridgeapp.R.string.please_login_to_add_items))
             }
             if (validateInput()) {
@@ -295,14 +296,14 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun updateFridgeItem() {
-        val productName = viewModel.chosenFridgeItem.value!!.name.toString()
+        val productName = fbViewModel.chosenFridgeItem.value!!.name.toString()
         val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
-        val buyingDate = viewModel.parseDate(binding.buyingDate.text.toString())
-        val expiryDate = viewModel.parseDate(binding.productDaysToExpire.text.toString())
+        val buyingDate = fbViewModel.parseDate(binding.buyingDate.text.toString())
+        val expiryDate = fbViewModel.parseDate(binding.productDaysToExpire.text.toString())
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
 
-        viewModel.updateFridgeItemInDatabase(
+        fbViewModel.updateFridgeItemInDatabase(
             productName,
             quantity,
             buyingDate,
@@ -338,7 +339,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 false
             }
 
-            viewModel.parseDate(expiringDate) < viewModel.parseDate(buyingDate) -> {
+            fbViewModel.parseDate(expiringDate) < fbViewModel.parseDate(buyingDate) -> {
                 showToast(getString(com.example.fridgeapp.R.string.expiry_date_must_be_after_buying_date))
                 false
             }

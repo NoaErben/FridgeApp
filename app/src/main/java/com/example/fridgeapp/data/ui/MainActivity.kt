@@ -1,8 +1,6 @@
 package com.example.fridgeapp.data.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -10,20 +8,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.PopupMenu
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.local_db.FridgeDB
-import com.example.fridgeapp.data.ui.authentication.LoginFragment
-import com.example.fridgeapp.data.ui.fridge.FridgeManagerFragment
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
 import com.google.firebase.FirebaseApp
 
 class MainActivity : AppCompatActivity() {
     private var _binding: ActivityMainBinding? = null
     private val binding get() = _binding!!
-    private lateinit var fridgeViewModel: FridgeViewModel
+    private lateinit var roomViewModel: RoomViewModel
+    private lateinit var fbViewModel: FbViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,8 +50,10 @@ class MainActivity : AppCompatActivity() {
         FridgeDB.getDatabase(this)
 
         // Initialize ViewModel
-        fridgeViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
-            FridgeViewModel::class.java)
+        roomViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+            RoomViewModel::class.java)
+        fbViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(
+            FbViewModel::class.java)
 
         // Show food db context for example
 
@@ -63,7 +63,7 @@ class MainActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
 
         // Check if the user is logged in
-        if (!fridgeViewModel.isUserLoggedIn()) {
+        if (!fbViewModel.isUserLoggedIn()) {
             // User is logged in, navigate to the FridgeFragment
             navController.navigate(R.id.loginFragment)
         } else {

@@ -16,17 +16,21 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
 
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
+
+    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val fbViewModel: FbViewModel by activityViewModels()
     private val NewViewModel: FridgeLiveDataViewModel by activityViewModels()
     // TODO: merge VM?
-    private val viewModel: FridgeViewModel by activityViewModels()
+
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     override fun onCreateView(
@@ -49,7 +53,7 @@ class FridgeManagerFragment : Fragment() {
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(index)
-                viewModel.setFridgeChosenItem(item)
+                fbViewModel.setFridgeChosenItem(item)
                 findNavController().navigate(R.id.action_fridgeManagerFragment_to_editFridgeItemFragment)
             }
 
@@ -98,7 +102,7 @@ class FridgeManagerFragment : Fragment() {
                 val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
                 Dialogs.showConfirmDeleteDialog(requireContext(),
                     onConfirm = {
-                        viewModel.deleteItemFromFridgeDatabase(item) { result ->
+                        fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
                             result.onSuccess {
                                 showToast("Item deleted successfully")
                             }.onFailure { exception ->

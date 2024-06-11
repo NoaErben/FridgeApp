@@ -10,7 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -18,7 +19,7 @@ class RegisterFragment : Fragment() {
     private var _binding: AuthRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: FridgeViewModel by activityViewModels()
+    private val fbViewModel: FbViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -66,7 +67,7 @@ class RegisterFragment : Fragment() {
             binding.etPassword.setTextColor(greenColor)
             binding.etConfirmPassword.setTextColor(greenColor)
 
-            viewModel.signUp(email, password, name, onSuccess = {
+            fbViewModel.signUp(email, password, name, onSuccess = {
                 Toast.makeText(requireContext(), "Sign up successful", Toast.LENGTH_SHORT).show()
                 findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
             }, onFailure = { exception ->

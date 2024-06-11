@@ -18,16 +18,17 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.ui.FridgeViewModel
+import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteEditItemBinding
 
 class FavoriteEditItemFragment : Fragment() {
 
-    private val viewModel: FridgeViewModel by activityViewModels()
     private var _binding: FavoriteEditItemBinding? = null
     private val binding get() = _binding!!
+    private val roomViewModel: RoomViewModel by activityViewModels()
+
     private var imageUri: Uri? = null
 
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
@@ -73,7 +74,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = viewModel.categories
+        val categories = roomViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -85,7 +86,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun observeChosenFoodItem() {
-        viewModel.chosenFoodItem.observe(viewLifecycleOwner) { item ->
+        roomViewModel.chosenFoodItem.observe(viewLifecycleOwner) { item ->
             binding.itemName.text = item.name
             binding.nameData.setText(item.name)
             binding.daysToExpireData.setText(item.daysToExpire.toString())
@@ -95,7 +96,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun setCategorySpinnerSelection(item: FoodItem) {
-        val defaultCategoryIndex = viewModel.categories.indexOf(item.category)
+        val defaultCategoryIndex = roomViewModel.categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 
@@ -124,15 +125,15 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun updateFoodItem() {
-        viewModel.chosenFoodItem.value?.let { item ->
+        roomViewModel.chosenFoodItem.value?.let { item ->
             val newName = binding.nameData.text.toString()
             val newCategory = binding.productCategory.selectedItem.toString()
             val newDaysToExpire = binding.daysToExpireData.text.toString().toInt()
 
-            viewModel.updateFoodName(item.id, newName)
-            viewModel.updateFoodCategory(item.id, newCategory)
-            viewModel.updateFoodDaysToExpire(item.id, newDaysToExpire)
-            imageUri?.let { viewModel.updateFoodPhotoUrl(item.id, it.toString()) }
+            roomViewModel.updateFoodName(item.id, newName)
+            roomViewModel.updateFoodCategory(item.id, newCategory)
+            roomViewModel.updateFoodDaysToExpire(item.id, newDaysToExpire)
+            imageUri?.let { roomViewModel.updateFoodPhotoUrl(item.id, it.toString()) }
         }
     }
 
@@ -150,8 +151,8 @@ class FavoriteEditItemFragment : Fragment() {
         Dialogs.showConfirmDeleteDialog(
             requireContext(),
             onConfirm = {
-                viewModel.chosenFoodItem.value?.let { item ->
-                    viewModel.deleteFoodItem(item)
+                roomViewModel.chosenFoodItem.value?.let { item ->
+                    roomViewModel.deleteFoodItem(item)
                     navigateToExpirationDates()
                 }
             },
@@ -180,7 +181,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val currentItem = viewModel.chosenFoodItem.value
+        val currentItem = roomViewModel.chosenFoodItem.value
 
         val unsavedChanges = currentItem?.name != binding.nameData.text.toString() ||
                 currentItem?.category != binding.productCategory.selectedItem.toString() ||
