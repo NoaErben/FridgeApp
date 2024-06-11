@@ -56,12 +56,7 @@ class MainActivity : AppCompatActivity() {
             FridgeViewModel::class.java)
 
         // Show food db context for example
-        fridgeViewModel.foodItemsNames?.observe(this, Observer<List<String>> { foodNames ->
-            // Update UI with the new food names
-            val concatenatedNames = fridgeViewModel.getConcatenatedString()
-            // For example, you can update a TextView with the concatenated string
-            //binding.textv.setText("From Db: " + concatenatedNames)
-        })
+
 
         val navHostFragment = supportFragmentManager
             .findFragmentById(R.id.nav_host_fragment) as NavHostFragment

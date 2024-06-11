@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.lifecycle.Observer
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
@@ -44,7 +45,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private val binding get() = _binding!!
     private val viewModel: FridgeViewModel by activityViewModels()
 
-
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
             uri?.let {
@@ -64,11 +64,15 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         super.onViewCreated(view, savedInstanceState)
         setupCategorySpinner()
         setupMeasureSpinner()
-        setupNameSpinner()
         setupDatePickers()
         setupAddItemButton()
         setupImagePicker()
         handleBackPressed()
+
+        // Observe the LiveData
+        viewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
+            setupNameSpinner()
+        })
     }
 
     private fun setupCategorySpinner() {

@@ -68,7 +68,6 @@ class FridgeManagerFragment : Fragment() {
                 val currentTime = System.currentTimeMillis()
                 (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
             }
-
             fridgeItemAdapter.updateItems(sortedItems)
         })
 
