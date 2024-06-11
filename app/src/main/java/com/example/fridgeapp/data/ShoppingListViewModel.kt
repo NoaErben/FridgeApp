@@ -16,31 +16,26 @@ class ShoppingListViewModel : ViewModel() {
     private val uid: String? = FirebaseAuth.getInstance().currentUser?.uid
 
     init {
-        fetchShoppingList()
+//        fetchShoppingList()
     }
 
-    private fun fetchShoppingList() {
-        uid?.let { userId ->
-            databaseReference.child(userId).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val items = mutableListOf<CartItem>()
-                    for (itemSnapshot in snapshot.children) {
-                        val item = itemSnapshot.getValue(CartItem::class.java)
-                        item?.let { items.add(it) }
-                    }
-                    _shoppingList.value = items
-                }
+//    private fun fetchShoppingList() {
+//        uid?.let { userId ->
+//            databaseReference.child(userId).addValueEventListener(object : ValueEventListener {
+//                override fun onDataChange(snapshot: DataSnapshot) {
+//                    val items = mutableListOf<CartItem>()
+//                    for (itemSnapshot in snapshot.children) {
+//                        val item = itemSnapshot.getValue(CartItem::class.java)
+//                        item?.let { items.add(it) }
+//                    }
+//                    _shoppingList.value = items
+//                }
+//
+//                override fun onCancelled(error: DatabaseError) {
+//                    // Handle database error
+//                }
+//            })
+//        }
+//    }
 
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle database error
-                }
-            })
-        }
-    }
-
-    fun addItemToShoppingList(item: CartItem) {
-        uid?.let { userId ->
-            databaseReference.child(userId).child(item.name ?: "").setValue(item)
-        }
-    }
 }

@@ -25,7 +25,6 @@ class FridgeManagerFragment : Fragment() {
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
 
-    private val roomViewModel: RoomViewModel by activityViewModels()
     private val fbViewModel: FbViewModel by activityViewModels()
 
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
@@ -67,7 +66,7 @@ class FridgeManagerFragment : Fragment() {
             // Sort items by daysUntilExpiry
             val sortedItems = items.sortedBy { item ->
                 val currentTime = System.currentTimeMillis()
-                (item.expiryDate - currentTime) / (1000 * 60 * 60 * 24)
+                item.expiryDate - currentTime
             }
             fridgeItemAdapter.updateItems(sortedItems)
         })

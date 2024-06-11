@@ -15,6 +15,7 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.repository.CartRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -44,6 +45,8 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     private val fridgeRepository = FridgeRepository()
     val items: LiveData<List<FridgeItem>> = fridgeRepository.getItems()
 
+    private val cartRepository = CartRepository()
+    val cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
 
 
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
@@ -60,10 +63,21 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
                 Log.d("MyTag", "Item: ${it.name}, Expiry: ${it.expiryDate}, Photo: ${it.photoUrl}")
             }
         }
+
+        cartItems.observeForever { itemList ->
+            Log.d("MyTag", "Items fetched in ViewModel: ${itemList.size}")
+            itemList.forEach {
+//                Log.d("MyTag", "Item: ${it.name}, Expiry: ${it.expiryDate}, Photo: ${it.photoUrl}")
+            }
+        }
     }
 
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
         _chosenFridgeItem.value = fridgeItem
+    }
+
+    fun setCartChosenItem(cartItem: CartItem) {
+        _chosenCartItem.value = cartItem
     }
 
     private fun setCurrentUser(user: FirebaseUser?) {

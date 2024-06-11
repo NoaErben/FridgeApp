@@ -33,45 +33,100 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- Title TextView -->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/titleCardView"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp"
-        app:cardBackgroundColor="@color/white"
-        app:layout_constraintTop_toBottomOf="@id/line"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/line">
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Top Picks for You"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/gray"
-            android:fontFamily="@font/amaranth"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp"/>
-    </androidx.cardview.widget.CardView>
+            android:layout_weight="1"
+            android:orientation="vertical">
 
-    <!-- RecyclerView for the list -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/titleCardView"
-        app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/cart_layout" />
+            <!-- Title TextView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/titleExpire"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                android:layout_gravity="center"
+                app:cardBackgroundColor="@color/white">
+
+                <TextView
+                    android:id="@+id/titleExpireText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Top Picks"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:fontFamily="@font/amaranth"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- RecyclerView for the list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/expireRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/cart_layout"
+                android:layout_gravity="center_vertical"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <!-- Title TextView -->
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cartCardView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="4dp"
+                app:cardBackgroundColor="@color/white">
+
+                <TextView
+                    android:id="@+id/cartTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Your cart"
+                    android:textSize="24sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray"
+                    android:fontFamily="@font/amaranth"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"/>
+            </androidx.cardview.widget.CardView>
+
+            <!-- RecyclerView for the list -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/cartRecyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                tools:listitem="@layout/cart_layout" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
 
     <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

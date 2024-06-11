@@ -116,7 +116,7 @@ class MainActivity : AppCompatActivity() {
     private fun startLocationService() {
         Log.d("", "hereeee")
         mainViewModel.address.observe(this) { address ->
-            Toast.makeText(this, "Your address is $address", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Your address is $address", Toast.LENGTH_SHORT).show()
         }
     }
 

@@ -35,7 +35,7 @@ class RoomViewModel(application: Application) : AndroidViewModel(application) {
     private val foodRepository = FoodRepository(application)
 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()
-    private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish")
+    private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish", "Other")
     private val _unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
     val foodItems: LiveData<List<FoodItem>>? = foodRepository.getAllFoodItems()

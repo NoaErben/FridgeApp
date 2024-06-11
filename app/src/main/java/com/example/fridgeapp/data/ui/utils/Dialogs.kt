@@ -84,5 +84,34 @@ object Dialogs {
         builder.create().show()
     }
 
+    fun showInsertNumberDialog(
+        context: Context,
+        onConfirm: (Int) -> Unit,
+        onCancel: () -> Unit
+    ) {
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.dialog_insert_number, null)
+        val numberEditText = dialogView.findViewById<EditText>(R.id.numberEditText)
+
+        val dialog = AlertDialog.Builder(context)
+            .setView(dialogView)
+            .setTitle("Insert Number")
+            .setPositiveButton("OK") { dialog, _ ->
+                val numberStr = numberEditText.text.toString()
+                if (numberStr.isNotBlank()) {
+                    val number = numberStr.toInt()
+                    onConfirm(number)
+                } else {
+                    onCancel()
+                }
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                onCancel()
+                dialog.dismiss()
+            }
+            .create()
+        dialog.show()
+    }
+
 
 }
