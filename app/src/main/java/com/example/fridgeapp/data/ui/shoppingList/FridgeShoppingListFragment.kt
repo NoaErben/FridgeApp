@@ -36,15 +36,15 @@ class FridgeShoppingListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
 
         adapter = CartItemAdapter(emptyList())
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView?.adapter = adapter
 
         viewModel.shoppingList.observe(viewLifecycleOwner, Observer { items ->
             adapter = CartItemAdapter(items)
-            binding.recyclerView.adapter = adapter
+            binding.recyclerView?.adapter = adapter
         })
 
-        binding.addProductExpiryBtn.setOnClickListener {
+        binding.addProductExpiryBtn?.setOnClickListener {
             // Navigate to AddItemToShoppingListFragment
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
         }
