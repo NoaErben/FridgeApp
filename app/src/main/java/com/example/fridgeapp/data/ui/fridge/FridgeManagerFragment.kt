@@ -124,14 +124,6 @@ class FridgeManagerFragment : Fragment() {
         popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.create_household -> {
-                    Toast.makeText(context, "create household clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
-                R.id.join_household -> {
-                    Toast.makeText(context, "join household clicked", Toast.LENGTH_SHORT).show()
-                    true
-                }
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
                     Toast.makeText(context, "shopping list clicked", Toast.LENGTH_SHORT).show()

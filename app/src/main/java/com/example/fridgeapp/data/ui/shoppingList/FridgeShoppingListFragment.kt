@@ -14,6 +14,7 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ShoppingListViewModel
 import com.example.fridgeapp.data.ui.FridgeLiveDataViewModel
 import com.example.fridgeapp.data.model.CartItem
+import com.google.android.material.appbar.MaterialToolbar
 
 
 class FridgeShoppingListFragment : Fragment() {
@@ -35,17 +36,22 @@ class FridgeShoppingListFragment : Fragment() {
         viewModel = ViewModelProvider(this).get(ShoppingListViewModel::class.java)
 
         adapter = CartItemAdapter(emptyList())
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.recyclerView.adapter = adapter
+        binding.recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding.recyclerView?.adapter = adapter
 
         viewModel.shoppingList.observe(viewLifecycleOwner, Observer { items ->
             adapter = CartItemAdapter(items)
-            binding.recyclerView.adapter = adapter
+            binding.recyclerView?.adapter = adapter
         })
 
-        binding.addProductExpiryBtn.setOnClickListener {
+        binding.addProductExpiryBtn?.setOnClickListener {
             // Navigate to AddItemToShoppingListFragment
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
+        }
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_fridgeManagerFragment)
         }
     }
 }

@@ -16,6 +16,7 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
+import com.google.android.material.appbar.MaterialToolbar
 
 class FavoriteExpirationFragment : Fragment() {
 
@@ -83,6 +84,11 @@ class FavoriteExpirationFragment : Fragment() {
                 )
             }
         }).attachToRecyclerView(binding.productRecyclerView)
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_fridgeManagerFragment)
+        }
     }
 
     override fun onDestroyView() {
