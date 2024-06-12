@@ -13,6 +13,7 @@ import java.util.Locale
 class LocationUpdatesLiveData(application: Application) : LiveData<String>() {
 
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
+//    request location updates every 10 seconds, with the fastest allowed interval set to 5 seconds, and prioritizes high accuracy for the location updates.
     private val locationRequest = LocationRequest.create().apply {
         interval = 10000
         fastestInterval = 5000
