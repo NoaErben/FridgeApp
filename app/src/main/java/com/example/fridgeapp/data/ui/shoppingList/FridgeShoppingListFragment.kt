@@ -99,6 +99,11 @@ class FridgeShoppingListFragment : Fragment() {
         binding.addProductExpiryBtn.setOnClickListener {
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
         }
+
+        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_fridgeManagerFragment)
+        }
     }
 
     private fun setupSwipeActions() {

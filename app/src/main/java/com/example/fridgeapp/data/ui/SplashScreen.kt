@@ -1,6 +1,8 @@
 package com.example.fridgeapp.data.ui
 
 import android.annotation.SuppressLint
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -12,12 +14,23 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.databinding.SplashScreenBinding
+import android.util.Log
+import android.Manifest
+import android.content.pm.PackageManager
+import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
     private var _binding: SplashScreenBinding? = null
     private val binding get() = _binding!!
+
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,52 +43,99 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Initialize SharedPreferences
+        sharedPreferences = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
+
+        // Register for location permission result
+        locationRequestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
+            if (isGranted) {
+                startLocationService()
+            } else {
+                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         // Load animations
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
-        val fadeOutAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_out)
-        val ZoomInAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_in_animation)
+        val zoomInAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_in_animation)
         val zoomOutAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_out_animation)
         val slideDownAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
 
-        // Apply fade-in animation to the logo
-        binding.splashPhone.visibility = View.VISIBLE
-        binding.splashText.visibility = View.VISIBLE
-        binding.splashText.startAnimation(slideDownAnimation)
-        binding.backgroundSplashScreen.visibility = View.VISIBLE
-        binding.fridgeHubDescription.visibility = View.GONE
+        binding.apply {
+            // Apply fade-in animation to the logo
+            splashPhone.visibility = View.VISIBLE
+            splashText.visibility = View.VISIBLE
+            splashText.startAnimation(slideDownAnimation)
+            backgroundSplashScreen.visibility = View.VISIBLE
+            fridgeHubDescription.visibility = View.GONE
 
-        // Apply fade-out animation to the logo after a delay
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.splashPhone.startAnimation(ZoomInAnimation)
-            binding.backgroundSplashScreen.startAnimation(ZoomInAnimation)
-        }, 1500)
+            // Apply fade-out animation to the logo after a delay
+            Handler(Looper.getMainLooper()).postDelayed({
+                splashPhone.startAnimation(zoomInAnimation)
+                backgroundSplashScreen.startAnimation(zoomInAnimation)
+            }, 1500)
 
-        // Apply zoom-out animation to the phone and background after a delay
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.splashPhone.startAnimation(zoomOutAnimation)
-            binding.backgroundSplashScreen.startAnimation(zoomOutAnimation)
-        }, 2000)
+            // Apply zoom-out animation to the phone and background after a delay
+            Handler(Looper.getMainLooper()).postDelayed({
+                splashPhone.startAnimation(zoomOutAnimation)
+                backgroundSplashScreen.startAnimation(zoomOutAnimation)
+            }, 2000)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.splashPhone.startAnimation(zoomOutAnimation)
-            binding.backgroundSplashScreen.startAnimation(zoomOutAnimation)
-        }, 2000)
+            Handler(Looper.getMainLooper()).postDelayed({
+                splashPhone.startAnimation(zoomOutAnimation)
+                backgroundSplashScreen.startAnimation(zoomOutAnimation)
+            }, 2000)
 
-        Handler(Looper.getMainLooper()).postDelayed({
-            binding.fridgeHubDescription.visibility = View.VISIBLE
-            binding.fridgeHubDescription.startAnimation(fadeInAnimation)
-        }, 3000)
+            Handler(Looper.getMainLooper()).postDelayed({
+                fridgeHubDescription.visibility = View.VISIBLE
+                fridgeHubDescription.startAnimation(fadeInAnimation)
+            }, 3000)
 
-        // Navigate to the next fragment after the animations are complete
-        Handler(Looper.getMainLooper()).postDelayed({
-            findNavController().navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
-        }, 4000) // Adjust the delay to fit your needs
+            // Navigate to the next fragment after the animations are complete
+            Handler(Looper.getMainLooper()).postDelayed({
+                if (findNavController().currentDestination?.id == R.id.splashScreen) {
+                    checkLocationPermission()
+                }
+            }, 4000) // Adjust the delay to fit your needs
+        }
+    }
+
+    private fun checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            startLocationService()
+        } else {
+            locationRequestLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
+        }
+        navigateNext()
+    }
+
+    private fun startLocationService() {
+        Log.d("SplashScreenFragment", "Starting location service")
+        // Handle location service start logic here
+    }
+
+    private fun navigateNext() {
+        val navController = findNavController()
+        if (isFirstTime()) {
+            Log.d("SplashScreenFragment", "First time user, navigating to login")
+            navController.navigate(R.id.action_splashScreen_to_loginFragment)
+            setFirstTimeFlag(false)
+        } else {
+            Log.d("SplashScreenFragment", "Returning user, navigating to fridge manager")
+            navController.navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
+    private fun isFirstTime(): Boolean {
+        return sharedPreferences.getBoolean("is_first_time", true)
+    }
+
+    private fun setFirstTimeFlag(isFirstTime: Boolean) {
+        sharedPreferences.edit().putBoolean("is_first_time", isFirstTime).apply()
+    }
 }
-
-
