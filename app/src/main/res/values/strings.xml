@@ -42,6 +42,11 @@
     <string name="expiry_date_must_be_after_buying_date">Expiry date must be after buying date</string>
     <string name="please_login_to_add_items">Please login to add items</string>
     <string name="back" />
+    <string name="add_item_to_shopping_list">Add item to shopping list</string>
+    <string name="add">Add</string>
+    <string name="amount_measure">Amount Measure</string>
+    <string name="product_name">Product Name</string>
+    <string name="image_view">image view</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

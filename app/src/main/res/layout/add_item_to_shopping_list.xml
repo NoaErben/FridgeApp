@@ -14,7 +14,7 @@
         android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Add item to shopping list"
+        android:text="@string/add_item_to_shopping_list"
         android:textColor="@color/white"
         android:textSize="35sp"
         android:textStyle="bold" />
@@ -32,7 +32,8 @@
             android:layout_width="120dp"
             android:layout_height="111dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/add_photo_svgrepo_com" />
+            android:src="@drawable/add_photo_svgrepo_com"
+            android:contentDescription="@string/image_view" />
 
         <!-- TextInputLayouts -->
         <LinearLayout
@@ -51,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/dish"
                     android:fontFamily="@font/amaranth"
-                    android:hint=" Product Name" />
+                    android:hint="@string/product_name" />
 
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -66,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/bag_svgrepo_com"
                     android:fontFamily="@font/amaranth"
-                    android:hint="Quantity"
+                    android:hint="@string/quantity"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +85,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/scale"
             android:fontFamily="@font/amaranth"
-            android:hint="Amount Measure"
+            android:hint="@string/amount_measure"
             android:inputType="number"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -111,6 +112,6 @@
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
-        android:text="Add" />
+        android:text="@string/add" />
 
 </LinearLayout>
