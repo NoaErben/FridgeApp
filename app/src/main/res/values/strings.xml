@@ -56,6 +56,7 @@
     <string name="we_will_send_to_the_registered_email">We will send to the registered email</string>
     <string name="email_address">Email address</string>
     <string name="next">Next</string>
+    <string name="location">Location:</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

@@ -1,87 +1,45 @@
 package com.example.fridgeapp.data.ui
 
-import android.content.Context
+import android.annotation.SuppressLint
+import android.app.Application
 import android.location.Geocoder
-import android.os.Build
-import android.os.Looper
-import android.util.Log
 import androidx.lifecycle.LiveData
-import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.location.Priority
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
+import java.util.Locale
 
-class LocationUpdatesLiveData(context: Context) : LiveData<String>() {
+class LocationUpdatesLiveData(application: Application) : LiveData<String>() {
 
-    // An instance to access location services.
-    private val locationClient: FusedLocationProviderClient
-            = LocationServices.getFusedLocationProviderClient(context)
-
-    //Lazily initialized Geocoder to convert coordinates to addresses.
-    private val geocoder by lazy {
-        Geocoder(context)
+    private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
+    private val locationRequest = LocationRequest.create().apply {
+        interval = 10000
+        fastestInterval = 5000
+        priority = LocationRequest.PRIORITY_HIGH_ACCURACY
     }
+    private val geocoder = Geocoder(application, Locale.getDefault())
 
-    private val job = Job()
-
-    private val scope = CoroutineScope(job + Dispatchers.IO)
-
-    //Location Request
-    private val locationRequest =  LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 500)
-        .setWaitForAccurateLocation(false)
-        .setMinUpdateIntervalMillis(500)
-        .setMaxUpdateDelayMillis(1000)
-        .build()
-
-
-    //Defines how to handle location results this is called when a new location result is available.
     private val locationCallback = object : LocationCallback() {
-        override fun onLocationResult(p0: LocationResult) {
-            p0.lastLocation?.let {
-//                postValue("${it.latitude}, ${it.longitude}")
-
-                scope.launch {
-                    if(Build.VERSION.SDK_INT < 33) {
-                        val addresses = geocoder.getFromLocation(
-                            it.latitude,
-                            it.longitude, 1
-                        )
-                        postValue(addresses!![0].getAddressLine(0))
-                    }
-                    else {
-                        geocoder.getFromLocation(it.latitude,it.longitude,1) {
-                            postValue(it[0].getAddressLine(0))
-                        }
-                    }
-                }
-
+        override fun onLocationResult(locationResult: LocationResult) {
+            locationResult ?: return
+            for (location in locationResult.locations) {
+                val address = geocoder.getFromLocation(location.latitude, location.longitude, 1)
+                    ?.firstOrNull()
+                val addressString =  "address: " + (address?.getAddressLine(0) ?: "Unknown address")
+                value = addressString
             }
         }
     }
 
+    @SuppressLint("MissingPermission")
     override fun onActive() {
         super.onActive()
-        try {
-            locationClient.requestLocationUpdates(
-                locationRequest, locationCallback,
-                Looper.getMainLooper()
-            )
-        }catch (e : SecurityException) {
-            Log.d("LocationUpdatesLiveData","Missing location permission")
-        }
-
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
     }
 
     override fun onInactive() {
         super.onInactive()
-        job.cancel()
-        locationClient.removeLocationUpdates(locationCallback)
+        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 }
-
