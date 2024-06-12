@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -69,6 +70,15 @@ class FridgeManagerFragment : Fragment() {
             Log.d("MyTag", "Observed items: ${items.size}")
             val sortedItems = items.sortedBy { it.timeUntilExpiry() }
             fridgeItemAdapter.updateItems(sortedItems)
+            if (items.isEmpty()) {
+                binding.emptyImageView?.visibility = View.VISIBLE
+                binding.emptyTextView?.visibility = View.VISIBLE
+                binding.recyclerView.visibility = View.GONE
+            } else {
+                binding.emptyImageView?.visibility = View.GONE
+                binding.emptyTextView?.visibility = View.GONE
+                binding.recyclerView.visibility = View.VISIBLE
+            }
         })
     }
 
