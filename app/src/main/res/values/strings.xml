@@ -47,6 +47,9 @@
     <string name="amount_measure">Amount Measure</string>
     <string name="product_name">Product Name</string>
     <string name="image_view">image view</string>
+    <string name="create_new_fridge">Create New Fridge</string>
+    <string name="fridge_name">Fridge Name:</string>
+    <string name="password">Password:</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

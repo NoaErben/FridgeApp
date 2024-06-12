@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Create New Fridge"
+        android:text="@string/create_new_fridge"
         android:textColor="@color/white"
         android:background="@color/fridgeColor"
         android:textSize="42sp"
@@ -31,7 +31,7 @@
             android:drawableStart="@drawable/fridge_vector"
             android:layout_height="wrap_content"
             android:fontFamily="@font/amaranth"
-            android:hint=" Fridge Name:"
+            android:hint="@string/fridge_name"
             android:layout_marginBottom="10dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -46,7 +46,7 @@
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/ic_icon_password"
             android:fontFamily="@font/amaranth"
-            android:hint=" Password: "
+            android:hint="@string/password"
             android:layout_marginBottom="20dp"/>
 
     </com.google.android.material.textfield.TextInputLayout>
