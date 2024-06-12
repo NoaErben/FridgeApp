@@ -46,8 +46,8 @@ class FridgeShoppingListFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        binding.cartRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        binding.expireRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        binding.cartRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
+        binding.expireRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
     }
 
     private fun setupAdapters() {
@@ -60,11 +60,11 @@ class FridgeShoppingListFragment : Fragment() {
                 showToast("Swipe right to add to cart")
             }
         })
-        binding.expireRecyclerView.adapter = fridgeItemAdapter
+        binding.expireRecyclerView?.adapter = fridgeItemAdapter
 
         cartItemAdapter = CartItemAdapter(emptyList(), object : CartItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
-                val item = (binding.cartRecyclerView.adapter as CartItemAdapter).itemAt(index)
+                val item = (binding.cartRecyclerView?.adapter as CartItemAdapter).itemAt(index)
                 fbViewModel.setCartChosenItem(item)
                 findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_editItemShoppingListFragment)
             }
@@ -73,7 +73,7 @@ class FridgeShoppingListFragment : Fragment() {
                 showToast(getString(R.string.swipe_to_delete))
             }
         })
-        binding.cartRecyclerView.adapter = cartItemAdapter
+        binding.cartRecyclerView?.adapter = cartItemAdapter
     }
 
     private fun observeViewModel() {
@@ -100,7 +100,7 @@ class FridgeShoppingListFragment : Fragment() {
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_addItemToShoppingList)
         }
 
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        val toolbar = binding.toolbar
         toolbar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_fridgeManagerFragment)
         }
@@ -124,7 +124,7 @@ class FridgeShoppingListFragment : Fragment() {
         ) = false
 
         override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-            val item = (binding.cartRecyclerView.adapter as CartItemAdapter).itemAt(viewHolder.adapterPosition)
+            val item = (binding.cartRecyclerView?.adapter as CartItemAdapter).itemAt(viewHolder.adapterPosition)
             Dialogs.showConfirmDeleteDialog(requireContext(),
                 onConfirm = {
                     fbViewModel.deleteItemFromCartDatabase(item) { result ->
