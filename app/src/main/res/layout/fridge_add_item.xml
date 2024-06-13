@@ -15,7 +15,7 @@
         android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="@string/add_item"
+        android:text="@string/add_item_to_fridge"
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold" />

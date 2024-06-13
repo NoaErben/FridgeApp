@@ -43,26 +43,6 @@
                 android:src="@drawable/add_photo_svgrepo_com"
                 android:contentDescription="@string/image_view" />
 
-            <!-- Add Item Button -->
-            <Button
-                android:id="@+id/add_item_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:backgroundTint="@color/fridgeColor"
-                android:fontFamily="@font/amaranth"
-                android:foregroundGravity="center_horizontal"
-                android:text="@string/add" />
-        </LinearLayout>
-
-        <!-- Vertical container for Input Fields -->
-        <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:layout_marginStart="16dp">
-
             <!-- Container for Product Name -->
             <LinearLayout
                 android:id="@+id/name_container"
@@ -97,6 +77,19 @@
                     android:padding="8dp" />
             </LinearLayout>
 
+
+
+
+        </LinearLayout>
+
+        <!-- Vertical container for Input Fields -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp">
+
             <!-- Quantity Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -111,6 +104,10 @@
                     android:hint="@string/quantity"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
 
             <!-- Measure Input -->
             <LinearLayout
@@ -178,7 +175,20 @@
                     android:dropDownVerticalOffset="8dp"
                     android:fontFamily="@font/amaranth"
                     android:padding="8dp" />
+
             </LinearLayout>
+            <!-- Add Item Button -->
+            <Button
+                android:id="@+id/add_item_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/fridgeColor"
+                android:fontFamily="@font/amaranth"
+                android:foregroundGravity="center_horizontal"
+                android:text="@string/add"
+                android:layout_gravity="end"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
