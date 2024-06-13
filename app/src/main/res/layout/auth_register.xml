@@ -65,7 +65,9 @@
                 android:maxLength="20"
                 android:padding="14dp"
                 android:textSize="18sp"
-                tools:ignore="Autofill" />
+                tools:ignore="Autofill"
+                android:imeOptions="actionDone"/>
+
 
             <EditText
                 android:id="@+id/etEmail"
@@ -82,8 +84,8 @@
                 android:maxLength="40"
                 android:padding="14dp"
                 android:textSize="18sp"
-                tools:ignore="Autofill" />
-
+                tools:ignore="Autofill"
+                android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/etPassword"
@@ -100,7 +102,8 @@
                 android:padding="14dp"
                 android:singleLine="true"
                 android:textSize="18sp"
-                tools:ignore="Autofill" />
+                tools:ignore="Autofill"
+                android:imeOptions="actionDone"/>
 
             <EditText
                 android:id="@+id/etConfirmPassword"
@@ -115,7 +118,8 @@
                 android:hint="@string/confirm_password"
                 android:inputType="textPassword"
                 android:padding="14dp"
-                android:textSize="18sp" />
+                android:textSize="18sp"
+                android:imeOptions="actionDone"/>
 
             <Button
                 android:id="@+id/btnSubmit"

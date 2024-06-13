@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/white"
+    >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -143,7 +144,8 @@
                         android:drawableStart="@drawable/bag_svgrepo_com"
                         android:fontFamily="@font/amaranth"
                         android:hint="@string/quantity"
-                        android:inputType="number" />
+                        android:inputType="number"
+                        android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Measure Spinner -->
@@ -195,9 +197,10 @@
                         android:layout_marginBottom="10dp"
                         android:clickable="true"
                         android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
-                        android:focusable="true"
+                        android:focusable="false"
                         android:fontFamily="@font/amaranth"
-                        android:hint="@string/buying_date" />
+                        android:hint="@string/buying_date"
+                        android:inputType="none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <!-- Expiry Date Input -->
@@ -213,9 +216,10 @@
                         android:layout_marginBottom="5dp"
                         android:clickable="true"
                         android:drawableStart="@drawable/expire_svgrepo_com"
-                        android:focusable="true"
+                        android:focusable="false"
                         android:fontFamily="@font/amaranth"
-                        android:hint="@string/expiry_date" />
+                        android:hint="@string/expiry_date"
+                        android:inputType="none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

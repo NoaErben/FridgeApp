@@ -77,9 +77,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            tools:srcCompat="@drawable/new_food_option_2"
-            android:contentDescription="@string/image_view" />
-
+            android:contentDescription="@string/image_view"
+            tools:srcCompat="@drawable/new_food_option_2" />
 
 
         <LinearLayout
@@ -125,10 +124,11 @@
                 android:id="@+id/quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
                 android:drawableStart="@drawable/bag_svgrepo_com"
                 android:fontFamily="@font/amaranth"
-                android:layout_marginBottom="5dp"
                 android:hint="@string/quantity"
+                android:imeOptions="actionDone"
                 android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -167,51 +167,53 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/dates_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:baselineAligned="false">
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <LinearLayout
+            android:id="@+id/dates_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="10dp">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/buying_date"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:clickable="true"
-                android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
-                android:focusable="true"
-                android:fontFamily="@font/amaranth"
-                android:hint="@string/buying_date" />
+                android:layout_marginEnd="10dp"
+                android:layout_weight="1">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/buying_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
+                    android:focusable="false"
+                    android:fontFamily="@font/amaranth"
+                    android:hint="@string/buying_date"
+                    android:inputType="none"/>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content">
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/product_days_to_expire"
-                android:layout_width="match_parent"
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:clickable="true"
-                android:drawableStart="@drawable/expire_svgrepo_com"
-                android:focusable="true"
-                android:fontFamily="@font/amaranth"
-                android:hint="@string/expiry_date" />
+                android:layout_weight="1">
 
-        </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/product_days_to_expire"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:clickable="true"
+                    android:drawableStart="@drawable/expire_svgrepo_com"
+                    android:focusable="false"
+                    android:fontFamily="@font/amaranth"
+                    android:hint="@string/expiry_date"
+                    android:inputType="none"/>
 
-    </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
 
 
         <LinearLayout
@@ -223,29 +225,29 @@
 
             <Button
                 android:id="@+id/throw_out_button"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:text="@string/throw_out"
                 android:textColor="@color/red"
                 android:textSize="23sp"
-                android:textStyle="bold"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:textStyle="bold" />
 
             <Button
                 android:id="@+id/use_up_button"
+                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
-                android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:background="@android:color/transparent"
                 android:text="@string/save"
                 android:textColor="@color/green"
                 android:textSize="23sp"
-                android:textStyle="bold"
-                style="?android:attr/buttonBarButtonStyle" />
+                android:textStyle="bold" />
 
 
         </LinearLayout>

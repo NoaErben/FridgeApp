@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:layout_marginTop="20dp">
+    >
 
     <!-- Title TextView -->
     <TextView
@@ -18,7 +18,8 @@
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:imeOptions="actionDone"/>
 
     <!-- Container for ImageView and Input Fields in horizontal orientation -->
     <LinearLayout

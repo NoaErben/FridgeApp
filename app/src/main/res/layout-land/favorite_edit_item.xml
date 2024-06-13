@@ -203,7 +203,8 @@
                     android:textSize="20sp"
                     android:inputType="number"
                     android:paddingEnd="20dp"
-                    android:paddingStart="20dp"/>
+                    android:paddingStart="20dp"
+                    android:imeOptions="actionDone"/>
             </LinearLayout>
 
             <LinearLayout

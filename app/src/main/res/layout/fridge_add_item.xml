@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     android:background="@color/white"
-    android:orientation="vertical"
-    android:layout_marginTop="50sp"
-    >
+    android:orientation="vertical">
 
     <!-- Title TextView -->
     <TextView
@@ -22,11 +21,11 @@
 
     <!-- Container for ImageView and Add item Button -->
     <LinearLayout
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
         android:layout_marginTop="16dp"
+        android:layout_marginEnd="16sp"
         android:orientation="horizontal">
 
         <!-- ImageView for the image -->
@@ -37,8 +36,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/add_photo_svgrepo_com"
-            android:contentDescription="@string/image_view" />
+            android:contentDescription="@string/image_view"
+            android:src="@drawable/add_photo_svgrepo_com" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -92,6 +91,7 @@
                     android:drawableStart="@drawable/bag_svgrepo_com"
                     android:fontFamily="@font/amaranth"
                     android:hint="@string/quantity"
+                    android:imeOptions="actionDone"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -99,11 +99,11 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp"
         android:id="@+id/measure_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp"
         android:orientation="horizontal">
 
         <TextView
@@ -137,8 +137,8 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp">
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/buying_date"
@@ -147,17 +147,18 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
-            android:focusable="true"
+            android:focusable="false"
             android:fontFamily="@font/amaranth"
-            android:hint="@string/buying_date" />
+            android:hint="@string/buying_date"
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/product_days_to_expire"
@@ -166,18 +167,19 @@
             android:layout_marginBottom="5dp"
             android:clickable="true"
             android:drawableStart="@drawable/expire_svgrepo_com"
-            android:focusable="true"
+            android:focusable="false"
             android:fontFamily="@font/amaranth"
-            android:hint="@string/expire_date" />
+            android:hint="@string/expire_date"
+            android:inputType="none"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <LinearLayout
-        android:layout_marginEnd="16sp"
-        android:layout_marginStart="16sp"
         android:id="@+id/expire_date_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="16sp"
+        android:layout_marginEnd="16sp"
         android:orientation="horizontal">
 
         <TextView
@@ -213,10 +215,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:layout_marginEnd="16dp"
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
-        android:text="@string/add"
-        android:layout_marginEnd="16dp"/>
+        android:text="@string/add" />
 
 </LinearLayout>

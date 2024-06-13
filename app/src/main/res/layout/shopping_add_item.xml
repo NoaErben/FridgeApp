@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:layout_marginTop="50sp"
     >
 
     <!-- Title TextView -->
@@ -93,7 +92,8 @@
                     android:drawableStart="@drawable/bag_svgrepo_com"
                     android:fontFamily="@font/amaranth"
                     android:hint="@string/quantity"
-                    android:inputType="number" />
+                    android:inputType="number"
+                    android:imeOptions="actionDone"/>
 
             </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
