@@ -25,6 +25,14 @@ class FoodRepository(application: Application) {
         foodDao?.insert(foodItem)
     }
 
+    suspend fun insertAll(foodItems: List<FoodItem>){
+        foodDao?.insertAll(foodItems)
+    }
+
+    suspend fun deleteAll(){
+        foodDao?.deleteAll()
+    }
+
     suspend fun delete(foodItem: FoodItem) {
         try {
             foodDao?.delete(foodItem)

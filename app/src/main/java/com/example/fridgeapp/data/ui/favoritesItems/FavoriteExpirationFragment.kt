@@ -85,9 +85,24 @@ class FavoriteExpirationFragment : Fragment() {
             }
         }).attachToRecyclerView(binding.productRecyclerView)
 
-        val toolbar = view.findViewById<MaterialToolbar>(R.id.toolbar)
+        val toolbar = binding.toolbar
         toolbar.setNavigationOnClickListener {
             findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_fridgeManagerFragment)
+        }
+
+        binding.resetToDefaultBtn.setOnClickListener{
+            // Handle reset button click
+            Dialogs.showResetConfirmationDialog(requireContext(),
+                onConfirm = {
+                    // Implement your logic to reset items here
+                    Toast.makeText(requireContext(), "Resetting to default items...", Toast.LENGTH_SHORT).show()
+                    // Example logic to reset items
+                    roomViewModel.resetToDefaultItems()
+                },
+                onCancel = {
+                    // Optional: Handle cancel action if needed
+                }
+            )
         }
     }
 

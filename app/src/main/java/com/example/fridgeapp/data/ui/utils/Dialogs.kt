@@ -126,5 +126,20 @@ object Dialogs {
             .show()
     }
 
+    fun showResetConfirmationDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context)
+            .setTitle("Reset to Default Items")
+            .setMessage("Are you sure you want to reset to default items?")
+            .setPositiveButton("Confirm") { dialog, _ ->
+                onConfirm()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, _ ->
+                onCancel()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
 
 }

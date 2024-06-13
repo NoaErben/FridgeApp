@@ -29,7 +29,7 @@ abstract class FridgeDB : RoomDatabase() {
                     // Default items for foodDB
                     instance?.let { database ->
                         runBlocking {
-                            foodTableDefaultValues(database.foodDao(), context)
+                            foodTableDefaultValues(database.foodDao())
                         }
                     }
                 }
@@ -37,7 +37,7 @@ abstract class FridgeDB : RoomDatabase() {
             return instance!!
         }
 
-        private suspend fun foodTableDefaultValues(foodDao: FoodDao, context: Context) {
+        private suspend fun foodTableDefaultValues(foodDao: FoodDao) {
             val count = foodDao.getCount()
             if (count == 0) {
 //                val breadID = context.resources.getIdentifier("bread", "drawable", context?.packageName)
