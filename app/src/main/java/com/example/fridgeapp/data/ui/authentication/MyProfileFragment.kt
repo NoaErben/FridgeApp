@@ -1,6 +1,11 @@
 package com.example.fridgeapp.data.ui.authentication
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.text.SpannableString
+import android.text.method.LinkMovementMethod
+import android.text.style.ClickableSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -64,6 +69,17 @@ class MyProfileFragment: Fragment() {
             val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
             binding.tvGoogleMapsLink.text = url
 
+            val spannableString = SpannableString("Find supermarkets near you")
+            val clickableSpan = object : ClickableSpan() {
+                override fun onClick(widget: View) {
+                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                    startActivity(intent)
+                }
+            }
+            spannableString.setSpan(clickableSpan, 0, spannableString.length, 0)
+            binding.tvGoogleMapsLink.text = spannableString
+            binding.tvGoogleMapsLink.movementMethod = LinkMovementMethod.getInstance()
+            //end
         })
         //end
 
