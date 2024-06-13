@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
@@ -21,6 +22,11 @@ import com.google.firebase.database.FirebaseDatabase
 
 class MyProfileFragment: Fragment() {
 
+    // liraz and noa added here
+    private lateinit var tvGoogleMapsLink: TextView
+    private lateinit var tvAddress: TextView
+    // end
+
     private var _binding: AuthMyProfileBinding? = null
     private val binding
         get() = _binding!!
@@ -33,6 +39,7 @@ class MyProfileFragment: Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // liraz and noa added here
         _binding = AuthMyProfileBinding.inflate(inflater, container, false)
 
 //        binding.btnSignOut.setOnClickListener{
@@ -45,6 +52,16 @@ class MyProfileFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // liraz and noa added here
+        val userAddress = binding.locationTextView
+        val query = "supermarkets near $userAddress"
+        val url = "https://www.google.com/maps/search/?api=1&query=$query"
+        binding.tvGoogleMapsLink?.text = url
+        
+        //end
+
+
         viewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
             binding.locationTextView.text = address
         })
