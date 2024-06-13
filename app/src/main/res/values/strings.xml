@@ -62,6 +62,8 @@
     <string name="otp_4_characters">otp 4 characters</string>
     <string name="new_password_min_4_digits">new password min 4 digits</string>
     <string name="submit">submit</string>
+    <string name="login">login</string>
+    <string name="don_t_have_an_account_sign_up_now">don\'t have an account? sign up now</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>
