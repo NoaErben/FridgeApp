@@ -7,9 +7,11 @@
             android:title="My shopping list" />
         <item
             android:id="@+id/Favorite_items"
+            android:icon="@drawable/baseline_favorite_24"
             android:title="My favorite items" />
         <item
             android:id="@+id/My_profile"
+            android:icon="@drawable/io_person_icon"
             android:title="My profile" />
     </group>
 </menu>
