@@ -16,6 +16,7 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.model.User
+import com.example.fridgeapp.data.repository.AuthenticationRepository
 import com.example.fridgeapp.data.repository.CartRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.google.firebase.auth.EmailAuthProvider
@@ -49,6 +50,8 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
 
     private val cartRepository = CartRepository()
     var cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
+
+    private val authenticationRepository = AuthenticationRepository ()
 
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -112,70 +115,50 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
 
     // ################## FB authentication functions ##################
 
-    fun signIn(email: String, password: String,
-               onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        viewModelScope.launch {
-            try {
-                auth.signInWithEmailAndPassword(email, password).await()
-                setCurrentUser(auth.currentUser)
+
+    fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        authenticationRepository.signIn(email, password) { result ->
+            result.onSuccess {
                 onSuccess()
-            } catch (e: Exception) {
-                onFailure(e)
+            }
+            result.onFailure {
+                onFailure(it as Exception) // Ensure it is cast to Exception
+            }
+        }
+    }
+
+    fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        authenticationRepository.signUp(email, password, name) { result ->
+            result.onSuccess {
+                onSuccess()
+            }
+            result.onFailure {
+                onFailure(it as Exception) // Ensure it is cast to Exception
             }
         }
     }
 
     fun signOut() {
-        auth.signOut()
-        setCurrentUser(null)
-    }
-
-    fun signUp(email: String, password: String, name: String,
-               onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        viewModelScope.launch {
-            try {
-                auth.createUserWithEmailAndPassword(email, password).await()
-                setCurrentUser(auth.currentUser)
-                handleName(name)
-                onSuccess()
-            } catch (e: Exception) {
-                onFailure(e)
-            }
-        }
+        authenticationRepository.signOut()
     }
 
     fun isUserLoggedIn(): Boolean {
-        return auth.currentUser != null
+        return authenticationRepository.isUserLoggedIn()
     }
 
-    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit,
-                               onFailure: (Exception) -> Unit) {
+    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        authenticationRepository.sendPasswordResetEmail(email, onSuccess, onFailure)
+    }
+
+    fun changePassword(oldPassword: String, newPassword: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         viewModelScope.launch {
-            try {
-                auth.sendPasswordResetEmail(email).await()
+            val result = authenticationRepository.changePassword(oldPassword, newPassword)
+            result.onSuccess {
                 onSuccess()
-            } catch (e: Exception) {
-                onFailure(e)
             }
-        }
-    }
-
-    fun changePassword(oldPassword: String, newPassword: String,
-                       onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        val user = auth.currentUser
-        if (user != null && user.email != null) {
-            val credential = EmailAuthProvider.getCredential(user.email!!, oldPassword)
-            viewModelScope.launch {
-                try {
-                    user.reauthenticate(credential).await()
-                    user.updatePassword(newPassword).await()
-                    onSuccess()
-                } catch (e: Exception) {
-                    onFailure(e)
-                }
+            result.onFailure {
+                onFailure(it as Exception) // Ensure it is cast to Exception
             }
-        } else {
-            onFailure(Exception("No authenticated user found"))
         }
     }
 
