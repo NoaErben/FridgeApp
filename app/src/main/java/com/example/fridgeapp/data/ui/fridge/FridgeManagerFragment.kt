@@ -22,7 +22,6 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
-
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
     private val fbViewModel: FbViewModel by activityViewModels()
