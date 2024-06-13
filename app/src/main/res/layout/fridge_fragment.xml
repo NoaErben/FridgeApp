@@ -21,7 +21,9 @@
         app:title="My Fridge"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
-        app:titleTextColor="@color/black" />
+        app:titleTextColor="@color/black"
+        android:layoutDirection="ltr"
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -47,11 +49,11 @@
 
     <ImageView
         android:id="@+id/emptyImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="350dp"
+        android:layout_height="400dp"
         android:layout_marginTop="32dp"
         android:contentDescription="empty_fridge"
-        android:src="@drawable/splash_no_background"
+        android:src="@drawable/empty_fridge"
         app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
         app:layout_constraintStart_toStartOf="parent"
@@ -62,14 +64,16 @@
         android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Add your items"
-        android:textSize="18sp"
+        android:text="Your fridge is empty!"
         android:textColor="@color/black"
-        app:layout_constraintTop_toBottomOf="@id/emptyImageView"
-        app:layout_constraintStart_toStartOf="parent"
+        android:textSize="30sp"
+        android:fontFamily="@font/lobster"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/emptyImageView" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

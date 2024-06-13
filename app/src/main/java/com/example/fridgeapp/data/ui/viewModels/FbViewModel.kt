@@ -15,11 +15,13 @@ import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.model.User
 import com.example.fridgeapp.data.repository.CartRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.launch
@@ -52,6 +54,9 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
     val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
+
+    private val userDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
 
     // ################## VM functions ##################
     init {
@@ -573,6 +578,28 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
                 }
         } ?: run {
             callback(false)
+        }
+    }
+
+    fun saveUserToDatabase(onComplete: (Result<Unit>) -> Unit) {
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            val uid = currentUser.uid
+            val name = currentUser.displayName ?: ""
+            val email = currentUser.email ?: ""
+
+            val user = User(name, email, uid)
+
+            userDatabaseReference.child(uid).setValue(user)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onComplete(Result.success(Unit))
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to save user to database")))
+                    }
+                }
+        } else {
+            onComplete(Result.failure(Exception("No authenticated user found")))
         }
     }
 
