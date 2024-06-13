@@ -43,6 +43,7 @@ class LoginFragment : Fragment() {
             fbViewModel.signIn(email, password, onSuccess = {
                 // Sign in success, navigate to the next screen or perform any other action
                 Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
+                fbViewModel.changeUser()
                 findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
             }, onFailure = { exception ->
                 // If sign in fails, display a message to the user.
@@ -85,7 +86,7 @@ class LoginFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 Dialogs.showConfirmLeaveDialog(requireContext(),
-                    onConfirm = { findNavController().popBackStack() },
+                    onConfirm = { requireActivity().finish() },
                     onCancel = { /* Do nothing */ }
                 )
             }

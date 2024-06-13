@@ -45,11 +45,10 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     private val _chosenCartItem = MutableLiveData<CartItem>()
 
     private val fridgeRepository = FridgeRepository()
-    val items: LiveData<List<FridgeItem>> = fridgeRepository.getItems()
+    var items: LiveData<List<FridgeItem>> = fridgeRepository.getItems()
 
     private val cartRepository = CartRepository()
-    val cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
-
+    var cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
 
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -75,6 +74,13 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
 //                Log.d("MyTag", "Item: ${it.name}, Expiry: ${it.expiryDate}, Photo: ${it.photoUrl}")
             }
         }
+    }
+
+    fun changeUser() {
+        // Clear existing data or perform any necessary cleanup
+        _currentUser.value = auth.currentUser
+        items = fridgeRepository.getItems()
+        cartItems = cartRepository.getItems()
     }
 
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
@@ -601,6 +607,5 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
             onComplete(Result.failure(Exception("No authenticated user found")))
         }
     }
-
 
 }

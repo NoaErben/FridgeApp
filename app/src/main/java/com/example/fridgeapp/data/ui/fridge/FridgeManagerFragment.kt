@@ -190,7 +190,7 @@ class FridgeManagerFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 Dialogs.showConfirmLeaveDialog(requireContext(),
-                    onConfirm = { findNavController().popBackStack() },
+                    onConfirm = { requireActivity().finish() },
                     onCancel = { /* Do nothing */ }
                 )
             }
