@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        enableEdgeToEdge()
+        enableEdgeToEdge()
 
         // Initialize the database
         FridgeDB.getDatabase(this)
