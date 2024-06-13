@@ -75,7 +75,7 @@
     <string name="add_item_nto_shpping_list">Add item to shopping list</string>
     <string name="date_added">Date added:</string>
     <string name="_null">NULL</string>
-    <string name="google_maps_link">google link</string>
+    <string name="google_maps_link"></string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

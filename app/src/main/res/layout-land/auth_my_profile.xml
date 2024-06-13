@@ -74,6 +74,18 @@
                 android:textColor="@color/white"
                 android:textSize="20sp"/>
 
+            <TextView
+                android:id="@+id/tvGoogleMapsLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/amaranth"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:autoLink="web"
+                android:text="@string/google_maps_link" />
+
             <Button
                 android:id="@+id/btnSignOut"
                 android:layout_width="200dp"

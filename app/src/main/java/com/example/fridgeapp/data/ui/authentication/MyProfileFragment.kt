@@ -18,6 +18,8 @@ import com.example.fridgeapp.databinding.AuthMyProfileBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import java.net.URLEncoder
+import java.nio.charset.StandardCharsets
 
 
 class MyProfileFragment: Fragment() {
@@ -54,13 +56,16 @@ class MyProfileFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // liraz and noa added here
-        val userAddress = binding.locationTextView
-        val query = "supermarkets near $userAddress"
-        val url = "https://www.google.com/maps/search/?api=1&query=$query"
-        binding.tvGoogleMapsLink?.text = url
-        
-        //end
+        viewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
+            binding.locationTextView.text = address
 
+            val query = "supermarkets near $address"
+            val encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString())
+            val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
+            binding.tvGoogleMapsLink.text = url
+
+        })
+        //end
 
         viewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
             binding.locationTextView.text = address
