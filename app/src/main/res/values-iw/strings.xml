@@ -1,0 +1,88 @@
+<resources>
+    <string name="app_name">אפליקציית מקרר</string>
+    <string name="add_product_expiry">הוסף תאריך תפוגה למוצר</string>
+    <string name="expire_date">תאריך תפוגה:</string>
+    <string name="purchase_date">תאריך רכישה:</string>
+    <string name="quantity">כמות:</string>
+    <string name="throw_out">זרוק</string>
+    <string name="use_up">השתמש</string>
+    <string name="replace_image">החלף תמונה</string>
+    <string name="name">שם:</string>
+    <string name="units">יחידות</string>
+    <string name="default_days_to_expire">ברירת מחדל של ימים עד תפוגה:</string>
+    <string name="category">קטגוריה:</string>
+    <string name="save">שמור</string>
+    <string name="add_item_to_nfavorites">הוסף פריט למועדפים</string>
+    <string name="days_to_expire">ימים עד תפוגה</string>
+    <string name="remove_from_favorites">הסר מהמועדפים</string>
+    <string name="answer">תשובה</string>
+    <string name="item_name">שם מוצר</string>
+    <string name="remove">הסר</string>
+    <string name="please_fill_in_all_fields_correctly">אנא מלא את כל השדות כהלכה</string>
+    <string name="please_enter_a_valid_product_name">אנא הזן שם מוצר תקף</string>
+    <string name="please_enter_a_valid_number_of_days_to_expire">אנא הזן מספר ימים תקף לתפוגה</string>
+    <string name="breads">לחמים</string>
+    <string name="are_you_sure_you_want_to_discard_changes">האם אתה בטוח שברצונך לבטל את השינויים?</string>
+    <string name="yes">כן</string>
+    <string name="no">לא</string>
+    <string name="are_you_sure_you_want_to_delete_this_item">האם אתה בטוח שברצונך למחוק פריט זה?</string>
+    <string name="swipe_to_delete">החלק למחיקה</string>
+    <string name="days">ימים</string>
+    <string name="name_min_3_characters">שם (מינימום 3 תווים)</string>
+    <string name="e_mail_address">כתובת מייל</string>
+    <string name="namee">שם</string>
+    <string name="password_min_6_digits">סיסמה (מינימום 6 תווים)</string>
+    <string name="confirm_password">אשר סיסמה</string>
+    <string name="register">הרשם</string>
+    <string name="register_yourself">הרשמה</string>
+    <string name="sign_out">התנתק</string>
+    <string name="hello">שלום,</string>
+    <string name="please_enter_a_valid_quantity">אנא הזן כמות תקפה</string>
+    <string name="please_enter_valid_dates">אנא הזן תאריכים תקפים</string>
+    <string name="expiry_date_must_be_after_buying_date">תאריך התפוגה חייב להיות אחרי תאריך הקנייה</string>
+    <string name="please_login_to_add_items">אנא התחבר כדי להוסיף פריטים</string>
+    <string name="back">חזור</string>
+    <string name="add_item_to_shopping_list">הוסף פריט לרשימת הקניות</string>
+    <string name="add">הוסף</string>
+    <string name="amount_measure">כמות מידה</string>
+    <string name="product_name">שם מוצר</string>
+    <string name="image_view">תצוגת תמונה</string>
+    <string name="create_new_fridge">צור מקרר חדש</string>
+    <string name="fridge_name">שם המקרר:</string>
+    <string name="password">סיסמה:</string>
+    <string name="mobile_number_10_digits">מספר נייד (10 ספרות)</string>
+    <string name="forgot_password">שכח סיסמה</string>
+    <string name="enter_the_following_details">הזן את הפרטים הבאים</string>
+    <string name="we_will_send_to_the_registered_email">נשלח לכתובת הדוא"ל הרשומה</string>
+    <string name="email_address">כתובת דוא"ל</string>
+    <string name="next">הבא</string>
+    <string name="location">מיקום:</string>
+    <string name="set_password">הגדר סיסמה</string>
+    <string name="enter_the_otp_received_below">הזן את קוד החד פעמי שהתקבל</string>
+    <string name="otp_4_characters">קוד חד פעמי</string>
+    <string name="new_password_min_4_digits">סיסמה חדשה (מינימום 4 תווים)</string>
+    <string name="submit">שלח</string>
+    <string name="login">התחבר</string>
+    <string name="don_t_have_an_account_sign_up_now">אין לך חשבון? הירשם עכשיו</string>
+    <string name="x_days_for">X ימים עבור</string>
+    <string name="measure">מידה:</string>
+    <string name="buying_date">תאריך קנייה</string>
+    <string name="expiry_date">תאריך תפוגה</string>
+    <string name="item_title">כותרת פריט</string>
+    <string name="xxx_days">XXX ימים</string>
+    <string name="add_item_to_fridge">הוסף פריט למקרר</string>
+    <string name="product">מוצר:</string>
+    <string name="add_item_nto_shpping_list">הוסף פריט לרשימת הקניות</string>
+    <string name="date_added">תאריך הוספה:</string>
+    <string name="_null">NULL</string>
+    <string name="find_supermarkets_nearby">לחץ כאן למציאת סופרים קרובים</string>
+    <string name="google_maps_link"></string>
+    <string-array name="category_array">
+        <item>פירות</item>
+        <item>ירקות</item>
+        <item>מוצרי חלב</item>
+        <item>בשר</item>
+        <item>משקאות</item>
+        <item>רטבים</item>
+    </string-array>
+</resources>

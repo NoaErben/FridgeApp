@@ -71,7 +71,8 @@ class MyProfileFragment: Fragment() {
             val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
             binding.tvGoogleMapsLink.text = url
 
-            val spannableString = SpannableString("Click here to find supermarkets nearby")
+            val message = getString(R.string.find_supermarkets_nearby)
+            val spannableString = SpannableString(message)
             val clickableSpan = object : ClickableSpan() {
                 override fun onClick(widget: View) {
                     val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
@@ -79,15 +80,15 @@ class MyProfileFragment: Fragment() {
                 }
 
                 override fun updateDrawState(ds: TextPaint) {
-                    super.updateDrawState(ds)git
-                    ds.color = ContextCompat.getColor(requireContext(), R.color.white) // Set to white color
-                    ds.isUnderlineText = true // Optional, remove if you don't want the text to be underlined
+                    super.updateDrawState(ds)
+                    ds.color = ContextCompat.getColor(requireContext(), R.color.white)
+                    ds.isUnderlineText = true
                 }
             }
             spannableString.setSpan(clickableSpan, 0, spannableString.length, 0)
             binding.tvGoogleMapsLink.text = spannableString
             binding.tvGoogleMapsLink.movementMethod = LinkMovementMethod.getInstance()
-            //end
+
         })
         //end
 
