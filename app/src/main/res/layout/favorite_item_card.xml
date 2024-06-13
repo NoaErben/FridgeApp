@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amaranth"
-                android:text="Item Title"
+                android:text="@string/item_title"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp"/>
@@ -43,7 +43,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amaranth"
-                android:text="XXX days"
+                android:text="@string/xxx_days"
                 android:textSize="18sp" />
 
 

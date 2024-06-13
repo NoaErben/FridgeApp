@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Item Name"
+                android:text="@string/item_name"
                 android:textColor="@color/black"
                 android:textSize="40sp" />
 
@@ -51,7 +51,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:layout_marginBottom="20dp"
-            tools:srcCompat="@drawable/new_food_option_2" />
+            tools:srcCompat="@drawable/new_food_option_2"
+            android:contentDescription="@string/item_name" />
 
 
 
@@ -101,7 +102,7 @@
                 android:drawableStart="@drawable/bag_svgrepo_com"
                 android:fontFamily="@font/amaranth"
                 android:layout_marginBottom="5dp"
-                android:hint=" Quantity"
+                android:hint="@string/quantity"
                 android:inputType="number" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -122,7 +123,7 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Measure:"
+                android:text="@string/measure"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
 
@@ -156,7 +157,7 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="Date added:"
+                android:text="@string/date_added"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
 
@@ -170,7 +171,7 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/amaranth"
                 android:gravity="center"
-                android:text="NULL"
+                android:text="@string/_null"
                 android:textColor="@color/black"
                 android:textSize="22sp" />
 
@@ -206,11 +207,11 @@
                 android:text="@string/save"
                 android:textColor="@color/green"
                 android:textSize="23sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                style="?android:attr/buttonBarButtonStyle" />
 
 
         </LinearLayout>
     </LinearLayout>
-
 
 </androidx.cardview.widget.CardView>

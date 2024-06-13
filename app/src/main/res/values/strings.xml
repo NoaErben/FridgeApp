@@ -62,6 +62,19 @@
     <string name="otp_4_characters">otp 4 characters</string>
     <string name="new_password_min_4_digits">new password min 4 digits</string>
     <string name="submit">submit</string>
+    <string name="login">login</string>
+    <string name="don_t_have_an_account_sign_up_now">don\'t have an account? sign up now</string>
+    <string name="x_days_for">X days for</string>
+    <string name="measure">Measure:</string>
+    <string name="buying_date">Buying Date</string>
+    <string name="expiry_date">Expiry Date</string>
+    <string name="item_title">Item Title</string>
+    <string name="xxx_days">XXX days</string>
+    <string name="add_item">Add item</string>
+    <string name="product">Product:</string>
+    <string name="add_item_nto_shpping_list">Add item\nto shpping list</string>
+    <string name="date_added">Date added:</string>
+    <string name="_null">NULL</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

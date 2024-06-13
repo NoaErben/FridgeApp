@@ -50,12 +50,12 @@
             android:background="@drawable/rounder_border_for_view"
             android:drawableStart="@drawable/ic_icon_mobile"
             android:drawablePadding="4dp"
-            android:hint="E-mail address"
-            android:inputType="text"
+            android:hint="@string/e_mail_address"
             android:imeOptions="actionDone"
             android:padding="14dp"
             android:textSize="18sp"
-            tools:ignore="Autofill" />
+            tools:ignore="Autofill"
+            android:inputType="textEmailAddress" />
 
         <EditText
             android:id="@+id/et_password"
@@ -69,7 +69,7 @@
             android:background="@drawable/rounder_border_for_view"
             android:drawableStart="@drawable/ic_icon_password"
             android:drawablePadding="4dp"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:maxLength="8"
             android:padding="14dp"
@@ -87,7 +87,7 @@
             android:layout_marginBottom="20dp"
             android:backgroundTint="@color/fridgeColor"
             android:elevation="1dp"
-            android:text="login"
+            android:text="@string/login"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="normal" />
@@ -98,7 +98,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/btnLogin"
             android:layout_centerHorizontal="true"
-            android:text="forgot password?"
+            android:text="@string/forgot_password"
             android:textColor="@color/white"
             android:textSize="20sp" />
 
@@ -114,7 +114,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:text="don't have an account? sign up now"
+        android:text="@string/don_t_have_an_account_sign_up_now"
         android:textColor="@color/white"
         android:textSize="20sp" />
 

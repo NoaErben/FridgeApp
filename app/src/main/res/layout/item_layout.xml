@@ -18,7 +18,8 @@
             android:id="@+id/item_image"
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@drawable/dish" />
+            android:src="@drawable/dish"
+            android:contentDescription="@string/image_view" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -31,7 +32,7 @@
                 android:id="@+id/item_expired"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="XXX days"
+                android:text="@string/xxx_days"
                 android:fontFamily="@font/amaranth"
                 android:textSize="18sp" />
 
@@ -39,7 +40,7 @@
                 android:id="@+id/item_Name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Item Title"
+                android:text="@string/item_title"
                 android:fontFamily="@font/amaranth"
                 android:textSize="23sp"
                 android:textStyle="bold" />
