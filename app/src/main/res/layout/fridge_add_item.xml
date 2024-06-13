@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:layout_marginTop="50sp"
-    android:layoutDirection="ltr">
+    >
 
     <!-- Title TextView -->
     <TextView

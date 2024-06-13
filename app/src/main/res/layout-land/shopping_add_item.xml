@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:layout_marginTop="20dp">
 
     <!-- Title TextView -->
     <TextView
@@ -17,7 +17,8 @@
         android:text="@string/add_item_nto_shpping_list"
         android:textColor="@color/white"
         android:textSize="42sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:singleLine="true" />
 
     <!-- Container for ImageView and Input Fields in horizontal orientation -->
     <LinearLayout
@@ -31,17 +32,19 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_marginEnd="16sp"
+            android:layout_marginStart="16sp">
 
             <!-- ImageView for the image -->
             <ImageView
                 android:id="@+id/item_image"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:src="@drawable/add_photo_svgrepo_com"
-                android:contentDescription="@string/image_view" />
+                android:contentDescription="@string/image_view"
+                />
 
             <!-- Container for Product Name -->
             <LinearLayout
@@ -76,10 +79,6 @@
                     android:fontFamily="@font/amaranth"
                     android:padding="8dp" />
             </LinearLayout>
-
-
-
-
         </LinearLayout>
 
         <!-- Vertical container for Input Fields -->
@@ -88,7 +87,8 @@
             android:layout_height="match_parent"
             android:layout_weight="2"
             android:orientation="vertical"
-            android:layout_marginStart="16dp">
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16sp">
 
             <!-- Quantity Input -->
             <com.google.android.material.textfield.TextInputLayout
@@ -104,10 +104,6 @@
                     android:hint="@string/quantity"
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
-
-
-
-
 
             <!-- Measure Input -->
             <LinearLayout
@@ -175,8 +171,8 @@
                     android:dropDownVerticalOffset="8dp"
                     android:fontFamily="@font/amaranth"
                     android:padding="8dp" />
-
             </LinearLayout>
+
             <!-- Add Item Button -->
             <Button
                 android:id="@+id/add_item_button"
@@ -188,7 +184,7 @@
                 android:text="@string/add"
                 android:layout_gravity="end"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="5dp"/>
+                android:layout_marginEnd="5dp" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
