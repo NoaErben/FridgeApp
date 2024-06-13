@@ -113,7 +113,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="50dp"
         android:text="@string/don_t_have_an_account_sign_up_now"
         android:textColor="@color/white"
         android:textSize="20sp" />
