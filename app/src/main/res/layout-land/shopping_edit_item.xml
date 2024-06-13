@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/cyanBackground"
+    app:cardCornerRadius="30dp"
+    app:cardUseCompatPadding="true"
+    app:contentPadding="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <!-- Title TextView -->
+        <LinearLayout
+            android:id="@+id/header_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_horizontal">
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/amaranth"
+                android:gravity="center"
+                android:text="@string/item_name"
+                android:textColor="@color/black"
+                android:textSize="40sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5" />
+        </LinearLayout>
+
+        <!-- Container for ImageView and Input Fields in horizontal orientation -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            android:baselineAligned="false">
+
+            <!-- Container for ImageView -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center">
+
+                <!-- ImageView for the image -->
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="20dp"
+                    tools:srcCompat="@drawable/new_food_option_2"
+                    android:contentDescription="@string/image_view" />
+            </LinearLayout>
+
+            <!-- Vertical container for Input Fields -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:orientation="vertical"
+                android:layout_marginStart="16dp">
+
+                <!-- Expire Date Container -->
+                <LinearLayout
+                    android:id="@+id/expire_date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/category_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="55dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/category"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <Spinner
+                        android:id="@+id/product_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/rounded_frame"
+                        android:dropDownHorizontalOffset="8dp"
+                        android:dropDownVerticalOffset="8dp"
+                        android:fontFamily="@font/amaranth"
+                        android:padding="8dp" />
+                </LinearLayout>
+
+                <!-- Quantity Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/quantity"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/bag_svgrepo_com"
+                        android:fontFamily="@font/amaranth"
+                        android:layout_marginBottom="5dp"
+                        android:hint="@string/quantity"
+                        android:inputType="number" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Measure Input -->
+                <LinearLayout
+                    android:id="@+id/measure_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/measure_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="55dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/measure"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <Spinner
+                        android:id="@+id/measure_category"
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/rounded_frame"
+                        android:dropDownHorizontalOffset="8dp"
+                        android:dropDownVerticalOffset="8dp"
+                        android:fontFamily="@font/amaranth"
+                        android:padding="8dp" />
+                </LinearLayout>
+
+                <!-- Date Container -->
+                <LinearLayout
+                    android:id="@+id/date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/date_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="25dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/date_added"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/date_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="55dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/_null"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+                </LinearLayout>
+
+                <!-- Button Container -->
+                <LinearLayout
+                    android:id="@+id/button_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/throw_out_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/throw_out"
+                        android:textColor="@color/red"
+                        android:textSize="23sp"
+                        android:textStyle="bold"
+                        style="?android:attr/buttonBarButtonStyle" />
+
+                    <Button
+                        android:id="@+id/use_up_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/save"
+                        android:textColor="@color/green"
+                        android:textSize="23sp"
+                        android:textStyle="bold"
+                        style="?android:attr/buttonBarButtonStyle" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
