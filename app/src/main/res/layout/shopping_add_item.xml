@@ -14,7 +14,7 @@
         android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Add item\nto shpping list"
+        android:text="@string/add_item_nto_shpping_list"
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold" />
@@ -34,7 +34,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/add_photo_svgrepo_com" />
+            android:src="@drawable/add_photo_svgrepo_com"
+            android:contentDescription="@string/image_view" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -58,7 +59,7 @@
                     android:layout_marginBottom="3dp"
                     android:fontFamily="@font/amaranth"
                     android:gravity="center"
-                    android:text="Product: "
+                    android:text="@string/product"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
@@ -87,7 +88,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/bag_svgrepo_com"
                     android:fontFamily="@font/amaranth"
-                    android:hint=" Quantity"
+                    android:hint="@string/quantity"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -110,7 +111,7 @@
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/amaranth"
             android:gravity="center"
-            android:text="Measure:"
+            android:text="@string/measure"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
@@ -171,6 +172,6 @@
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
-        android:text="Add" />
+        android:text="@string/add" />
 
 </LinearLayout>

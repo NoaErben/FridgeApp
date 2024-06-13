@@ -5,7 +5,7 @@
     android:background="@color/white"
     android:orientation="vertical"
     android:padding="16dp"
-    android:layoutDirection="ltr">>
+    android:layoutDirection="ltr">
 
     <!-- Title TextView -->
     <TextView
@@ -15,7 +15,7 @@
         android:background="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:gravity="center"
-        android:text="Add item"
+        android:text="@string/add_item"
         android:textColor="@color/white"
         android:textSize="42sp"
         android:textStyle="bold" />
@@ -35,7 +35,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/add_photo_svgrepo_com" />
+            android:src="@drawable/add_photo_svgrepo_com"
+            android:contentDescription="@string/image_view" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -59,7 +60,7 @@
                     android:layout_marginBottom="3dp"
                     android:fontFamily="@font/amaranth"
                     android:gravity="center"
-                    android:text="Product: "
+                    android:text="@string/product"
                     android:textColor="@color/black"
                     android:textSize="22sp" />
 
@@ -88,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/bag_svgrepo_com"
                     android:fontFamily="@font/amaranth"
-                    android:hint=" Quantity"
+                    android:hint="@string/quantity"
                     android:inputType="number" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +112,7 @@
             android:layout_marginBottom="3dp"
             android:fontFamily="@font/amaranth"
             android:gravity="center"
-            android:text="Measure:"
+            android:text="@string/measure"
             android:textColor="@color/black"
             android:textSize="22sp" />
 
@@ -140,9 +141,9 @@
             android:layout_marginBottom="10dp"
             android:clickable="true"
             android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
-            android:focusable="false"
+            android:focusable="true"
             android:fontFamily="@font/amaranth"
-            android:hint=" Buying Date" />
+            android:hint="@string/buying_date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -157,9 +158,9 @@
             android:layout_marginBottom="5dp"
             android:clickable="true"
             android:drawableStart="@drawable/expire_svgrepo_com"
-            android:focusable="false"
+            android:focusable="true"
             android:fontFamily="@font/amaranth"
-            android:hint=" Expiry Date" />
+            android:hint="@string/expire_date" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -205,6 +206,6 @@
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
-        android:text="Add" />
+        android:text="@string/add" />
 
 </LinearLayout>
