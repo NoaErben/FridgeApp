@@ -5,10 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
@@ -31,6 +33,8 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        handleBackButtonPress()
+
         // Set click listener for login button
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmailAddress.text.toString()
@@ -50,9 +54,6 @@ class LoginFragment : Fragment() {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
 
-        binding.txtForgotPassword.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_forgotPasswordInputFragment)
-        }
 
         binding.txtForgotPassword.setOnClickListener {
             val email = binding.etEmailAddress.text.toString().trim()
@@ -77,6 +78,17 @@ class LoginFragment : Fragment() {
         }, { exception ->
             val errorMessage = exception.message ?: "Error sending password reset email"
             Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+        })
+    }
+
+    private fun handleBackButtonPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Dialogs.showConfirmLeaveDialog(requireContext(),
+                    onConfirm = { findNavController().popBackStack() },
+                    onCancel = { /* Do nothing */ }
+                )
+            }
         })
     }
 }

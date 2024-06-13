@@ -50,7 +50,9 @@
         android:label="SplashScreen">
         <action
             android:id="@+id/action_splashScreen_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
+            app:destination="@id/fridgeManagerFragment"
+            app:popUpTo="@id/fridgeManagerFragment"
+            app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_splashScreen_to_loginFragment"
             app:destination="@id/loginFragment" />
@@ -84,7 +86,8 @@
         android:label="AddItemToFridgeFragment" >
         <action
             android:id="@+id/action_addItemToFridgeFragment_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
+            app:destination="@id/fridgeManagerFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/editFridgeItemFragment"
@@ -92,7 +95,8 @@
         android:label="EditFridgeItemFragment" >
         <action
             android:id="@+id/action_editFridgeItemFragment_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
+            app:destination="@id/fridgeManagerFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/fridgeShoppingListFragment"
@@ -114,7 +118,8 @@
         android:label="EditItemShoppingListFragment" >
         <action
             android:id="@+id/action_editItemShoppingListFragment_to_fridgeShoppingListFragment"
-            app:destination="@id/fridgeShoppingListFragment" />
+            app:destination="@id/fridgeShoppingListFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemToShoppingList"
@@ -122,7 +127,8 @@
         android:label="AddItemToShoppingList" >
         <action
             android:id="@+id/action_addItemToShoppingList_to_fridgeShoppingListFragment"
-            app:destination="@id/fridgeShoppingListFragment" />
+            app:destination="@id/fridgeShoppingListFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
@@ -130,29 +136,20 @@
         android:label="LoginFragment" >
         <action
             android:id="@+id/action_loginFragment_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
-        <action
-            android:id="@+id/action_loginFragment_to_forgotPasswordInputFragment"
-            app:destination="@id/forgotPasswordInputFragment" />
+            app:destination="@id/fridgeManagerFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
         <action
             android:id="@+id/action_loginFragment_to_registerFragment"
             app:destination="@id/registerFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/forgotPasswordInputFragment"
-        android:name="com.example.fridgeapp.data.ui.authentication.ForgotPasswordInputFragment"
-        android:label="ForgotPasswordInputFragment" >
-        <action
-            android:id="@+id/action_forgotPasswordInputFragment_to_setPasswordFragment"
-            app:destination="@id/setPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/setPasswordFragment"
         android:name="com.example.fridgeapp.data.ui.authentication.SetPasswordFragment"
         android:label="SetPasswordFragment" >
         <action
-            android:id="@+id/action_setPasswordFragment_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
+            android:id="@+id/action_setPasswordFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment"
+            app:popUpTo="@id/myProfileFragment" />
     </fragment>
     <fragment
         android:id="@+id/defaultExpirationDatesFragment"
@@ -184,7 +181,8 @@
         android:label="RegisterFragment" >
         <action
             android:id="@+id/action_registerFragment_to_fridgeManagerFragment"
-            app:destination="@id/fridgeManagerFragment" />
+            app:destination="@id/fridgeManagerFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
@@ -197,16 +195,8 @@
             android:id="@+id/action_myProfileFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
         <action
-            android:id="@+id/action_myProfileFragment_to_createNewFridge2"
-            app:destination="@id/createNewFridge2" />
-    </fragment>
-    <fragment
-        android:id="@+id/createNewFridge2"
-        android:name="com.example.fridgeapp.data.ui.authentication.CreateNewFridge"
-        android:label="CreateNewFridge" >
-        <action
-            android:id="@+id/action_createNewFridge2_to_myProfileFragment"
-            app:destination="@id/myProfileFragment" />
+            android:id="@+id/action_myProfileFragment_to_setPasswordFragment"
+            app:destination="@id/setPasswordFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemToFavoriteFragment"

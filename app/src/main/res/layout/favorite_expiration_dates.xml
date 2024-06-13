@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/fridgeColor"
-        app:title="Product Default Expiry"
+        app:title="My Favorite Items"
         app:titleTextColor="@color/black"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleCentered="true"

@@ -7,6 +7,8 @@
     android:orientation="vertical">
 
     <!-- Title TextView -->
+
+    <!-- Container for ImageView and Add item Button -->
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
@@ -17,9 +19,9 @@
         android:text="@string/add_item_to_fridge"
         android:textColor="@color/white"
         android:textSize="42sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:padding="15dp"/>
 
-    <!-- Container for ImageView and Add item Button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

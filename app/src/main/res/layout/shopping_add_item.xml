@@ -17,7 +17,9 @@
         android:text="@string/add_item_nto_shpping_list"
         android:textColor="@color/white"
         android:textSize="42sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"/>
 
     <!-- Container for ImageView and Add item Button -->
     <LinearLayout

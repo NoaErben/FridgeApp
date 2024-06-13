@@ -113,5 +113,18 @@ object Dialogs {
         dialog.show()
     }
 
+    fun showConfirmLeaveDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context)
+            .setTitle("Confirmation")
+            .setMessage("Are you sure you want to leave?")
+            .setPositiveButton("Yes") { _, _ -> onConfirm() }
+            .setNegativeButton("No") { dialog, _ ->
+                dialog.dismiss()
+                onCancel()
+            }
+            .create()
+            .show()
+    }
+
 
 }

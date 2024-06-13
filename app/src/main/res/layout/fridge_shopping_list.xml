@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/fridgeColor"
-        app:title="Shopping List"
+        app:title="My Shopping List"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black"

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -43,6 +44,7 @@ class FridgeManagerFragment : Fragment() {
         observeViewModel()
         setupNavigation()
         setupSwipeActions()
+        handleBackButtonPress()
     }
 
     private fun setupRecyclerView() {
@@ -182,5 +184,16 @@ class FridgeManagerFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun handleBackButtonPress() {
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                Dialogs.showConfirmLeaveDialog(requireContext(),
+                    onConfirm = { findNavController().popBackStack() },
+                    onCancel = { /* Do nothing */ }
+                )
+            }
+        })
     }
 }
