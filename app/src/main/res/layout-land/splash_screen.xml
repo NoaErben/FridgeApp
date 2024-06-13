@@ -5,13 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/darkerCyan"
-    android:orientation="vertical"
-    android:layoutDirection="ltr">
+    android:orientation="vertical">
 
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"/>
+        android:layout_weight="0.3"/>
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -32,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="20dp"
             android:foregroundGravity="center"
             android:scaleType="fitCenter"
             android:src="@drawable/fridgehubphone"
@@ -45,23 +44,24 @@
             android:layout_gravity="center"
             android:foregroundGravity="center"
             android:scaleType="fitCenter"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="12dp"
             android:src="@drawable/fridgehubtext"
             tools:ignore="MissingConstraints" />
 
         <TextView
             android:id="@+id/fridge_hub_description"
             android:layout_width="wrap_content"
-            android:layout_height="41dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="bottom|center_horizontal"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="8dp"
             android:fontFamily="@font/amaranth"
             android:text="Manage Your Fridge Easily!"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="27sp"
+            android:textSize="24sp"
+            android:maxLines="1"
             tools:ignore="RtlCompat" />
 
     </FrameLayout>
@@ -69,6 +69,6 @@
     <Space
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.4"/>
+        android:layout_weight="0.3"/>
 
 </LinearLayout>

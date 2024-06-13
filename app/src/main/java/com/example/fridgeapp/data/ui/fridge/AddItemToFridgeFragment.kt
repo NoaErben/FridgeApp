@@ -125,9 +125,10 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 val selectedName = foodItemsNames[position]
                 when (selectedName) {
                     "" -> {
-                        Glide.with(requireContext())
-                            .load(R.drawable.dish)
-                            .into(binding.itemImage)
+                        //todo - ask guy
+//                        Glide.with(requireContext())
+//                            .load(R.drawable.dish)
+//                            .into(binding.itemImage)
                         currentImage = R.drawable.dish.toString()
                     }
                     "Other" -> {

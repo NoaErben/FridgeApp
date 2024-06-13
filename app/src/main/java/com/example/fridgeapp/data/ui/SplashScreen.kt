@@ -24,7 +24,6 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 
-
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
@@ -86,18 +85,13 @@ class SplashScreenFragment : Fragment() {
             }, 2000)
 
             Handler(Looper.getMainLooper()).postDelayed({
-                splashPhone.startAnimation(zoomOutAnimation)
-                backgroundSplashScreen.startAnimation(zoomOutAnimation)
-            }, 2000)
-
-            Handler(Looper.getMainLooper()).postDelayed({
                 fridgeHubDescription.visibility = View.VISIBLE
                 fridgeHubDescription.startAnimation(fadeInAnimation)
             }, 3000)
 
             // Navigate to the next fragment after the animations are complete
             Handler(Looper.getMainLooper()).postDelayed({
-                if (findNavController().currentDestination?.id == R.id.splashScreen) {
+                if (isAdded) {
                     checkLocationPermission()
                 }
             }, 4000) // Adjust the delay to fit your needs
@@ -116,17 +110,20 @@ class SplashScreenFragment : Fragment() {
     private fun startLocationService() {
         Log.d("SplashScreenFragment", "Starting location service")
         // Handle location service start logic here
+        //todo - ??
     }
 
     private fun navigateNext() {
         val navController = findNavController()
-        if (!fbViewModel.isUserLoggedIn()) {
-            Log.d("SplashScreenFragment", "First time user, navigating to login")
-            navController.navigate(R.id.action_splashScreen_to_loginFragment)
-            setFirstTimeFlag(false)
-        } else {
-            Log.d("SplashScreenFragment", "Returning user, navigating to fridge manager")
-            navController.navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
+        if (navController.currentDestination?.id == R.id.splashScreen) {
+            if (!fbViewModel.isUserLoggedIn()) {
+                Log.d("SplashScreenFragment", "First time user, navigating to login")
+                navController.navigate(R.id.action_splashScreen_to_loginFragment)
+                setFirstTimeFlag(false)
+            } else {
+                Log.d("SplashScreenFragment", "Returning user, navigating to fridge manager")
+                navController.navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
+            }
         }
     }
 

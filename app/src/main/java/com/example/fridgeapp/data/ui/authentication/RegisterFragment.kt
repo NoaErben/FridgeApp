@@ -73,7 +73,7 @@ class RegisterFragment : Fragment() {
             showProgressBar()
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    fbViewModel.saveUserToDatabase { result ->
+                    fbViewModel.saveUserToDatabase(name) { result ->
                         hideProgressBar()
                         if (result.isSuccess) {
                             Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()

@@ -5,7 +5,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".data.ui.shoppingList.FridgeShoppingListFragment">
+    tools:context=".data.ui.shoppingList.FridgeShoppingListFragment"
+    android:layout_marginTop="50sp"
+    android:layout_marginBottom="35dp"
+    android:layoutDirection="ltr"
+    >
 
     <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
@@ -78,7 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 tools:listitem="@layout/cart_layout"
-                android:layout_gravity="center_vertical"/>
+                android:layout_gravity="center_vertical"
+                android:layout_marginBottom="150dp"
+                app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
+                />
 
         </LinearLayout>
 
@@ -119,8 +126,11 @@
                 android:id="@+id/cartRecyclerView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="150dp"
                 android:layout_marginTop="8dp"
-                tools:listitem="@layout/cart_layout" />
+                tools:listitem="@layout/cart_layout"
+                app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
+                />
 
         </LinearLayout>
 

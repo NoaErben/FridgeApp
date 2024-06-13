@@ -581,11 +581,10 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
         }
     }
 
-    fun saveUserToDatabase(onComplete: (Result<Unit>) -> Unit) {
+    fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit) {
         val currentUser = auth.currentUser
         if (currentUser != null) {
             val uid = currentUser.uid
-            val name = currentUser.displayName ?: ""
             val email = currentUser.email ?: ""
 
             val user = User(name, email, uid)
