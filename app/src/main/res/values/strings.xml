@@ -57,6 +57,11 @@
     <string name="email_address">Email address</string>
     <string name="next">Next</string>
     <string name="location">Location:</string>
+    <string name="set_password">Set Password</string>
+    <string name="enter_the_otp_received_below">enter the otp received below</string>
+    <string name="otp_4_characters">otp 4 characters</string>
+    <string name="new_password_min_4_digits">new password min 4 digits</string>
+    <string name="submit">submit</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>
