@@ -3,6 +3,7 @@
     <style name="Base.Theme.FridgeApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:statusBarColor">@color/fridgeColor</item>
     </style>
 
     <style name="Theme.FridgeApp" parent="Base.Theme.FridgeApp" />
