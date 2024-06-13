@@ -21,19 +21,9 @@
         app:title="My Fridge"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
-        app:titleTextColor="@color/black"
-        />
+        app:titleTextColor="@color/black" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbar"
-        tools:listitem="@layout/item_layout" />
+
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_expiry_btn"
@@ -48,7 +38,7 @@
 
     <ImageView
         android:id="@+id/emptyImageView"
-        android:layout_width="350dp"
+        android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_marginTop="32dp"
         android:contentDescription="empty_fridge"
@@ -57,22 +47,21 @@
         app:layout_constraintBottom_toTopOf="@id/add_product_expiry_btn"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:visibility="gone" />
+        android:visibility="visible" />
 
     <TextView
         android:id="@+id/emptyTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Your fridge is empty!"
         android:textColor="@color/black"
-        android:textSize="30sp"
-        android:fontFamily="@font/lobster"
-        android:visibility="gone"
+        android:textSize="18sp"
+        android:visibility="visible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/emptyImageView" />
 
-
-
+    <!--    android:fontFamily="font/lobster"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
