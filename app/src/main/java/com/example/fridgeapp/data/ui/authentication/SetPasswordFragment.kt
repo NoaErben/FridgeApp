@@ -46,22 +46,23 @@ class SetPasswordFragment: Fragment() {
 
     private fun validateInputs(curPass: String, password: String, confirmPassword: String): Boolean {
         if (curPass.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-            Toast.makeText(requireContext(), "Please fill up all fields", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (password.length < 6) {
-            Toast.makeText(requireContext(), "Password needs to be at least 6 characters", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.password_length_error), Toast.LENGTH_SHORT).show()
             return false
         }
 
         if (password != confirmPassword) {
-            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), getString(R.string.passwords_do_not_match), Toast.LENGTH_SHORT).show()
             return false
         }
 
         return true
     }
+
 
     private fun changePass(curPass: String, password: String) {
         showProgressBar()
@@ -79,13 +80,16 @@ class SetPasswordFragment: Fragment() {
     }
 
     private fun onChangeSuccess() {
-        Toast.makeText(requireContext(), "Password changed successfully", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), getString(R.string.password_changed_successfully), Toast.LENGTH_SHORT).show()
         findNavController().navigate(R.id.action_setPasswordFragment_to_myProfileFragment)
     }
 
+
     private fun onSignUpFailure(exception: Exception) {
-        Toast.makeText(requireContext(), "Failed to change password: ${exception.message}", Toast.LENGTH_SHORT).show()
+        val errorMessage = getString(R.string.failed_to_change_password, exception.message)
+        Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
     }
+
 
     private fun showProgressBar() {
         dialog = Dialog(requireContext())
