@@ -11,32 +11,8 @@ import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private var _binding: ActivityMainBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var favoriteViewModel: FavoriteViewModel
-    private val mainViewModel: Location by viewModels()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        _binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-        // Initialize the database
-        FridgeDB.getDatabase(this)
-
-        // Initialize ViewModel
-//        favoriteViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FavoriteViewModel::class.java)
-//        fbViewModel = ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(application)).get(FbViewModel::class.java)
-
-        // Set up the navigation controller
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHostFragment.navController
-
-        // Navigation will be handled in the SplashScreenFragment
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        setContentView(R.layout.activity_main)
     }
 }
