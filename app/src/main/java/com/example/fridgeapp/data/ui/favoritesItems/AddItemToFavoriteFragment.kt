@@ -26,7 +26,7 @@ class AddItemToFavoriteFragment : Fragment() {
 
     private var _binding: FavoriteAddItemBinding? = null
     private val binding get() = _binding!!
-    private val favoriteViewModel: FavoriteViewModel by viewModels {
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
     private var imageUri: Uri? = null

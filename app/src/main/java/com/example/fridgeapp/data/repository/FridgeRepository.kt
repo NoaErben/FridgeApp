@@ -1,50 +1,25 @@
 package com.example.fridgeapp.data.repository
 
-import android.util.Log
+import android.content.Context
+import android.net.Uri
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.example.fridgeapp.data.model.FridgeItem
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
-class FridgeRepository {
+interface FridgeRepository {
 
-    private val firebaseAuth: FirebaseAuth by lazy {
-        FirebaseAuth.getInstance()
-    }
+    fun currentUser(): FirebaseUser?
+    fun getItems(): LiveData<List<FridgeItem>>
 
-    private val database by lazy {
-        FirebaseDatabase.getInstance().getReference("itemsInFridge")
-    }
-    fun getItems(): LiveData<List<FridgeItem>> {
-        val data = MutableLiveData<List<FridgeItem>>()
-        val currentUser: FirebaseUser? = firebaseAuth.currentUser
+    fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
+                                          onComplete: (Result<Unit>) -> Unit)
 
-        if (currentUser != null) {
-            database.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val items = mutableListOf<FridgeItem>()
-                    for (itemSnapshot in snapshot.children) {
-                        val item = itemSnapshot.getValue(FridgeItem::class.java)
-                        if (item != null) {
-                            items.add(item)
-                        }
-                    }
-                    data.value = items
-                }
+    fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
+                                            photoUri: String?, onComplete: (Result<Unit>) -> Unit)
 
-                override fun onCancelled(error: DatabaseError) {
-                    // Handle possible errors
-                }
-            })
-        } else {
-            data.value = emptyList()
-        }
+    fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit)
 
-        return data
-    }
+    fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit)
+
+    fun checkItemExists(itemName: String, callback: (Boolean) -> Unit)
 }

@@ -26,10 +26,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
+import com.example.fridgeapp.data.ui.utils.Constants
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.MyDates
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
 import kotlinx.coroutines.launch
@@ -43,15 +48,18 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var _binding: FridgeAddItemBinding? = null
     private val binding get() = _binding!!
 
-    private val favoriteViewModel: FavoriteViewModel by viewModels {
+    private val favoriteViewModel: FavoriteViewModel by activityViewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
-    private val fbViewModel: FbViewModel by activityViewModels()
 
     private lateinit var dialog: Dialog
     private var imageUri: Uri? = null
     private var currentImage: String? = null
     private var isBuyingDate: Boolean = false
+
+    private val viewModel: FridgeViewmodel by viewModels {
+        FridgeViewmodel.FridgeViewmodelFactory(FridgeRepositoryFirebase())
+    }
 
 
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
@@ -85,7 +93,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = Constants.categories
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -95,7 +103,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupMeasureSpinner() {
-        val categories = favoriteViewModel.unitMeasures
+        val categories = Constants.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -130,10 +138,6 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 val selectedName = foodItemsNames[position]
                 when (selectedName) {
                     "" -> {
-                        //todo - ask guy
-//                        Glide.with(requireContext())
-//                            .load(R.drawable.dish)
-//                            .into(binding.itemImage)
                         currentImage = R.drawable.dish.toString()
                     }
                     "Other" -> {
@@ -143,7 +147,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                         viewLifecycleOwner.lifecycleScope.launch {
                             val foodItem = favoriteViewModel.getFoodItem(selectedName)
                             foodItem?.let {
-                                binding.productCategory.setSelection(favoriteViewModel.categories.indexOf(it.category ?: favoriteViewModel.categories[0]))
+                                binding.productCategory.setSelection(Constants.categories.indexOf(it.category ?: favoriteViewModel.categories[0]))
                                 val calendar = Calendar.getInstance()
                                 calendar.add(Calendar.DATE, it.daysToExpire ?: 7)
                                 val expiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
@@ -202,15 +206,15 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         val productName =
             binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
-        val buyingDate = fbViewModel.parseDate(binding.buyingDate.text.toString())
-        val expiryDate = fbViewModel.parseDate(binding.productDaysToExpire.text.toString())
+        val buyingDate = MyDates.parseDate(binding.buyingDate.text.toString())
+        val expiryDate = MyDates.parseDate(binding.productDaysToExpire.text.toString())
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
         val photoUrl = imageUri.toString()
         val imageChanged =
             !(currentImage != null && currentImage!!.contains("firebase")) && currentImage != R.drawable.dish.toString()
 
-        fbViewModel.saveFridgeItemToDatabase(
+        viewModel.saveFridgeItemToDatabase(
             productName,
             quantity,
             buyingDate,
@@ -220,6 +224,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
             photoUrl,
             imageChanged,
             imageUri,
+            requireContext(),
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
@@ -255,7 +260,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                 false
             }
 
-            fbViewModel.parseDate(expiringDate) < fbViewModel.parseDate(buyingDate) -> {
+            MyDates.parseDate(expiringDate) < MyDates.parseDate(buyingDate) -> {
                 showToast(getString(R.string.expiry_date_must_be_after_buying_date))
                 false
             }
@@ -346,8 +351,8 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = favoriteViewModel.categories[0]
-        val defaultMeasure = favoriteViewModel.unitMeasures[0]
+        val defaultCategory = Constants.categories[0]
+        val defaultMeasure = Constants.unitMeasures[0]
         val defaultBuyingDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
         val defaultExpiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().apply { add(Calendar.DATE, 7) }.time)
 
@@ -371,7 +376,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun checkItemExistsAndSave() {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
 
-        fbViewModel.checkItemExists(productName) { exists ->
+        viewModel.checkItemExists(productName) { exists ->
             if (exists) {
                 showReplaceDiscardDialog {
                     saveItemToDatabase()

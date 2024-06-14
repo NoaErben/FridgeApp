@@ -16,7 +16,7 @@ import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.model.User
 import com.example.fridgeapp.data.repository.CartRepositoryOld
-import com.example.fridgeapp.data.repository.FridgeRepository
+import com.example.fridgeapp.data.repository.FridgeRepositoryOld
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
@@ -40,8 +40,8 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
     private val _chosenCartItem = MutableLiveData<CartItem>()
 
-    private val fridgeRepository = FridgeRepository()
-    var items: LiveData<List<FridgeItem>> = fridgeRepository.getItems()
+    private val fridgeRepositoryOld = FridgeRepositoryOld()
+    var items: LiveData<List<FridgeItem>> = fridgeRepositoryOld.getItems()
 
     private val cartRepositoryOld = CartRepositoryOld()
     var cartItems: LiveData<List<CartItem>> = cartRepositoryOld.getItems()
@@ -75,7 +75,7 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     fun changeUser() {
         // Clear existing data or perform any necessary cleanup
         _currentUser.value = auth.currentUser
-        items = fridgeRepository.getItems()
+        items = fridgeRepositoryOld.getItems()
         cartItems = cartRepositoryOld.getItems()
     }
 

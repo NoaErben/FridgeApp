@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -17,6 +18,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
+import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
+import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
@@ -24,8 +29,12 @@ import com.example.fridgeapp.databinding.FridgeFragmentBinding
 class FridgeManagerFragment : Fragment() {
     private var _binding: FridgeFragmentBinding? = null
     private val binding get() = _binding!!
-    private val fbViewModel: FbViewModel by activityViewModels()
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
+
+    private val viewModel: FridgeViewmodel by activityViewModels {
+        FridgeViewmodel.FridgeViewmodelFactory(FridgeRepositoryFirebase())
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,7 +63,8 @@ class FridgeManagerFragment : Fragment() {
         fridgeItemAdapter = FridgeItemAdapter(emptyList(), object : FridgeItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(index)
-                fbViewModel.setFridgeChosenItem(item)
+                Log.d("FMF2", item.name.toString())
+                viewModel.setFridgeChosenItem(item)
                 findNavController().navigate(R.id.action_fridgeManagerFragment_to_editFridgeItemFragment)
             }
 
@@ -66,7 +76,7 @@ class FridgeManagerFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        fbViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
             val sortedItems = items.sortedBy { it.timeUntilExpiry() }
             fridgeItemAdapter.updateItems(sortedItems)
@@ -80,6 +90,10 @@ class FridgeManagerFragment : Fragment() {
                 binding.recyclerView.visibility = View.VISIBLE
             }
         })
+
+//        viewModel.currentUser.observe(viewLifecycleOwner, Observer{currentUser ->
+//          viewModel.userChanged()
+//        })
     }
 
     private fun setupNavigation() {
@@ -112,11 +126,11 @@ class FridgeManagerFragment : Fragment() {
             val item = (binding.recyclerView.adapter as FridgeItemAdapter).itemAt(viewHolder.adapterPosition)
             Dialogs.showConfirmDeleteDialog(requireContext(),
                 onConfirm = {
-                    fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
+                    viewModel.deleteItemFromFridgeDatabase(item) { result ->
                         result.onSuccess {
                             showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast(getString(R.string.failed_to_delete_item, exception.message))
+                            showToast("failed_to_delete_item" + exception.message)
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }
@@ -133,14 +147,6 @@ class FridgeManagerFragment : Fragment() {
         popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-//                R.id.create_household -> {
-//                    showToast("create household clicked")
-//                    true
-//                }
-//                R.id.join_household -> {
-//                    showToast("join household clicked")
-//                    true
-//                }
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
                     showToast("shopping list clicked")
