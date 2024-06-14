@@ -99,6 +99,10 @@
     <string name="resetting_to_default_items">Resetting to default items...</string>
     <string name="added_successfully">Added successfully</string>
     <string name="failed_to_add_item">Failed to add item: %1$s</string>
+    <string name="expires_in_days">Expires in: %1$d days</string>
+    <string name="expires_today">Expires today</string>
+    <string name="expired_before_days">Expired before: %1$d days</string>
+
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>
