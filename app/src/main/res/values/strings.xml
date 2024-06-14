@@ -88,6 +88,11 @@
     <string name="helloExclamationMark">Hello!</string>
     <string name="failed_fetch_user_name">Failed to fetch user name</string>
     <string name="please_log_in">Please log in</string>
+    <string name="please_insert_name">Please insert a name</string>
+    <string name="password_length_error">Password needs to be at least 6 characters</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="user_registered_successfully">User registered successfully</string>
+    <string name="failed_to_save_user">Failed to save user: %1$s</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>
