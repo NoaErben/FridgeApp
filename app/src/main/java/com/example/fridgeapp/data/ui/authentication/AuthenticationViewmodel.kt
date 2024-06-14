@@ -32,7 +32,14 @@ class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel(
     fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         authRep.signUp(email, password, name) { result ->
             result.onSuccess {
-                onSuccess()
+                authRep.saveUserToDatabase(name) { result ->
+                    result.onSuccess {
+                        onSuccess()
+                    }
+                    result.onFailure {
+                        onFailure(it as Exception) // Ensure it is cast to Exception
+                    }
+                }
             }
             result.onFailure {
                 onFailure(it as Exception) // Ensure it is cast to Exception

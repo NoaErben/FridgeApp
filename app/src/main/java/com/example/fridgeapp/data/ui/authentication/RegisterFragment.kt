@@ -13,7 +13,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.repository.FirebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -77,22 +77,37 @@ class RegisterFragment : Fragment() {
             binding.etConfirmPassword.setTextColor(greenColor)
 
             showProgressBar()
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    fbViewModel.saveUserToDatabase(name) { result ->
-                        hideProgressBar()
-                        if (result.isSuccess) {
-                            Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
-                            findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
-                        } else {
-                            Toast.makeText(requireContext(), "Failed to save user: ${result.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
-                        }
-                    }
-                } else {
+
+            viewModel.signUp(email, password, name,
+                onSuccess = {
                     hideProgressBar()
-                    Toast.makeText(requireContext(), "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
+                    fbViewModel.changeUser()
+                    findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
+                },
+                onFailure = { exception ->
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "Failed to save user: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
-            }
+            )
+
+//            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    fbViewModel.saveUserToDatabase(name) { result ->
+//                        hideProgressBar()
+//                        if (result.isSuccess) {
+//                            Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
+//                            fbViewModel.changeUser()
+//                            findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
+//                        } else {
+//                            Toast.makeText(requireContext(), "Failed to save user: ${result.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
+//                        }
+//                    }
+//                } else {
+//                    hideProgressBar()
+//                    Toast.makeText(requireContext(), "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+//                }
+//            }
         }
     }
 

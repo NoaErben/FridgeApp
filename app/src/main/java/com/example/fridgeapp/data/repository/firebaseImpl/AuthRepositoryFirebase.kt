@@ -1,14 +1,19 @@
-package com.example.fridgeapp.data.repository.FirebaseImpl
+package com.example.fridgeapp.data.repository.firebaseImpl
 
+import com.example.fridgeapp.data.model.User
 import com.example.fridgeapp.data.repository.AuthRepository
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryFirebase : AuthRepository {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private val userDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
+
 
     override fun signIn(email: String, password: String, onComplete: (Result<FirebaseUser>) -> Unit) {
         // TODO: make suspend
@@ -68,6 +73,27 @@ class AuthRepositoryFirebase : AuthRepository {
 
     override fun currentUser(): FirebaseUser? {
         return firebaseAuth.currentUser
+    }
+
+    override fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit) {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val uid = currentUser.uid
+            val email = currentUser.email ?: ""
+
+            val user = User(name, email, uid)
+
+            userDatabaseReference.child(uid).setValue(user)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        onComplete(Result.success(Unit))
+                    } else {
+                        onComplete(Result.failure(Exception("Failed to save user to database")))
+                    }
+                }
+        } else {
+            onComplete(Result.failure(Exception("No authenticated user found")))
+        }
     }
 
 }
