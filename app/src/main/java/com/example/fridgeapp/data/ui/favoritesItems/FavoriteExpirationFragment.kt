@@ -96,7 +96,8 @@ class FavoriteExpirationFragment : Fragment() {
             Dialogs.showResetConfirmationDialog(requireContext(),
                 onConfirm = {
                     // Implement your logic to reset items here
-                    Toast.makeText(requireContext(), "Resetting to default items...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.resetting_to_default_items), Toast.LENGTH_SHORT).show()
+
                     // Example logic to reset items
                     favoriteViewModel.resetToDefaultItems()
                 },
