@@ -102,6 +102,8 @@
     <string name="expires_in_days">פג תוקף בעוד: %1$d ימים</string>
     <string name="expires_today">פג תוקף היום</string>
     <string name="expired_before_days">פג תוקף לפני: %1$d ימים</string>
+    <string name="item_deleted_successfully">הפריט נמחק בהצלחה</string>
+    <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
 
     <string-array name="category_array">
         <item>פירות</item>

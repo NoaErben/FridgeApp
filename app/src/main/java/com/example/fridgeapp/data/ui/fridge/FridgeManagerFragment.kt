@@ -5,7 +5,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -18,8 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
@@ -115,9 +114,9 @@ class FridgeManagerFragment : Fragment() {
                 onConfirm = {
                     fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
                         result.onSuccess {
-                            showToast("Item deleted successfully")
+                            showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("Failed to delete item: ${exception.message}")
+                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }

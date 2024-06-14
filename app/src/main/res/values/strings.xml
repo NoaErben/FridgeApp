@@ -102,6 +102,7 @@
     <string name="expires_in_days">Expires in: %1$d days</string>
     <string name="expires_today">Expires today</string>
     <string name="expired_before_days">Expired before: %1$d days</string>
+    <string name="item_deleted_successfully">Item deleted successfully</string>
 
     <string-array name="category_array">
         <item>Fruits</item>
