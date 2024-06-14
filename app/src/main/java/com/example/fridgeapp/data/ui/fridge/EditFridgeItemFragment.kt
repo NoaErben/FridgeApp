@@ -315,14 +315,15 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
-                showToast("Added successfully")
+                showToast(getString(com.example.fridgeapp.R.string.added_successfully))
                 findNavController().navigate(com.example.fridgeapp.R.id.action_editFridgeItemFragment_to_fridgeManagerFragment)
             }.onFailure { exception ->
                 hideProgressBar()
-                showToast("Failed to add item: ${exception.message}")
+                showToast(getString(com.example.fridgeapp.R.string.failed_to_add_item, exception.message))
             }
         }
     }
+
 
     private fun validateInput(): Boolean {
         val quantity = binding.quantity.text.toString()

@@ -96,6 +96,9 @@
     <string name="fill_all_fields">Please fill up all fields</string>
     <string name="password_changed_successfully">Password changed successfully</string>
     <string name="failed_to_change_password">Failed to change password: %1$s</string>
+    <string name="resetting_to_default_items">Resetting to default items...</string>
+    <string name="added_successfully">Added successfully</string>
+    <string name="failed_to_add_item">Failed to add item: %1$s</string>
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>
