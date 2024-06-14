@@ -1,5 +1,6 @@
 package com.example.fridgeapp.data.repository.firebaseImpl
 
+import android.widget.Toast
 import com.example.fridgeapp.data.model.User
 import com.example.fridgeapp.data.repository.AuthRepository
 import com.google.firebase.auth.EmailAuthProvider
@@ -73,6 +74,20 @@ class AuthRepositoryFirebase : AuthRepository {
 
     override fun currentUser(): FirebaseUser? {
         return firebaseAuth.currentUser
+    }
+
+    override suspend fun currentUserName(): String? {
+        return try {
+            val uid = firebaseAuth.currentUser?.uid
+            if (uid != null) {
+                val snapshot = userDatabaseReference.child(uid).get().await()
+                snapshot.child("name").value as? String
+            } else {
+                null
+            }
+        } catch (e: Exception) {
+            null
+        }
     }
 
     override fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit) {

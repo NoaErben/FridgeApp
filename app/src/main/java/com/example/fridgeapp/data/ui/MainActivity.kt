@@ -1,21 +1,13 @@
 package com.example.fridgeapp.data.ui
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
-import androidx.core.view.WindowCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.local_db.FridgeDB
+import com.example.fridgeapp.data.ui.authentication.LocationViewModel
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.ActivityMainBinding
@@ -25,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     private val binding get() = _binding!!
     private lateinit var roomViewModel: RoomViewModel
     private lateinit var fbViewModel: FbViewModel
-    private val mainViewModel: MainActivityViewModel by viewModels()
+    private val mainViewModel: LocationViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

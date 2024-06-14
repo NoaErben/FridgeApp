@@ -23,14 +23,11 @@ class LoginFragment : Fragment() {
     private var _binding: AuthLoginFragmentBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var dialog: Dialog
     private val fbViewModel: FbViewModel by activityViewModels()
-
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
     }
-
-    private lateinit var dialog: Dialog
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,67 +40,67 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setupViews()
+        setupClickListeners()
+        observeForgotPasswordLink()
         handleBackButtonPress()
+    }
 
-        // Set click listener for login button
+    private fun setupViews() {
+        // Initialize any views or settings here
+    }
+
+    private fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
             val email = binding.etEmailAddress.text.toString()
             val password = binding.etPassword.text.toString()
 
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(requireContext(), "Insert E-mail and password", Toast.LENGTH_SHORT).show()
-                // TODO: upgrade?
-            } else {
-                showProgressBar()
-                viewModel.signIn(email, password, onSuccess = {
-                    hideProgressBar()
-                    Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT)
-                        .show()
-                    fbViewModel.changeUser()
-                    // TODO: integrate
-                    findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
-                }, onFailure = { exception ->
-                    hideProgressBar()
-                    Toast.makeText(
-                        requireContext(),
-                        "Authentication failed: username or password incorrect",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                })
+                return@setOnClickListener
             }
-        }
 
+            showProgressBar()
+            viewModel.signIn(email, password,
+                onSuccess = {
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
+                    fbViewModel.changeUser()
+                    findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
+                },
+                onFailure = { exception ->
+                    hideProgressBar()
+                    Toast.makeText(requireContext(), "Authentication failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+                }
+            )
+        }
 
         binding.txtSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_registerFragment)
         }
+    }
 
-
+    private fun observeForgotPasswordLink() {
         binding.txtForgotPassword.setOnClickListener {
             val email = binding.etEmailAddress.text.toString().trim()
             if (email.isEmpty()) {
-                Toast.makeText(requireContext(), "Please enter your email", Toast.LENGTH_SHORT)
-                    .show()
+                Toast.makeText(requireContext(), "Please enter your email", Toast.LENGTH_SHORT).show()
             } else {
                 sendPasswordResetEmail(email)
             }
         }
-
-    }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun sendPasswordResetEmail(email: String) {
-        viewModel.sendPasswordResetEmail(email, {
-            Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
-        }, { exception ->
-            val errorMessage = exception.message ?: "Error sending password reset email"
-            Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
-        })
+        viewModel.sendPasswordResetEmail(email,
+            onSuccess = {
+                Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
+            },
+            onFailure = { exception ->
+                val errorMessage = exception.message ?: "Error sending password reset email"
+                Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
+            }
+        )
     }
 
     private fun handleBackButtonPress() {
@@ -129,5 +126,10 @@ class LoginFragment : Fragment() {
 
     private fun hideProgressBar() {
         dialog.dismiss()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

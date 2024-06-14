@@ -13,6 +13,7 @@ interface AuthRepository {
     fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit)
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
     fun currentUser(): FirebaseUser?
+    suspend fun currentUserName(): String?
     fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit)
 
 }

@@ -22,7 +22,6 @@ class RegisterFragment : Fragment() {
 
     private var _binding: AuthRegisterBinding? = null
     private val binding get() = _binding!!
-    private lateinit var auth: FirebaseAuth
     private lateinit var dialog: Dialog
 
     private val fbViewModel: FbViewModel by activityViewModels()
@@ -40,8 +39,6 @@ class RegisterFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        auth = FirebaseAuth.getInstance()
 
         binding.btnSubmit.setOnClickListener {
             val email = binding.etEmail.text.toString().trim()

@@ -71,9 +71,16 @@ class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel(
         }
     }
 
-    private fun handleName(name: String) {
-        // TODO: Handle the additional details as needed
-        // For example, save them to a database, update user profile, etc.
+
+    fun getCurrentUserName(onSuccess: (String?) -> Unit, onFailure: (Exception) -> Unit) {
+        viewModelScope.launch {
+            try {
+                val userName = authRep.currentUserName()
+                onSuccess(userName)
+            } catch (e: Exception) {
+                onFailure(e)
+            }
+        }
     }
 
     class AuthenticationViewmodelFactory(private val repo: AuthRepository) : ViewModelProvider.NewInstanceFactory() {
