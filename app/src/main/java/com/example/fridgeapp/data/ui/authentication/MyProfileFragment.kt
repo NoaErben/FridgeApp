@@ -98,23 +98,23 @@ class MyProfileFragment : Fragment() {
     private fun observeCurrentUser() {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                binding.tvEmail.text = "E-mail: ${user.email}"
+                binding.tvEmail.text = getString(R.string.email_label, user.email)
 
                 viewModel.getCurrentUserName(
                     onSuccess = { userName ->
-                        binding.tvName.text = if (userName != null) "Hello, $userName" else "Hello!"
+                        binding.tvName.text = if (userName != null) getString(R.string.hello_user, userName) else getString(R.string.helloExclamationMark)
                     },
                     onFailure = { exception ->
                         Toast.makeText(
                             requireContext(),
-                            "Failed to fetch user name",
+                            getString(R.string.failed_fetch_user_name),
                             Toast.LENGTH_SHORT
                         ).show()
                     }
                 )
             } else {
                 // User is not logged in, show the login screen or update the UI
-                Toast.makeText(requireContext(), "Please log in", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.please_log_in), Toast.LENGTH_SHORT).show()
             }
         }
     }

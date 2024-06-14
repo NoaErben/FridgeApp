@@ -77,6 +77,33 @@
     <string name="_null">NULL</string>
     <string name="find_supermarkets_nearby">Click here to find supermarkets nearby</string>
     <string name="google_maps_link"></string>
+    <string name="insert_email_password">Insert E-mail and password</string>
+    <string name="Sign_in_successful">Sign in successful</string>
+    <string name="authentication_failed">Authentication failed: %1$s</string>
+    <string name="please_enter_email">Please enter your email</string>
+    <string name="password_reset_email_sent">Password reset email sent</string>
+    <string name="error_sending_password_reset_email">Error sending password reset email</string>
+    <string name="email_label">E-mail: %1$s</string>
+    <string name="hello_user">Hello, %1$s</string>
+    <string name="helloExclamationMark">Hello!</string>
+    <string name="failed_fetch_user_name">Failed to fetch user name</string>
+    <string name="please_log_in">Please log in</string>
+    <string name="please_insert_name">Please insert a name</string>
+    <string name="password_length_error">Password needs to be at least 6 characters</string>
+    <string name="passwords_do_not_match">Passwords do not match</string>
+    <string name="user_registered_successfully">User registered successfully</string>
+    <string name="failed_to_save_user">Failed to save user: %1$s</string>
+    <string name="fill_all_fields">Please fill up all fields</string>
+    <string name="password_changed_successfully">Password changed successfully</string>
+    <string name="failed_to_change_password">Failed to change password: %1$s</string>
+    <string name="resetting_to_default_items">Resetting to default items...</string>
+    <string name="added_successfully">Added successfully</string>
+    <string name="failed_to_add_item">Failed to add item: %1$s</string>
+    <string name="expires_in_days">Expires in: %1$d days</string>
+    <string name="expires_today">Expires today</string>
+    <string name="expired_before_days">Expired before: %1$d days</string>
+    <string name="item_deleted_successfully">Item deleted successfully</string>
+
     <string-array name="category_array">
         <item>Fruits</item>
         <item>Vegetables</item>

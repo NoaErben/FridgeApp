@@ -15,13 +15,13 @@ import android.widget.ArrayAdapter
 import android.widget.DatePicker
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
-import androidx.lifecycle.Observer
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
@@ -34,7 +34,8 @@ import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Calendar
+import java.util.Locale
 
 
 class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
@@ -222,11 +223,12 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
-                showToast("Added successfully")
+                showToast(getString(R.string.added_successfully))
                 findNavController().navigate(R.id.action_addItemToFridgeFragment_to_fridgeManagerFragment)
             }.onFailure { exception ->
                 hideProgressBar()
-                showToast("Failed to add item: ${exception.message}")
+                showToast(getString(R.string.failed_to_add_item, exception.message))
+
             }
         }
     }

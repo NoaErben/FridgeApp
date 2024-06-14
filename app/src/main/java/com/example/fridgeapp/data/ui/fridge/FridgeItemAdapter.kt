@@ -1,11 +1,11 @@
 package com.example.fridgeapp.data.ui.fridge
 
-import com.bumptech.glide.Glide
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.databinding.ItemLayoutBinding
@@ -33,34 +33,34 @@ class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBac
 
             if ((item.expiryDate - currentTime) >= 0) {
                 daysUntilExpiry += 1
-            } else {
-                daysUntilExpiry
             }
 
+            val context = binding.root.context
+
             if (daysUntilExpiry > 2) {
-                binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
-                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_green_dark))
+                binding.itemExpired.text = context.getString(R.string.expires_in_days, daysUntilExpiry)
+                binding.itemExpired.setTextColor(ContextCompat.getColor(context, android.R.color.holo_green_dark))
             } else if (daysUntilExpiry > 0) {
-                binding.itemExpired.text = "Expires in: ${daysUntilExpiry} days"
-                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_orange_dark))
+                binding.itemExpired.text = context.getString(R.string.expires_in_days, daysUntilExpiry)
+                binding.itemExpired.setTextColor(ContextCompat.getColor(context, android.R.color.holo_orange_dark))
             } else {
                 if (daysUntilExpiry.toInt() == 0)
-                    binding.itemExpired.text = "Expires today"
+                    binding.itemExpired.text = context.getString(R.string.expires_today)
                 else
-                    binding.itemExpired.text = "Expired before: ${daysUntilExpiry * -1} days"
-                binding.itemExpired.setTextColor(ContextCompat.getColor(binding.root.context, android.R.color.holo_red_dark))
+                    binding.itemExpired.text = context.getString(R.string.expired_before_days, daysUntilExpiry * -1)
+                binding.itemExpired.setTextColor(ContextCompat.getColor(context, android.R.color.holo_red_dark))
             }
 
             if (item.photoUrl != null)
-                Glide.with(binding.root)
+                Glide.with(context)
                     .load(item.photoUrl)
                     .circleCrop()
                     .placeholder(R.drawable.dish) // Placeholder while loading
                     .error(R.drawable.dish)
                     .into(binding.itemImage)
             else
-                Glide.with(binding.root)
-                    .load(ContextCompat.getDrawable(binding.root.context, R.drawable.dish))
+                Glide.with(context)
+                    .load(ContextCompat.getDrawable(context, R.drawable.dish))
                     .circleCrop()
                     .into(binding.itemImage)
 

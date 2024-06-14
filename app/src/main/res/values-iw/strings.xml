@@ -77,6 +77,34 @@
     <string name="_null">NULL</string>
     <string name="find_supermarkets_nearby">לחץ כאן למציאת סופרים קרובים</string>
     <string name="google_maps_link"></string>
+    <string name="insert_email_password">הזן אימייל וסיסמה</string>
+    <string name="Sign_in_successful">התחברות צלחה</string>
+    <string name="authentication_failed">ההזדהות נכשלה: %1$s</string>
+    <string name="please_enter_email">אנא הזן את האימייך שלך</string>
+    <string name="password_reset_email_sent">כתובת אימייל לאיפוס סיסמה נשלחה</string>
+    <string name="error_sending_password_reset_email">שגיאה בשליחת כתובת אימייל לאיפוס סיסמה</string>
+    <string name="email_label">כתובת אימייל: %1$s</string>
+    <string name="hello_user">שלום, %1$s</string>
+    <string name="helloExclamationMark">שלום!</string>
+    <string name="failed_fetch_user_name">נכשל באחזור שם המשתמש</string>
+    <string name="please_log_in">אנא התחבר</string>
+    <string name="please_insert_name">אנא הזן שם</string>
+    <string name="password_length_error">הסיסמה צריכה להיות לפחות 6 תווים</string>
+    <string name="passwords_do_not_match">הסיסמאות אינן תואמות</string>
+    <string name="user_registered_successfully">המשתמש נרשם בהצלחה</string>
+    <string name="failed_to_save_user">נכשל בשמירת המשתמש: %1$s</string>
+    <string name="fill_all_fields">אנא מלא את כל השדות</string>
+    <string name="password_changed_successfully">הסיסמה שונתה בהצלחה</string>
+    <string name="failed_to_change_password">נכשל בשינוי הסיסמה: %1$s</string>
+    <string name="resetting_to_default_items">מאפס לפריטים ברירת מחדל...</string>
+    <string name="added_successfully">נוסף בהצלחה</string>
+    <string name="failed_to_add_item">נכשל בהוספת הפריט: %1$s</string>
+    <string name="expires_in_days">פג תוקף בעוד: %1$d ימים</string>
+    <string name="expires_today">פג תוקף היום</string>
+    <string name="expired_before_days">פג תוקף לפני: %1$d ימים</string>
+    <string name="item_deleted_successfully">הפריט נמחק בהצלחה</string>
+    <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
+
     <string-array name="category_array">
         <item>פירות</item>
         <item>ירקות</item>
@@ -85,4 +113,5 @@
         <item>משקאות</item>
         <item>רטבים</item>
     </string-array>
+
 </resources>
