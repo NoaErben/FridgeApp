@@ -10,7 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.DatePicker
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -193,11 +196,11 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
-                showToast("Added successfully")
+                showToast(getString(R.string.added_successfully))
                 findNavController().navigate(R.id.action_addItemToShoppingList_to_fridgeShoppingListFragment)
             }.onFailure { exception ->
                 hideProgressBar()
-                showToast("Failed to add item: ${exception.message}")
+                showToast(getString(R.string.failed_to_add_item, exception.message))
             }
         }
     }
