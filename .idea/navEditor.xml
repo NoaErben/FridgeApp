@@ -247,18 +247,13 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="23" />
-                            <option name="y" value="-1275" />
+                            <option name="x" value="42" />
+                            <option name="y" value="-1277" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_loginFragment_to_fridgeManagerFragment">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                            <entry key="action_loginFragment_to_registerFragment">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -328,6 +323,15 @@
                             <option name="x" value="-1358" />
                             <option name="y" value="-760" />
                           </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_setPasswordFragment_to_myProfileFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

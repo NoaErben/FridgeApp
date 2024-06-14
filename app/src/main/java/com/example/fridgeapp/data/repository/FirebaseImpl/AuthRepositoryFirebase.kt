@@ -66,4 +66,8 @@ class AuthRepositoryFirebase : AuthRepository {
         }
     }
 
+    override fun currentUser(): FirebaseUser? {
+        return firebaseAuth.currentUser
+    }
+
 }

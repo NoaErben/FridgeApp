@@ -12,4 +12,5 @@ interface AuthRepository {
     fun isUserLoggedIn(): Boolean
     fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit)
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
+    fun currentUser(): FirebaseUser?
 }

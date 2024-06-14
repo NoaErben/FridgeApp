@@ -8,8 +8,10 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.FirebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
@@ -21,6 +23,10 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val fbViewModel: FbViewModel by activityViewModels()
+
+    private val viewModel : AuthenticationViewmodel by viewModels {
+        AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,10 +46,11 @@ class LoginFragment : Fragment() {
             val email = binding.etEmailAddress.text.toString()
             val password = binding.etPassword.text.toString()
 
-            fbViewModel.signIn(email, password, onSuccess = {
+            viewModel.signIn(email, password, onSuccess = {
                 // Sign in success, navigate to the next screen or perform any other action
                 Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                 fbViewModel.changeUser()
+                // TODO: Update
                 findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
             }, onFailure = { exception ->
                 // If sign in fails, display a message to the user.
@@ -74,7 +81,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun sendPasswordResetEmail(email: String) {
-        fbViewModel.sendPasswordResetEmail(email, {
+        viewModel.sendPasswordResetEmail(email, {
             Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
         }, { exception ->
             val errorMessage = exception.message ?: "Error sending password reset email"

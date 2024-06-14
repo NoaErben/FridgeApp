@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.FirebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 import com.google.firebase.auth.FirebaseAuth
@@ -24,6 +26,10 @@ class RegisterFragment : Fragment() {
     private lateinit var dialog: Dialog
 
     private val fbViewModel: FbViewModel by activityViewModels()
+
+    private val viewModel : AuthenticationViewmodel by viewModels {
+        AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

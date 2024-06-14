@@ -19,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.FirebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.MainActivityViewModel
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
@@ -42,7 +43,12 @@ class MyProfileFragment: Fragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var databaseReference: DatabaseReference
     private val fbViewModel: FbViewModel by activityViewModels()
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val mainViewModel: MainActivityViewModel by viewModels()
+
+    private val viewModel : AuthenticationViewmodel by viewModels {
+        AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
+    }
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -63,7 +69,7 @@ class MyProfileFragment: Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // liraz and noa added here
-        viewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
+        mainViewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
             binding.locationTextView.text = address
 
             val query = "supermarkets near $address"
@@ -92,7 +98,7 @@ class MyProfileFragment: Fragment() {
         })
         //end
 
-        viewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
+        mainViewModel.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
             binding.locationTextView.text = address
         })
         auth = FirebaseAuth.getInstance()
@@ -104,12 +110,12 @@ class MyProfileFragment: Fragment() {
         }
 
         binding.btnSignOut.setOnClickListener {
-            fbViewModel.signOut()
+            viewModel.signOut()
             findNavController().navigate(R.id.action_myProfileFragment_to_loginFragment)
         }
 
         fbViewModel.currentUser.observe(viewLifecycleOwner) { user ->
-            // TODO: not observing currently
+            // TODO: change vm, not observing currently
             if (user != null) {
                 // Get user name from Firebase and display it
                 val uid = user.uid
