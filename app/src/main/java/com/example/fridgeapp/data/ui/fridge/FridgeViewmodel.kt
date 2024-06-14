@@ -21,25 +21,32 @@ class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
 
-
-    var items: LiveData<List<FridgeItem>> = fridgeRep.getItems()
+    private val _items = MutableLiveData<List<FridgeItem>>()
+    val items: LiveData<List<FridgeItem>> get() = _items
 
     init {
-        // Check if the user is already logged in
+        // Observe the current user and fetch items whenever the user changes
         _currentUser.value = fridgeRep.currentUser()
-        items.observeForever { itemList ->
-            Log.d("MyTag", "Items fetched in ViewModel: ${itemList.size}")
-            itemList.forEach {
-                Log.d("MyTag", "Item: ${it.name}, Expiry: ${it.expiryDate}, Photo: ${it.photoUrl}")
-            }
+        _currentUser.observeForever { user ->
+            userChanged()
         }
+
+        // Fetch initial items
+        fetchItems()
     }
 
     fun userChanged() {
-        // Clear existing data or perform any necessary cleanup
-        _currentUser.value = fridgeRep.currentUser()
-//        items = fridgeRep.getItems()
+        Log.d("FridgeViewmodel", "User changed detected, fetching items.")
+        fetchItems()
     }
+
+    private fun fetchItems() {
+        fridgeRep.getItems().observeForever { itemList ->
+            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
+            _items.postValue(itemList)
+        }
+    }
+
 
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
         Log.d("FVM", fridgeItem.name.toString())

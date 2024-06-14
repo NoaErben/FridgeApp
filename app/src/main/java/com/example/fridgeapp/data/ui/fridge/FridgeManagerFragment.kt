@@ -41,7 +41,6 @@ class FridgeManagerFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FridgeFragmentBinding.inflate(inflater, container, false)
-        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -91,9 +90,12 @@ class FridgeManagerFragment : Fragment() {
             }
         })
 
-//        viewModel.currentUser.observe(viewLifecycleOwner, Observer{currentUser ->
-//          viewModel.userChanged()
-//        })
+        viewModel.currentUser.observe(viewLifecycleOwner, Observer { currentUser ->
+            // Handle user change event
+            if (currentUser != null) {
+                viewModel.userChanged()
+            }
+        })
     }
 
     private fun setupNavigation() {
