@@ -109,6 +109,7 @@ class MyProfileFragment: Fragment() {
         }
 
         fbViewModel.currentUser.observe(viewLifecycleOwner) { user ->
+            // TODO: not observing currently
             if (user != null) {
                 // Get user name from Firebase and display it
                 val uid = user.uid
