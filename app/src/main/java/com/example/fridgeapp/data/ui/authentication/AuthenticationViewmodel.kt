@@ -19,30 +19,36 @@ class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel(
     }
 
     fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authRep.signIn(email, password) { result ->
-            result.onSuccess {
-                onSuccess()
-            }
-            result.onFailure {
-                onFailure(it as Exception) // Ensure it is cast to Exception
+        viewModelScope.launch {
+            authRep.signIn(email, password) { result ->
+                result.onSuccess {
+                    onSuccess()
+                }
+                result.onFailure {
+                    onFailure(it as Exception) // Ensure it is cast to Exception
+                }
             }
         }
     }
 
     fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authRep.signUp(email, password, name) { result ->
-            result.onSuccess {
-                authRep.saveUserToDatabase(name) { result ->
-                    result.onSuccess {
-                        onSuccess()
-                    }
-                    result.onFailure {
-                        onFailure(it as Exception) // Ensure it is cast to Exception
+        viewModelScope.launch {
+            authRep.signUp(email, password, name) { result ->
+                result.onSuccess {
+                    viewModelScope.launch {
+                        authRep.saveUserToDatabase(name) { result ->
+                            result.onSuccess {
+                                onSuccess()
+                            }
+                            result.onFailure {
+                                onFailure(it as Exception) // Ensure it is cast to Exception
+                            }
+                        }
                     }
                 }
-            }
-            result.onFailure {
-                onFailure(it as Exception) // Ensure it is cast to Exception
+                result.onFailure {
+                    onFailure(it as Exception) // Ensure it is cast to Exception
+                }
             }
         }
     }
@@ -56,7 +62,9 @@ class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel(
     }
 
     fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authRep.sendPasswordResetEmail(email, onSuccess, onFailure)
+        viewModelScope.launch {
+            authRep.sendPasswordResetEmail(email, onSuccess, onFailure)
+        }
     }
 
     fun changePassword(oldPassword: String, newPassword: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {

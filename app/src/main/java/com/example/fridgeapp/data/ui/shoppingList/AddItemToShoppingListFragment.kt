@@ -158,9 +158,6 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
 
     private fun setupAddItemButton() {
         binding.addItemButton.setOnClickListener {
-            if (!fbViewModel.isUserLoggedIn()){
-                showToast(getString(R.string.please_login_to_add_items))
-            }
             if (validateInput()) {
                 showProgressBar()
                 checkItemExistsAndSave()

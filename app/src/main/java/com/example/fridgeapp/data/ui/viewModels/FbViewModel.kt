@@ -16,7 +16,6 @@ import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.model.User
-import com.example.fridgeapp.data.repository.AuthenticationRepository
 import com.example.fridgeapp.data.repository.CartRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.google.firebase.auth.EmailAuthProvider
@@ -50,8 +49,6 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
 
     private val cartRepository = CartRepository()
     var cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
-
-    private val authenticationRepository = AuthenticationRepository ()
 
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -111,60 +108,6 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
         val dateFormat = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
         val date = Date(dateInMillis)
         return dateFormat.format(date)
-    }
-
-    // ################## FB authentication functions ##################
-
-
-    fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authenticationRepository.signIn(email, password) { result ->
-            result.onSuccess {
-                onSuccess()
-            }
-            result.onFailure {
-                onFailure(it as Exception) // Ensure it is cast to Exception
-            }
-        }
-    }
-
-    fun signUp(email: String, password: String, name: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authenticationRepository.signUp(email, password, name) { result ->
-            result.onSuccess {
-                onSuccess()
-            }
-            result.onFailure {
-                onFailure(it as Exception) // Ensure it is cast to Exception
-            }
-        }
-    }
-
-    fun signOut() {
-        authenticationRepository.signOut()
-    }
-
-    fun isUserLoggedIn(): Boolean {
-        return authenticationRepository.isUserLoggedIn()
-    }
-
-    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        authenticationRepository.sendPasswordResetEmail(email, onSuccess, onFailure)
-    }
-
-    fun changePassword(oldPassword: String, newPassword: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        viewModelScope.launch {
-            val result = authenticationRepository.changePassword(oldPassword, newPassword)
-            result.onSuccess {
-                onSuccess()
-            }
-            result.onFailure {
-                onFailure(it as Exception) // Ensure it is cast to Exception
-            }
-        }
-    }
-
-    private fun handleName(name: String) {
-        // TODO: Handle the additional details as needed
-        // For example, save them to a database, update user profile, etc.
     }
 
     // ################## FB fridge item functions ##################

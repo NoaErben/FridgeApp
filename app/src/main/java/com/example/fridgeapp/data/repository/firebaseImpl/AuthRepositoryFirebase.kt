@@ -16,8 +16,7 @@ class AuthRepositoryFirebase : AuthRepository {
     private val userDatabaseReference: DatabaseReference = FirebaseDatabase.getInstance().getReference("Users")
 
 
-    override fun signIn(email: String, password: String, onComplete: (Result<FirebaseUser>) -> Unit) {
-        // TODO: make suspend
+    override suspend fun signIn(email: String, password: String, onComplete: (Result<FirebaseUser>) -> Unit) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -28,8 +27,7 @@ class AuthRepositoryFirebase : AuthRepository {
             }
     }
 
-    override fun signUp(email: String, password: String, name: String, onComplete: (Result<FirebaseUser>) -> Unit) {
-        // TODO: make suspend
+    override suspend fun signUp(email: String, password: String, name: String, onComplete: (Result<FirebaseUser>) -> Unit) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -48,7 +46,7 @@ class AuthRepositoryFirebase : AuthRepository {
         return firebaseAuth.currentUser != null
     }
 
-    override fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    override suspend fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         firebaseAuth.sendPasswordResetEmail(email)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -90,7 +88,7 @@ class AuthRepositoryFirebase : AuthRepository {
         }
     }
 
-    override fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit) {
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
             val uid = currentUser.uid

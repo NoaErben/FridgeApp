@@ -163,13 +163,7 @@ class FridgeManagerFragment : Fragment() {
     }
 
     private fun handleProfileClick() {
-        if (fbViewModel.isUserLoggedIn()) {
-            findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
-            showToast("My profile clicked")
-        } else {
-            findNavController().navigate(R.id.action_fridgeManagerFragment_to_loginFragment)
-            showToast("No user logged-in")
-        }
+        findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
     }
 
     private fun showToast(message: String) {

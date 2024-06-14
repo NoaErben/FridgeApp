@@ -22,6 +22,9 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 
 @SuppressLint("CustomSplashScreen")
@@ -34,6 +37,10 @@ class SplashScreenFragment : Fragment() {
     private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
 
     private val fbViewModel: FbViewModel by activityViewModels()
+
+    private val viewModel: AuthenticationViewmodel by viewModels {
+        AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -116,7 +123,7 @@ class SplashScreenFragment : Fragment() {
     private fun navigateNext() {
         val navController = findNavController()
         if (navController.currentDestination?.id == R.id.splashScreen) {
-            if (!fbViewModel.isUserLoggedIn()) {
+            if (!viewModel.isUserLoggedIn()) {
                 Log.d("SplashScreenFragment", "First time user, navigating to login")
                 navController.navigate(R.id.action_splashScreen_to_loginFragment)
                 setFirstTimeFlag(false)

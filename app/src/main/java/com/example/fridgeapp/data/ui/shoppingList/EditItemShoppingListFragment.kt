@@ -213,9 +213,6 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
 
     private fun setupSaveButton() {
         binding.useUpButton.setOnClickListener {
-            if (!fbViewModel.isUserLoggedIn()){
-                showToast(getString(com.example.fridgeapp.R.string.please_login_to_add_items))
-            }
             if (validateInput()) {
                 showProgressBar()
                 updateCartItem()
