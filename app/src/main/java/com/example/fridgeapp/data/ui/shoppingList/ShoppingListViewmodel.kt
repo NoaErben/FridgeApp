@@ -1,0 +1,124 @@
+package com.example.fridgeapp.data.ui.shoppingList
+
+import android.content.Context
+import android.net.Uri
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.fridgeapp.data.model.CartItem
+import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.repository.CartRepository
+import com.example.fridgeapp.data.repository.FridgeRepository
+import com.example.fridgeapp.data.ui.fridge.FridgeViewmodel
+import com.google.firebase.auth.FirebaseUser
+
+class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
+
+    private val _chosenCartItem = MutableLiveData<CartItem>()
+    val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
+    private val _currentUser = MutableLiveData<FirebaseUser?>()
+    val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+    private val _items = MutableLiveData<List<CartItem>>()
+    val items: LiveData<List<CartItem>> get() = _items
+
+    init {
+        // Observe the current user and fetch items whenever the user changes
+        _currentUser.value = cartRep.currentUser()
+        _currentUser.observeForever { user ->
+            userChanged()
+        }
+
+        // Fetch initial items
+        fetchItems()
+    }
+
+    fun userChanged() {
+//        Log.d("FridgeViewmodel", "User changed detected, fetching items.")
+        fetchItems()
+    }
+
+    private fun fetchItems() {
+        cartRep.getItems().observeForever { itemList ->
+//            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
+            _items.postValue(itemList)
+        }
+    }
+
+
+    fun setCartChosenItem(cartItem: CartItem) {
+        Log.d("FVM", cartItem.name.toString())
+        _chosenCartItem.value = cartItem
+    }
+
+    fun saveCartItemToDatabase(productName: String, quantity: Int, productCategory: String, amountMeasure: String,
+                               addedDate: Long, photoUrl: String, imageChanged: Boolean, imageUri: Uri?, context: Context,
+                                 onComplete: (Result<Unit>) -> Unit) {
+        val cartItem = CartItem(
+            name = productName,
+            category = productCategory,
+            quantity = quantity,
+            amountMeasure = amountMeasure,
+            addedDate = addedDate,
+            photoUrl = photoUrl
+        )
+
+        cartRep.saveCartItemToDatabase(cartItem, imageChanged, imageUri, context){ result ->
+            result.onSuccess {
+                onComplete(Result.success(Unit))
+            }
+            result.onFailure {
+                onComplete(Result.failure(it))
+            }
+        }
+    }
+
+
+    fun updateCartItemInDatabase(productName: String, quantity: Int, productCategory: String, amountMeasure: String,
+                                 addedDate: Long, photoUrl: String?, context: Context, onComplete: (Result<Unit>) -> Unit) {
+        val cartItem = CartItem(
+            name = productName,
+            category = productCategory,
+            quantity = quantity,
+            amountMeasure = amountMeasure,
+            addedDate = addedDate,
+            photoUrl = photoUrl
+        )
+
+        cartRep.updateCartItemInDatabase(cartItem, context, photoUrl){ result ->
+            result.onSuccess {
+                onComplete(Result.success(Unit))
+            }
+            result.onFailure {
+                onComplete(Result.failure(it))
+            }
+        }
+    }
+
+    fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit) {
+        cartRep.deleteItemFromCartDatabase(cartItem){ result ->
+            result.onSuccess {
+                onComplete(Result.success(Unit))
+            }
+            result.onFailure {
+                onComplete(Result.failure(it))
+            }
+        }
+    }
+
+    fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
+        cartRep.checkCartItemExists(itemName) { exists ->
+            callback(exists)
+        }
+    }
+
+
+
+    class ShoppingListViewmodelFactory(private val repo: CartRepository) : ViewModelProvider.NewInstanceFactory() {
+
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
+            return ShoppingListViewmodel(repo) as T
+        }
+    }
+}

@@ -1,21 +1,17 @@
 package com.example.fridgeapp.data.repository.firebaseImpl
 
-import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
+import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.repository.FridgeRepository
+import com.example.fridgeapp.data.repository.CartRepository
 import com.example.fridgeapp.data.ui.utils.MyBitmap
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -26,7 +22,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 
-class FridgeRepositoryFirebase : FridgeRepository {
+class CartRepositoryFirebase : CartRepository {
 
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
@@ -38,6 +34,8 @@ class FridgeRepositoryFirebase : FridgeRepository {
 
     private val fridgeDatabaseReference =
         FirebaseDatabase.getInstance().getReference("itemsInFridge")
+    private val cartDatabaseReference =
+        FirebaseDatabase.getInstance().getReference("shoppingCartItems")
 
     private val storageReference = FirebaseStorage.getInstance().reference
 
@@ -45,16 +43,16 @@ class FridgeRepositoryFirebase : FridgeRepository {
         return firebaseAuth.currentUser
     }
 
-    override fun getItems(): LiveData<List<FridgeItem>> {
-        val data = MutableLiveData<List<FridgeItem>>()
+    override fun getItems(): LiveData<List<CartItem>> {
+        val data = MutableLiveData<List<CartItem>>()
         val currentUser: FirebaseUser? = firebaseAuth.currentUser
 
         if (currentUser != null) {
             database.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val items = mutableListOf<FridgeItem>()
+                    val items = mutableListOf<CartItem>()
                     for (itemSnapshot in snapshot.children) {
-                        val item = itemSnapshot.getValue(FridgeItem::class.java)
+                        val item = itemSnapshot.getValue(CartItem::class.java)
                         if (item != null) {
                             items.add(item)
                         }
@@ -74,17 +72,17 @@ class FridgeRepositoryFirebase : FridgeRepository {
     }
 
 
-    override fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
-                                          onComplete: (Result<Unit>) -> Unit) {
+    override fun saveCartItemToDatabase(cartItem: CartItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
+                                        onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
-            fridgeDatabaseReference.child(it).child(fridgeItem.name.toString()).setValue(fridgeItem)
+            cartDatabaseReference.child(it).child(cartItem.name.toString()).setValue(cartItem)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         if (imageChanged) {
-                            uploadFridgeItemImage(uid, fridgeItem, imageUri.toString(), context, onComplete)
+                            uploadCartItemImage(uid, cartItem, imageUri.toString(), context, onComplete)
                         } else {
-                            updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
+                            updateCartDatabaseWithPhotoUrl(uid, cartItem, onComplete)
                         }
                     } else {
                         onComplete(Result.failure(Exception("Failed to add item")))
@@ -95,7 +93,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
 
 
 
-    private fun uploadFridgeItemImage(uid: String, fridgeItem: FridgeItem, imageUri: String?, context: Context,
+    private fun uploadCartItemImage(uid: String, cartItem: CartItem, imageUri: String?, context: Context,
                                       onComplete: (Result<Unit>) -> Unit) {
         if (imageUri != null) {
             val imageUriParsed = Uri.parse(imageUri)
@@ -117,8 +115,8 @@ class FridgeRepositoryFirebase : FridgeRepository {
 
                 uploadTask.addOnSuccessListener {
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
-                        fridgeItem.photoUrl = uri.toString()
-                        updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
+                        cartItem.photoUrl = uri.toString()
+                        updateCartDatabaseWithPhotoUrl(uid, cartItem, onComplete)
                     }.addOnFailureListener { exception ->
                         onComplete(Result.failure(Exception("Failed to get download URL", exception)))
                     }
@@ -133,10 +131,10 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    private fun updateFridgeDatabaseWithPhotoUrl(uid: String, fridgeItem: FridgeItem,
+    private fun updateCartDatabaseWithPhotoUrl(uid: String, cartItem: CartItem,
                                                  onComplete: (Result<Unit>) -> Unit) {
-        fridgeItem.name?.let {
-            fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
+        cartItem.name?.let {
+            cartDatabaseReference.child(uid).child(it).setValue(cartItem)
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         onComplete(Result.success(Unit))
@@ -147,40 +145,26 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
+    override fun updateCartItemInDatabase(cartItem: CartItem, context: Context,
                                             photoUri: String?, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             if (photoUri != null && !photoUri.contains("firebase")) {
-                uploadFridgeItemImage(uid, fridgeItem, photoUri, context, onComplete)
+                uploadCartItemImage(uid, cartItem, photoUri, context, onComplete)
             } else {
-                fridgeItem.photoUrl = photoUri.toString()
-                updateFridgeDatabaseWithPhotoUrl(uid, fridgeItem, onComplete)
+                cartItem.photoUrl = photoUri.toString()
+                updateCartDatabaseWithPhotoUrl(uid, cartItem, onComplete)
             }
         } ?: run {
             onComplete(Result.failure(Exception("User not logged in")))
         }
     }
 
-    private fun updateFridgeDatabaseItem(uid: String, fridgeItem: FridgeItem,
-                                         onComplete: (Result<Unit>) -> Unit) {
-        fridgeItem.name?.let {
-            fridgeDatabaseReference.child(uid).child(it).setValue(fridgeItem)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        onComplete(Result.success(Unit))
-                    } else {
-                        onComplete(Result.failure(Exception("Failed to update item")))
-                    }
-                }
-        }
-    }
-
-    override fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+    override fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
-            fridgeItem.name?.let { it1 ->
-                fridgeDatabaseReference.child(it).child(it1).removeValue()
+            cartItem.name?.let { it1 ->
+                cartDatabaseReference.child(it).child(it1).removeValue()
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
                             onComplete(Result.success(Unit))
@@ -194,11 +178,11 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit) {
+    override fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit) {
         // TODO: use somewhere
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
-            fridgeDatabaseReference.child(it).removeValue()
+            cartDatabaseReference.child(it).removeValue()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
                         onComplete(Result.success(Unit))
@@ -211,10 +195,10 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun checkItemExists(itemName: String, callback: (Boolean) -> Unit) {
+    override fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
-            fridgeDatabaseReference.child(it).child(itemName).get()
+            cartDatabaseReference.child(it).child(itemName).get()
                 .addOnSuccessListener { dataSnapshot ->
                     callback(dataSnapshot.exists())
                 }
@@ -226,6 +210,4 @@ class FridgeRepositoryFirebase : FridgeRepository {
             callback(false)
         }
     }
-
-
 }
