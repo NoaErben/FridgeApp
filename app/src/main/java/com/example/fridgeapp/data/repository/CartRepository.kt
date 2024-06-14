@@ -10,7 +10,8 @@ import com.google.firebase.auth.FirebaseUser
 interface CartRepository {
 
     fun currentUser(): FirebaseUser?
-    fun getItems(): LiveData<List<CartItem>>
+    fun getCartItems(): LiveData<List<CartItem>>
+    fun getFridgeItems(): LiveData<List<FridgeItem>>
 
     fun saveCartItemToDatabase(cartItem: CartItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
                                  onComplete: (Result<Unit>) -> Unit)
@@ -19,6 +20,7 @@ interface CartRepository {
                                    photoUri: String?, onComplete: (Result<Unit>) -> Unit)
 
     fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit)
+    fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit)
 
     fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit)
 

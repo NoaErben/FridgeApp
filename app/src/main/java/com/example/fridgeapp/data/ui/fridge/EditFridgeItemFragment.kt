@@ -23,15 +23,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
-import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.MyDates
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.EditItemInFridgeBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar

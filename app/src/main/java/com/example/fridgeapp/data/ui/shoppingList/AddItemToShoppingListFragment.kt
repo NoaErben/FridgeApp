@@ -27,13 +27,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
-import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
-import com.example.fridgeapp.data.ui.fridge.FridgeViewmodel
+import com.example.fridgeapp.data.ui.utils.Constants
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.ShoppingAddItemBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -48,8 +46,6 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     private val favoriteViewModel: FavoriteViewModel by viewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
-    private val fbViewModel: FbViewModel by activityViewModels()
-
     private val viewModel: ShoppingListViewmodel by activityViewModels {
         ShoppingListViewmodel.ShoppingListViewmodelFactory(CartRepositoryFirebase())
     }
@@ -90,7 +86,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = Constants.categories
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -100,7 +96,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupMeasureSpinner() {
-        val categories = favoriteViewModel.unitMeasures
+        val categories = Constants.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -293,8 +289,8 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = favoriteViewModel.categories[0]
-        val defaultMeasure = favoriteViewModel.unitMeasures[0]
+        val defaultCategory = Constants.categories[0]
+        val defaultMeasure = Constants.unitMeasures[0]
 
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString()

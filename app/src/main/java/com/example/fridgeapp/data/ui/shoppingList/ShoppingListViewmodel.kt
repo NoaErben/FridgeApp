@@ -10,8 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.CartRepository
-import com.example.fridgeapp.data.repository.FridgeRepository
-import com.example.fridgeapp.data.ui.fridge.FridgeViewmodel
 import com.google.firebase.auth.FirebaseUser
 
 class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
@@ -20,8 +18,11 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
     val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
     private val _currentUser = MutableLiveData<FirebaseUser?>()
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
-    private val _items = MutableLiveData<List<CartItem>>()
-    val items: LiveData<List<CartItem>> get() = _items
+    private val _cartItems = MutableLiveData<List<CartItem>>()
+    val cartItems: LiveData<List<CartItem>> get() = _cartItems
+
+    private val _fridgeItems = MutableLiveData<List<FridgeItem>>()
+    val fridgeItems: LiveData<List<FridgeItem>> get() = _fridgeItems
 
     init {
         // Observe the current user and fetch items whenever the user changes
@@ -40,9 +41,13 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
     }
 
     private fun fetchItems() {
-        cartRep.getItems().observeForever { itemList ->
+        cartRep.getCartItems().observeForever { itemList ->
 //            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
-            _items.postValue(itemList)
+            _cartItems.postValue(itemList)
+        }
+        cartRep.getFridgeItems().observeForever { itemList ->
+//            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
+            _fridgeItems.postValue(itemList)
         }
     }
 
@@ -110,6 +115,17 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
     fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
         cartRep.checkCartItemExists(itemName) { exists ->
             callback(exists)
+        }
+    }
+
+    fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+        cartRep.deleteItemFromFridgeDatabase(fridgeItem){ result ->
+            result.onSuccess {
+                onComplete(Result.success(Unit))
+            }
+            result.onFailure {
+                onComplete(Result.failure(it))
+            }
         }
     }
 

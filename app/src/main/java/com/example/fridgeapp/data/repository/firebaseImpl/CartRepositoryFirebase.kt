@@ -39,7 +39,7 @@ class CartRepositoryFirebase : CartRepository {
         return firebaseAuth.currentUser
     }
 
-    override fun getItems(): LiveData<List<CartItem>> {
+    override fun getCartItems(): LiveData<List<CartItem>> {
         val data = MutableLiveData<List<CartItem>>()
         val currentUser: FirebaseUser? = firebaseAuth.currentUser
 
@@ -49,6 +49,34 @@ class CartRepositoryFirebase : CartRepository {
                     val items = mutableListOf<CartItem>()
                     for (itemSnapshot in snapshot.children) {
                         val item = itemSnapshot.getValue(CartItem::class.java)
+                        if (item != null) {
+                            items.add(item)
+                        }
+                    }
+                    data.value = items
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    // Handle possible errors
+                }
+            })
+        } else {
+            data.value = emptyList()
+        }
+
+        return data
+    }
+
+    override fun getFridgeItems(): LiveData<List<FridgeItem>> {
+        val data = MutableLiveData<List<FridgeItem>>()
+        val currentUser: FirebaseUser? = firebaseAuth.currentUser
+
+        if (currentUser != null) {
+            fridgeDatabaseReference.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val items = mutableListOf<FridgeItem>()
+                    for (itemSnapshot in snapshot.children) {
+                        val item = itemSnapshot.getValue(FridgeItem::class.java)
                         if (item != null) {
                             items.add(item)
                         }
@@ -204,6 +232,24 @@ class CartRepositoryFirebase : CartRepository {
                 }
         } ?: run {
             callback(false)
+        }
+    }
+
+    override fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+        val uid = firebaseAuth.currentUser?.uid
+        uid?.let {
+            fridgeItem.name?.let { it1 ->
+                fridgeDatabaseReference.child(it).child(it1).removeValue()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            onComplete(Result.success(Unit))
+                        } else {
+                            onComplete(Result.failure(Exception("Failed to delete item")))
+                        }
+                    }
+            }
+        } ?: run {
+            onComplete(Result.failure(Exception("User not logged in")))
         }
     }
 }

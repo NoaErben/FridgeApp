@@ -8,12 +8,10 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 
 class RegisterFragment : Fragment() {
@@ -22,7 +20,7 @@ class RegisterFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var dialog: Dialog
 
-    private val fbViewModel: FbViewModel by activityViewModels()
+//    private val fbViewModel: FbViewModel by activityViewModels()
 
     private val viewModel : AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
@@ -87,7 +85,7 @@ class RegisterFragment : Fragment() {
 
     private fun onSignUpSuccess() {
         Toast.makeText(requireContext(), getString(R.string.user_registered_successfully), Toast.LENGTH_SHORT).show()
-        fbViewModel.changeUser()
+//        fbViewModel.changeUser()
         // TODO: integrate
         findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
     }

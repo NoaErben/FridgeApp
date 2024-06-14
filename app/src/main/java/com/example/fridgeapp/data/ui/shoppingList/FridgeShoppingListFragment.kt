@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -21,13 +20,11 @@ import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.ui.fridge.FridgeItemAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 
 class FridgeShoppingListFragment : Fragment() {
 
     private var _binding: FridgeShoppingListBinding? = null
     private val binding get() = _binding!!
-    private val fbViewModel: FbViewModel by activityViewModels()
     private lateinit var cartItemAdapter: CartItemAdapter
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
@@ -83,7 +80,7 @@ class FridgeShoppingListFragment : Fragment() {
     }
 
     private fun observeViewModel() {
-        fbViewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.fridgeItems.observe(viewLifecycleOwner, Observer { items ->
             Log.d("MyTag", "Observed items: ${items.size}")
             val sortedItems = items
                 .filter { it.isExpiringSoon() }
@@ -91,7 +88,7 @@ class FridgeShoppingListFragment : Fragment() {
             fridgeItemAdapter.updateItems(sortedItems)
         })
 
-        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+        viewModel.cartItems.observe(viewLifecycleOwner, Observer { items ->
             Log.d("Cart-Cart", "Observed items: ${items.size}")
             val sortedItems = items.sortedBy { it.category }
             cartItemAdapter.updateItems(sortedItems)
@@ -165,7 +162,7 @@ class FridgeShoppingListFragment : Fragment() {
             val item = fridgeItemAdapter.itemAt(viewHolder.adapterPosition)
             Dialogs.showInsertNumberDialog(requireContext(),
                 onConfirm = { quantity ->
-                    fbViewModel.deleteItemFromFridgeDatabase(item) { result ->
+                    viewModel.deleteItemFromFridgeDatabase(item) { result ->
                         result.onSuccess {
                             showToast("Item deleted successfully")
                         }.onFailure { exception ->

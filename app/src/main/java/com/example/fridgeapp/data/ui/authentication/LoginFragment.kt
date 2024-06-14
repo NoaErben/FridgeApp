@@ -9,13 +9,11 @@ import android.view.Window
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.Dialogs
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 
 class LoginFragment : Fragment() {
@@ -24,7 +22,6 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var dialog: Dialog
-    private val fbViewModel: FbViewModel by activityViewModels()
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
     }
@@ -65,7 +62,7 @@ class LoginFragment : Fragment() {
                 onSuccess = {
                     hideProgressBar()
                     Toast.makeText(requireContext(), getString(R.string.Sign_in_successful), Toast.LENGTH_SHORT).show()
-                    fbViewModel.changeUser()
+//                    fbViewModel.changeUser()
                     // TODO: delete
                     findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
                 },

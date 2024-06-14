@@ -21,11 +21,9 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
-import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
@@ -36,7 +34,6 @@ class SplashScreenFragment : Fragment() {
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
 
-    private val fbViewModel: FbViewModel by activityViewModels()
 
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
