@@ -66,6 +66,7 @@ class LoginFragment : Fragment() {
                     hideProgressBar()
                     Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
                     fbViewModel.changeUser()
+                    // TODO: delete
                     findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
                 },
                 onFailure = { exception ->
