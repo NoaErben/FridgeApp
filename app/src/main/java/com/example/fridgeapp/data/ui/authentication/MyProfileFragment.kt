@@ -18,6 +18,7 @@ import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.ui.authentication.location.Location
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
@@ -30,7 +31,7 @@ class MyProfileFragment : Fragment() {
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
     }
-    private val location: LocationViewModel by viewModels()
+    private val location: Location by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

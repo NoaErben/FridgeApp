@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data.ui
+package com.example.fridgeapp.data.ui.authentication.location
 
 import android.annotation.SuppressLint
 import android.app.Application

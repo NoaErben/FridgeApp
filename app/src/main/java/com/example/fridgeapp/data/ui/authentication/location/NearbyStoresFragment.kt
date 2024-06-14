@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data
+package com.example.fridgeapp.data.ui.authentication.location
 
 import android.Manifest
 import android.content.pm.PackageManager
