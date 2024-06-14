@@ -13,9 +13,11 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
+import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteAddItemBinding
@@ -24,8 +26,9 @@ class AddItemToFavoriteFragment : Fragment() {
 
     private var _binding: FavoriteAddItemBinding? = null
     private val binding get() = _binding!!
-    private val roomViewModel: RoomViewModel by activityViewModels()
-
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
+    }
     private var imageUri: Uri? = null
 
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
@@ -54,7 +57,7 @@ class AddItemToFavoriteFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = roomViewModel.categories
+        val categories = favoriteViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -80,7 +83,10 @@ class AddItemToFavoriteFragment : Fragment() {
 
     private fun handleImagePicked(uri: Uri) {
         binding.itemImage.setImageURI(uri)
-        requireActivity().contentResolver.takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        requireActivity().contentResolver.takePersistableUriPermission(
+            uri,
+            Intent.FLAG_GRANT_READ_URI_PERMISSION
+        )
         imageUri = uri
     }
 
@@ -94,10 +100,12 @@ class AddItemToFavoriteFragment : Fragment() {
                 showToast(getString(com.example.fridgeapp.R.string.please_enter_a_valid_product_name))
                 false
             }
+
             daysToExpire == null || daysToExpire <= 0 -> {
                 showToast(getString(com.example.fridgeapp.R.string.please_enter_a_valid_number_of_days_to_expire))
                 false
             }
+
             else -> {
                 true
             }
@@ -113,7 +121,7 @@ class AddItemToFavoriteFragment : Fragment() {
         val foodItem = FoodItem(
             name = name, photoUrl = photoUrl, category = category, daysToExpire = daysToExpire
         )
-        roomViewModel.insertFoodItem(foodItem)
+        favoriteViewModel.insertFoodItem(foodItem)
     }
 
     private fun navigateToExpirationDates() {
@@ -121,15 +129,17 @@ class AddItemToFavoriteFragment : Fragment() {
     }
 
     private fun handleBackPressed() {
-        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (hasUnsavedChanges()) {
-                    showConfirmDiscardChangesDialog()
-                } else {
-                    findNavController().popBackStack()
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (hasUnsavedChanges()) {
+                        showConfirmDiscardChangesDialog()
+                    } else {
+                        findNavController().popBackStack()
+                    }
                 }
-            }
-        })
+            })
     }
 
     private fun showConfirmDiscardChangesDialog() {

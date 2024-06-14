@@ -21,11 +21,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
+import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
@@ -40,7 +42,9 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var _binding: FridgeAddItemBinding? = null
     private val binding get() = _binding!!
 
-    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
+    }
     private val fbViewModel: FbViewModel by activityViewModels()
 
     private lateinit var dialog: Dialog
@@ -74,13 +78,13 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         handleBackPressed()
 
         // Observe the LiveData
-        roomViewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
+        favoriteViewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
             setupNameSpinner()
         })
     }
 
     private fun setupCategorySpinner() {
-        val categories = roomViewModel.categories
+        val categories = favoriteViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -90,7 +94,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupMeasureSpinner() {
-        val categories = roomViewModel.unitMeasures
+        val categories = favoriteViewModel.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -100,7 +104,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupNameSpinner() {
-        var foodItemsNames = roomViewModel.foodItemsNames?.value?.toMutableList()
+        var foodItemsNames = favoriteViewModel.foodItemsNames?.value?.toMutableList()
         if (foodItemsNames != null) {
             foodItemsNames.add(0, "")
             foodItemsNames.add("Other")
@@ -136,9 +140,9 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
                     }
                     else -> {
                         viewLifecycleOwner.lifecycleScope.launch {
-                            val foodItem = roomViewModel.getFoodItem(selectedName)
+                            val foodItem = favoriteViewModel.getFoodItem(selectedName)
                             foodItem?.let {
-                                binding.productCategory.setSelection(roomViewModel.categories.indexOf(it.category ?: roomViewModel.categories[0]))
+                                binding.productCategory.setSelection(favoriteViewModel.categories.indexOf(it.category ?: favoriteViewModel.categories[0]))
                                 val calendar = Calendar.getInstance()
                                 calendar.add(Calendar.DATE, it.daysToExpire ?: 7)
                                 val expiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.time)
@@ -340,8 +344,8 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = roomViewModel.categories[0]
-        val defaultMeasure = roomViewModel.unitMeasures[0]
+        val defaultCategory = favoriteViewModel.categories[0]
+        val defaultMeasure = favoriteViewModel.unitMeasures[0]
         val defaultBuyingDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().time)
         val defaultExpiryDate = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(Calendar.getInstance().apply { add(Calendar.DATE, 7) }.time)
 

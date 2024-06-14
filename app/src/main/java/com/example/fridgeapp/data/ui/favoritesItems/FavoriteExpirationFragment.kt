@@ -6,24 +6,25 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
+import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
-import com.google.android.material.appbar.MaterialToolbar
 
 class FavoriteExpirationFragment : Fragment() {
 
     private var _binding: FavoriteExpirationDatesBinding? = null
     private val binding get() = _binding!!
 
-    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -41,7 +42,7 @@ class FavoriteExpirationFragment : Fragment() {
         val adapter = FavoriteItemAdapter(emptyList(), object : FavoriteItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(index)
-                roomViewModel.setFoodChosenItem(item)
+                favoriteViewModel.setFoodChosenItem(item)
                 findNavController().navigate(R.id.action_defaultExpirationDatesFragment_to_editItemFavoriteFragment)
             }
 
@@ -54,7 +55,7 @@ class FavoriteExpirationFragment : Fragment() {
         binding.productRecyclerView.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.productRecyclerView.adapter = adapter
 
-        roomViewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
+        favoriteViewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
             adapter.setItems(foodItems)
         })
 
@@ -76,7 +77,7 @@ class FavoriteExpirationFragment : Fragment() {
                 val item = (binding.productRecyclerView.adapter as FavoriteItemAdapter).itemAt(viewHolder.adapterPosition)
                 Dialogs.showConfirmDeleteDialog(requireContext(),
                     onConfirm = {
-                        roomViewModel.deleteFoodItem(item)
+                        favoriteViewModel.deleteFoodItem(item)
                     },
                     onCancel = {
                         (binding.productRecyclerView.adapter as FavoriteItemAdapter).notifyItemChanged(viewHolder.adapterPosition)
@@ -97,7 +98,7 @@ class FavoriteExpirationFragment : Fragment() {
                     // Implement your logic to reset items here
                     Toast.makeText(requireContext(), "Resetting to default items...", Toast.LENGTH_SHORT).show()
                     // Example logic to reset items
-                    roomViewModel.resetToDefaultItems()
+                    favoriteViewModel.resetToDefaultItems()
                 },
                 onCancel = {
                     // Optional: Handle cancel action if needed

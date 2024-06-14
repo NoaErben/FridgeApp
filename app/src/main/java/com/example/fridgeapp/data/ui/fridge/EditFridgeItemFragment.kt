@@ -19,10 +19,12 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
+import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
@@ -37,7 +39,9 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var _binding: EditItemInFridgeBinding? = null
     private val binding get() = _binding!!
 
-    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
+    }
     private val fbViewModel: FbViewModel by activityViewModels()
 
     private var imageUri: Uri? = null
@@ -118,12 +122,12 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setCategorySpinnerSelection(item: FridgeItem) {
-        val defaultCategoryIndex = roomViewModel.categories.indexOf(item.category)
+        val defaultCategoryIndex = favoriteViewModel.categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 
     private fun setMeasureSpinnerSelection(item: FridgeItem) {
-        val defaultMeasureIndex = roomViewModel.unitMeasures.indexOf(item.amountMeasure)
+        val defaultMeasureIndex = favoriteViewModel.unitMeasures.indexOf(item.amountMeasure)
         binding.measureCategory.setSelection(defaultMeasureIndex)
     }
 
@@ -140,7 +144,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupCategorySpinner() {
-        val categories = roomViewModel.categories
+        val categories = favoriteViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -150,7 +154,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupMeasureSpinner() {
-        val categories = roomViewModel.unitMeasures
+        val categories = favoriteViewModel.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth

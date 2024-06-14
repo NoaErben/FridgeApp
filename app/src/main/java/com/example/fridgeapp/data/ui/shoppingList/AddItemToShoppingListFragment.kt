@@ -17,15 +17,17 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
-import com.example.fridgeapp.data.ui.viewModels.RoomViewModel
 import com.example.fridgeapp.databinding.ShoppingAddItemBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -37,7 +39,9 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     private var _binding: ShoppingAddItemBinding? = null
     private val binding get() = _binding!!
 
-    private val roomViewModel: RoomViewModel by activityViewModels()
+    private val favoriteViewModel: FavoriteViewModel by viewModels {
+        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
+    }
     private val fbViewModel: FbViewModel by activityViewModels()
 
     private lateinit var dialog: Dialog
@@ -70,13 +74,13 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
         handleBackPressed()
 
         // Observe the LiveData
-        roomViewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
+        favoriteViewModel.foodItemsNames?.observe(viewLifecycleOwner, Observer { foodNames ->
             setupNameSpinner()
         })
     }
 
     private fun setupCategorySpinner() {
-        val categories = roomViewModel.categories
+        val categories = favoriteViewModel.categories
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -86,7 +90,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupMeasureSpinner() {
-        val categories = roomViewModel.unitMeasures
+        val categories = favoriteViewModel.unitMeasures
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -96,7 +100,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupNameSpinner() {
-        var foodItemsNames = roomViewModel.foodItemsNames?.value?.toMutableList()
+        var foodItemsNames = favoriteViewModel.foodItemsNames?.value?.toMutableList()
         if (foodItemsNames != null) {
             foodItemsNames.add(0, "")
             foodItemsNames.add("Other")
@@ -132,9 +136,9 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
                     }
                     else -> {
                         viewLifecycleOwner.lifecycleScope.launch {
-                            val foodItem = roomViewModel.getFoodItem(selectedName)
+                            val foodItem = favoriteViewModel.getFoodItem(selectedName)
                             foodItem?.let {
-                                binding.productCategory.setSelection(roomViewModel.categories.indexOf(it.category ?: roomViewModel.categories[0]))
+                                binding.productCategory.setSelection(favoriteViewModel.categories.indexOf(it.category ?: favoriteViewModel.categories[0]))
                                 // Load image with Glide
                                 Glide.with(requireContext())
                                     .load(it.photoUrl)
@@ -278,8 +282,8 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = roomViewModel.categories[0]
-        val defaultMeasure = roomViewModel.unitMeasures[0]
+        val defaultCategory = favoriteViewModel.categories[0]
+        val defaultMeasure = favoriteViewModel.unitMeasures[0]
 
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString()

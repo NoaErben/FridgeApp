@@ -9,23 +9,19 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.model.User
-import com.example.fridgeapp.data.repository.CartRepository
+import com.example.fridgeapp.data.repository.CartRepositoryOld
 import com.example.fridgeapp.data.repository.FridgeRepository
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
 import java.io.ByteArrayOutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -47,8 +43,8 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
     private val fridgeRepository = FridgeRepository()
     var items: LiveData<List<FridgeItem>> = fridgeRepository.getItems()
 
-    private val cartRepository = CartRepository()
-    var cartItems: LiveData<List<CartItem>> = cartRepository.getItems()
+    private val cartRepositoryOld = CartRepositoryOld()
+    var cartItems: LiveData<List<CartItem>> = cartRepositoryOld.getItems()
 
     val currentUser: LiveData<FirebaseUser?> get() = _currentUser
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
@@ -80,7 +76,7 @@ class FbViewModel (application: Application) : AndroidViewModel(application){
         // Clear existing data or perform any necessary cleanup
         _currentUser.value = auth.currentUser
         items = fridgeRepository.getItems()
-        cartItems = cartRepository.getItems()
+        cartItems = cartRepositoryOld.getItems()
     }
 
     fun setFridgeChosenItem(fridgeItem: FridgeItem) {
