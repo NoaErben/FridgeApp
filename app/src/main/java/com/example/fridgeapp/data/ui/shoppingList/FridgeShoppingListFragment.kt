@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
+import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.ui.fridge.FridgeItemAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
@@ -28,6 +30,10 @@ class FridgeShoppingListFragment : Fragment() {
     private val fbViewModel: FbViewModel by activityViewModels()
     private lateinit var cartItemAdapter: CartItemAdapter
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
+
+    private val viewModel: ShoppingListViewmodel by activityViewModels {
+        ShoppingListViewmodel.ShoppingListViewmodelFactory(CartRepositoryFirebase())
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,7 +71,7 @@ class FridgeShoppingListFragment : Fragment() {
         cartItemAdapter = CartItemAdapter(emptyList(), object : CartItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
                 val item = (binding.cartRecyclerView?.adapter as CartItemAdapter).itemAt(index)
-                fbViewModel.setCartChosenItem(item)
+                viewModel.setCartChosenItem(item)
                 findNavController().navigate(R.id.action_fridgeShoppingListFragment_to_editItemShoppingListFragment)
             }
 
@@ -85,8 +91,8 @@ class FridgeShoppingListFragment : Fragment() {
             fridgeItemAdapter.updateItems(sortedItems)
         })
 
-        fbViewModel.cartItems.observe(viewLifecycleOwner, Observer { items ->
-            Log.d("MyTag", "Observed items: ${items.size}")
+        viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            Log.d("Cart-Cart", "Observed items: ${items.size}")
             val sortedItems = items.sortedBy { it.category }
             cartItemAdapter.updateItems(sortedItems)
         })
@@ -127,7 +133,7 @@ class FridgeShoppingListFragment : Fragment() {
             val item = (binding.cartRecyclerView?.adapter as CartItemAdapter).itemAt(viewHolder.adapterPosition)
             Dialogs.showConfirmDeleteDialog(requireContext(),
                 onConfirm = {
-                    fbViewModel.deleteItemFromCartDatabase(item) { result ->
+                    viewModel.deleteItemFromCartDatabase(item) { result ->
                         result.onSuccess {
                             showToast("Item deleted successfully")
                         }.onFailure { exception ->
@@ -167,7 +173,7 @@ class FridgeShoppingListFragment : Fragment() {
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }
-                    fbViewModel.saveCartItemToDatabase(
+                    viewModel.saveCartItemToDatabase(
                         item.name!!,
                         quantity,
                         item.category!!,
@@ -176,6 +182,7 @@ class FridgeShoppingListFragment : Fragment() {
                         item.photoUrl!!,
                         true,
                         item.photoUrl!!.toUri(),
+                        requireContext(),
                     ) { result ->
                         result.onSuccess {
                             showToast("Item deleted successfully")

@@ -21,10 +21,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.CartItem
+import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.MyDates
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
 import com.example.fridgeapp.databinding.ShoppingEditItemBinding
 import java.text.SimpleDateFormat
@@ -39,7 +41,10 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     private val favoriteViewModel: FavoriteViewModel by viewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
-    private val fbViewModel: FbViewModel by activityViewModels()
+
+    private val viewModel: ShoppingListViewmodel by activityViewModels {
+        ShoppingListViewmodel.ShoppingListViewmodelFactory(CartRepositoryFirebase())
+    }
 
     private var imageUri: Uri? = null
     private var imageUriStr: String? = null
@@ -89,13 +94,13 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     }
 
     private fun observeChosenCartItem() {
-        fbViewModel.chosenCartItem.observe(viewLifecycleOwner) { item ->
+        viewModel.chosenCartItem.observe(viewLifecycleOwner) { item ->
             binding.itemName.text = item.name
             setCategorySpinnerSelection(item)
             binding.quantity.setText(item.quantity.toString())
             setMeasureSpinnerSelection(item)
             loadImage(item.photoUrl)
-            binding.dateData.text = fbViewModel.formatLongDateToString(item.addedDate)
+            binding.dateData.text = MyDates.formatLongDateToString(item.addedDate)
         }
     }
 
@@ -176,10 +181,10 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
 //        Log.d("EFIF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
 //        Log.d("EFIF", viewModel.chosenFridgeItem.value!!.name.toString() + ", " + viewModel.chosenFridgeItem.value!!.quantity.toString() + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.buyingDate) + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.expiryDate) + ", " + viewModel.chosenFridgeItem.value!!.category.toString() + ", " + viewModel.chosenFridgeItem.value!!.amountMeasure.toString() + ", " )
 
-        return productName != fbViewModel.chosenCartItem.value!!.name.toString()  ||
-                quantity != fbViewModel.chosenCartItem.value!!.quantity.toString() ||
-                productCategory != fbViewModel.chosenCartItem.value!!.category.toString() ||
-                amountMeasure != fbViewModel.chosenCartItem.value!!.amountMeasure.toString() ||
+        return productName != viewModel.chosenCartItem.value!!.name.toString()  ||
+                quantity != viewModel.chosenCartItem.value!!.quantity.toString() ||
+                productCategory != viewModel.chosenCartItem.value!!.category.toString() ||
+                amountMeasure != viewModel.chosenCartItem.value!!.amountMeasure.toString() ||
                 imageChanged
     }
 
@@ -204,8 +209,8 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
         Dialogs.showConfirmDeleteDialog(
             requireContext(),
             onConfirm = {
-                fbViewModel.chosenCartItem.value?.let { item ->
-                    fbViewModel.deleteItemFromCartDatabase(
+                viewModel.chosenCartItem.value?.let { item ->
+                    viewModel.deleteItemFromCartDatabase(
                         item,
                         onComplete = {})
                     navigateToMainFrag()
@@ -225,18 +230,19 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     }
 
     private fun updateCartItem() {
-        val productName = fbViewModel.chosenCartItem.value!!.name.toString()
+        val productName = viewModel.chosenCartItem.value!!.name.toString()
         val quantity = binding.quantity.text.toString().toIntOrNull() ?: 0
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
 
-        fbViewModel.updateCartItemInDatabase(
+        viewModel.updateCartItemInDatabase(
             productName,
             quantity,
             productCategory,
             amountMeasure,
-            fbViewModel.parseDate(binding.dateData.text.toString()),
+            MyDates.parseDate(binding.dateData.text.toString()),
             imageUriStr,
+            requireContext(),
         ) { result ->
             result.onSuccess {
                 hideProgressBar()

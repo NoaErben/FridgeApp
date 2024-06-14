@@ -57,7 +57,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private var currentImage: String? = null
     private var isBuyingDate: Boolean = false
 
-    private val viewModel: FridgeViewmodel by viewModels {
+    private val viewModel: FridgeViewmodel by activityViewModels {
         FridgeViewmodel.FridgeViewmodelFactory(FridgeRepositoryFirebase())
     }
 

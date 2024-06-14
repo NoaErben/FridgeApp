@@ -32,9 +32,6 @@ class FridgeRepositoryFirebase : FridgeRepository {
         FirebaseAuth.getInstance()
     }
 
-    private val database by lazy {
-        FirebaseDatabase.getInstance().getReference("itemsInFridge")
-    }
 
     private val fridgeDatabaseReference =
         FirebaseDatabase.getInstance().getReference("itemsInFridge")
@@ -50,7 +47,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
         val currentUser: FirebaseUser? = firebaseAuth.currentUser
 
         if (currentUser != null) {
-            database.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
+            fridgeDatabaseReference.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val items = mutableListOf<FridgeItem>()
                     for (itemSnapshot in snapshot.children) {

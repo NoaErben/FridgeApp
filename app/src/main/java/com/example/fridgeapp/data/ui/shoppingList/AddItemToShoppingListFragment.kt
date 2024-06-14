@@ -26,8 +26,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
+import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
+import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
+import com.example.fridgeapp.data.ui.fridge.FridgeViewmodel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.viewModels.FbViewModel
@@ -46,6 +49,10 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
     private val fbViewModel: FbViewModel by activityViewModels()
+
+    private val viewModel: ShoppingListViewmodel by activityViewModels {
+        ShoppingListViewmodel.ShoppingListViewmodelFactory(CartRepositoryFirebase())
+    }
 
     private lateinit var dialog: Dialog
     private var imageUri: Uri? = null
@@ -184,7 +191,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
             !(currentImage != null && currentImage!!.contains("firebase")) && currentImage != R.drawable.dish.toString()
         val addedDate = System.currentTimeMillis()
 
-        fbViewModel.saveCartItemToDatabase(
+        viewModel.saveCartItemToDatabase(
             productName,
             quantity,
             productCategory,
@@ -193,6 +200,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
             photoUrl,
             imageChanged,
             imageUri,
+            requireContext(),
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
@@ -304,7 +312,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     private fun checkItemExistsAndSave() {
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
 
-        fbViewModel.checkCartItemExists(productName) { exists ->
+        viewModel.checkCartItemExists(productName) { exists ->
             if (exists) {
                 showReplaceDiscardDialog {
                     saveItemToDatabase()

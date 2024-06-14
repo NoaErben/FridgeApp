@@ -28,10 +28,6 @@ class CartRepositoryFirebase : CartRepository {
         FirebaseAuth.getInstance()
     }
 
-    private val database by lazy {
-        FirebaseDatabase.getInstance().getReference("itemsInFridge")
-    }
-
     private val fridgeDatabaseReference =
         FirebaseDatabase.getInstance().getReference("itemsInFridge")
     private val cartDatabaseReference =
@@ -48,7 +44,7 @@ class CartRepositoryFirebase : CartRepository {
         val currentUser: FirebaseUser? = firebaseAuth.currentUser
 
         if (currentUser != null) {
-            database.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
+            cartDatabaseReference.child(currentUser.uid).addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val items = mutableListOf<CartItem>()
                     for (itemSnapshot in snapshot.children) {
