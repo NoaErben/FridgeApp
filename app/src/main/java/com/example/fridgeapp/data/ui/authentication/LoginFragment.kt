@@ -56,7 +56,7 @@ class LoginFragment : Fragment() {
             val password = binding.etPassword.text.toString()
 
             if (email.isEmpty() || password.isEmpty()) {
-                Toast.makeText(requireContext(), "Insert E-mail and password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.insert_email_password), Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -64,14 +64,15 @@ class LoginFragment : Fragment() {
             viewModel.signIn(email, password,
                 onSuccess = {
                     hideProgressBar()
-                    Toast.makeText(requireContext(), "Sign in successful", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(requireContext(), getString(R.string.Sign_in_successful), Toast.LENGTH_SHORT).show()
                     fbViewModel.changeUser()
                     // TODO: delete
                     findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
                 },
                 onFailure = { exception ->
                     hideProgressBar()
-                    Toast.makeText(requireContext(), "Authentication failed: ${exception.message}", Toast.LENGTH_SHORT).show()
+                    val errorMessage = getString(R.string.authentication_failed, exception.message)
+                    Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
                 }
             )
         }
@@ -85,7 +86,7 @@ class LoginFragment : Fragment() {
         binding.txtForgotPassword.setOnClickListener {
             val email = binding.etEmailAddress.text.toString().trim()
             if (email.isEmpty()) {
-                Toast.makeText(requireContext(), "Please enter your email", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.please_enter_email), Toast.LENGTH_SHORT).show()
             } else {
                 sendPasswordResetEmail(email)
             }
@@ -95,14 +96,15 @@ class LoginFragment : Fragment() {
     private fun sendPasswordResetEmail(email: String) {
         viewModel.sendPasswordResetEmail(email,
             onSuccess = {
-                Toast.makeText(requireContext(), "Password reset email sent", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), getString(R.string.password_reset_email_sent), Toast.LENGTH_SHORT).show()
             },
             onFailure = { exception ->
-                val errorMessage = exception.message ?: "Error sending password reset email"
+                val errorMessage = exception.message ?: getString(R.string.error_sending_password_reset_email)
                 Toast.makeText(requireContext(), errorMessage, Toast.LENGTH_SHORT).show()
             }
         )
     }
+
 
     private fun handleBackButtonPress() {
         requireActivity().onBackPressedDispatcher.addCallback(
