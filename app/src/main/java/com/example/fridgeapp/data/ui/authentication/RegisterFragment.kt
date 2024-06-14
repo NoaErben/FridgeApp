@@ -49,66 +49,55 @@ class RegisterFragment : Fragment() {
             val password = binding.etPassword.text.toString().trim()
             val confirmPassword = binding.etConfirmPassword.text.toString().trim()
 
-            if (name.length < 2) {
-                Toast.makeText(
-                    requireContext(), "Please insert a name", Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
+            if (validateInputs(name, password, confirmPassword)) {
+                signUpUser(email, password, name)
             }
-
-            if (password.length < 6) {
-                Toast.makeText(
-                    requireContext(),
-                    "Password needs to be at least 6 characters",
-                    Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-
-            if (password != confirmPassword) {
-                Toast.makeText(
-                    requireContext(), "Passwords do not match", Toast.LENGTH_SHORT
-                ).show()
-                return@setOnClickListener
-            }
-
-            val greenColor = ContextCompat.getColor(requireContext(), R.color.green)
-            binding.etPassword.setTextColor(greenColor)
-            binding.etConfirmPassword.setTextColor(greenColor)
-
-            showProgressBar()
-
-            viewModel.signUp(email, password, name,
-                onSuccess = {
-                    hideProgressBar()
-                    Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
-                    fbViewModel.changeUser()
-                    findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
-                },
-                onFailure = { exception ->
-                    hideProgressBar()
-                    Toast.makeText(requireContext(), "Failed to save user: ${exception.message}", Toast.LENGTH_SHORT).show()
-                }
-            )
-
-//            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-//                if (task.isSuccessful) {
-//                    fbViewModel.saveUserToDatabase(name) { result ->
-//                        hideProgressBar()
-//                        if (result.isSuccess) {
-//                            Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
-//                            fbViewModel.changeUser()
-//                            findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
-//                        } else {
-//                            Toast.makeText(requireContext(), "Failed to save user: ${result.exceptionOrNull()?.message}", Toast.LENGTH_SHORT).show()
-//                        }
-//                    }
-//                } else {
-//                    hideProgressBar()
-//                    Toast.makeText(requireContext(), "Registration failed: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
-//                }
-//            }
         }
+    }
+
+    private fun validateInputs(name: String, password: String, confirmPassword: String): Boolean {
+        if (name.length < 2) {
+            Toast.makeText(requireContext(), "Please insert a name", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password.length < 6) {
+            Toast.makeText(requireContext(), "Password needs to be at least 6 characters", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        if (password != confirmPassword) {
+            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            return false
+        }
+
+        return true
+    }
+
+    private fun signUpUser(email: String, password: String, name: String) {
+        showProgressBar()
+
+        viewModel.signUp(email, password, name,
+            onSuccess = {
+                hideProgressBar()
+                onSignUpSuccess()
+            },
+            onFailure = { exception ->
+                hideProgressBar()
+                onSignUpFailure(exception)
+            }
+        )
+    }
+
+    private fun onSignUpSuccess() {
+        Toast.makeText(requireContext(), "User registered successfully", Toast.LENGTH_SHORT).show()
+        fbViewModel.changeUser()
+        // TODO: integrate
+        findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
+    }
+
+    private fun onSignUpFailure(exception: Exception) {
+        Toast.makeText(requireContext(), "Failed to save user: ${exception.message}", Toast.LENGTH_SHORT).show()
     }
 
     private fun showProgressBar() {
