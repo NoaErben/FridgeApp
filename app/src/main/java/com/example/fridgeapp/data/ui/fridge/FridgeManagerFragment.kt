@@ -1,5 +1,7 @@
 package com.example.fridgeapp.data.ui.fridge
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -189,8 +192,13 @@ class FridgeManagerFragment : Fragment() {
     }
 
     private fun handleLocationClick() {
-        findNavController().navigate(R.id.action_fridgeManagerFragment_to_locationFragment)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_locationFragment)
+        } else {
+            findNavController().navigate(R.id.action_fridgeManagerFragment_to_allowLocationFragment)
+        }
     }
+
 
     private fun handleProfileClick() {
         findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)

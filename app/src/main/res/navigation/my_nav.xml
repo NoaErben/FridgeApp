@@ -82,6 +82,9 @@
         <action
             android:id="@+id/action_fridgeManagerFragment_to_locationFragment"
             app:destination="@id/locationFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_allowLocationFragment"
+            app:destination="@id/allowLocationFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemToFridgeFragment"
@@ -218,5 +221,17 @@
         <action
             android:id="@+id/action_locationFragment_to_fridgeManagerFragment"
             app:destination="@id/fridgeManagerFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/allowLocationFragment"
+        android:name="com.example.fridgeapp.data.ui.authentication.location.AllowLocationFragment"
+        android:label="allow_location_fragment"
+        tools:layout="@layout/allow_location_fragment" >
+        <action
+            android:id="@+id/action_allowLocationFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
+        <action
+            android:id="@+id/action_allowLocationFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
 </navigation>

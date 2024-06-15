@@ -21,6 +21,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.LocationBinding
@@ -75,6 +76,11 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         mapView = binding.root.findViewById(R.id.map)
         mapView.onCreate(savedInstanceState)
         mapView.getMapAsync(this)
+
+        // Set up back button navigation
+        binding.toolbar.setNavigationOnClickListener {
+            findNavController().navigate(R.id.action_locationFragment_to_fridgeManagerFragment)
+        }
 
         setupLocationObserver()
     }
