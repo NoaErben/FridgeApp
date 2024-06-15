@@ -24,6 +24,21 @@ object Dialogs {
             .show()
     }
 
+    fun showConfirmDeleteAllDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
+        AlertDialog.Builder(context)
+            .setMessage("Are you sure you want to delete all items?")
+            .setPositiveButton(context.getString(R.string.yes)) { dialog, _ ->
+                onConfirm()
+                dialog.dismiss()
+            }
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
+                onCancel()
+                dialog.dismiss()
+            }
+            .create()
+            .show()
+    }
+
     fun showConfirmDiscardChangesDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)
             .setMessage(context.getString(R.string.are_you_sure_you_want_to_discard_changes))
