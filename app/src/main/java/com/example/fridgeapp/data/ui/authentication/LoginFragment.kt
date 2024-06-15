@@ -14,12 +14,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 
 class LoginFragment : Fragment() {
 
-    private var _binding: AuthLoginFragmentBinding? = null
-    private val binding get() = _binding!!
+    private var binding : AuthLoginFragmentBinding by autoCleared()
+
 
     private lateinit var dialog: Dialog
     private val viewModel: AuthenticationViewmodel by viewModels {
@@ -30,7 +31,7 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = AuthLoginFragmentBinding.inflate(inflater, container, false)
+        binding = AuthLoginFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -126,10 +127,5 @@ class LoginFragment : Fragment() {
 
     private fun hideProgressBar() {
         dialog.dismiss()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
