@@ -79,6 +79,9 @@
         <action
             android:id="@+id/action_fridgeManagerFragment_to_loginFragment"
             app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_fridgeManagerFragment_to_locationFragment"
+            app:destination="@id/locationFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemToFridgeFragment"
@@ -207,5 +210,13 @@
             app:destination="@id/defaultExpirationDatesFragment"
             app:popUpTo="@id/fridgeManagerFragment"
             app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/locationFragment"
+        android:name="com.example.fridgeapp.data.ui.authentication.location.LocationFragment"
+        android:label="LocationFragment" >
+        <action
+            android:id="@+id/action_locationFragment_to_fridgeManagerFragment"
+            app:destination="@id/fridgeManagerFragment" />
     </fragment>
 </navigation>

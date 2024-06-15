@@ -170,8 +170,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="40" />
-                            <option name="y" value="-4" />
+                            <option name="x" value="76" />
+                            <option name="y" value="100" />
                           </Point>
                         </option>
                         <option name="myPositions">
@@ -242,6 +242,27 @@
                       </LayoutPositions>
                     </value>
                   </entry>
+                  <entry key="locationFragment">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-776" />
+                            <option name="y" value="-1459" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_locationFragment_to_fridgeManagerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
                   <entry key="loginFragment">
                     <value>
                       <LayoutPositions>
@@ -254,6 +275,11 @@
                         <option name="myPositions">
                           <map>
                             <entry key="action_loginFragment_to_fridgeManagerFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_loginFragment_to_registerFragment">
                               <value>
                                 <LayoutPositions />
                               </value>

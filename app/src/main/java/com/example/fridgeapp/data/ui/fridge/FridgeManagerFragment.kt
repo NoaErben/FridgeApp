@@ -178,13 +178,19 @@ class FridgeManagerFragment : Fragment() {
                     handleProfileClick()
                     true
                 }
+                R.id.My_Location -> {
+                    handleLocationClick()
+                    true
+                }
                 else -> false
             }
         }
         popupMenu.show()
     }
 
-
+    private fun handleLocationClick() {
+        findNavController().navigate(R.id.action_fridgeManagerFragment_to_locationFragment)
+    }
 
     private fun handleProfileClick() {
         findNavController().navigate(R.id.action_fridgeManagerFragment_to_myProfileFragment)
