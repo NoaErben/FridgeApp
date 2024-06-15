@@ -245,11 +245,13 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
         ) { result ->
             result.onSuccess {
                 hideProgressBar()
-                showToast("Added successfully")
+                showToast(getString(com.example.fridgeapp.R.string.added_successfully))
+
                 findNavController().navigate(com.example.fridgeapp.R.id.action_editItemShoppingListFragment_to_fridgeShoppingListFragment)
             }.onFailure { exception ->
                 hideProgressBar()
-                showToast("Failed to add item: ${exception.message}")
+                showToast(getString(com.example.fridgeapp.R.string.failed_to_add_item, exception.message))
+
             }
         }
     }

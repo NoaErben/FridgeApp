@@ -45,20 +45,23 @@ class CartItemAdapter(
             binding.root.setOnLongClickListener(this)
         }
 
-            fun bind(item: CartItem) {
+        fun bind(item: CartItem) {
+            val context = binding.root.context
+
             binding.itemName.text = item.name
             binding.itemCategory.text = item.category
-            binding.itemQuantity.text = "Quantity: ${item.quantity}"
+            binding.itemQuantity.text = context.getString(R.string.quantity_text, item.quantity)
+
             if (item.photoUrl != null) {
-                Glide.with(binding.itemImage.context)
+                Glide.with(context)
                     .load(item.photoUrl)
                     .circleCrop()
                     .placeholder(R.drawable.dish)
                     .error(R.drawable.dish)
                     .into(binding.itemImage)
             } else {
-                Glide.with(binding.root)
-                    .load(ContextCompat.getDrawable(binding.root.context, R.drawable.dish))
+                Glide.with(context)
+                    .load(ContextCompat.getDrawable(context, R.drawable.dish))
                     .circleCrop()
                     .into(binding.itemImage)
             }

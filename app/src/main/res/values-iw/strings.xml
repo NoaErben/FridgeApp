@@ -103,15 +103,29 @@
     <string name="expires_today">פג תוקף היום</string>
     <string name="expired_before_days">פג תוקף לפני: %1$d ימים</string>
     <string name="item_deleted_successfully">הפריט נמחק בהצלחה</string>
-    <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
 
-    <string-array name="category_array">
-        <item>פירות</item>
-        <item>ירקות</item>
-        <item>מוצרי חלב</item>
-        <item>בשר</item>
-        <item>משקאות</item>
-        <item>רטבים</item>
-    </string-array>
+    <string name="failed_to_delete_item_in_fridge">נכשל במחיקת פריט</string>
+    <string name="shopping_list_clicked">לחצת על רשימת קניות</string>
+    <string name="favorite_items_clicked">לחצת על פריטים אהובים</string>
+
+    <string name="enter_custom_product_name">הזן שם מוצר מותאם אישית</string>
+    <string name="other">אחר</string>
+    <string name="item_exists">הפריט קיים</string>
+    <string name="replace_or_discard_message">פריט עם שם זה כבר קיים. האם ברצונך להחליף אותו או לבטל את השינויים?</string>
+    <string name="replace">החלף</string>
+    <string name="discard">בטל</string>
+    <string name="insert_number">הכנס מספר</string>
+    <string name="ok">אישור</string>
+    <string name="cancel">ביטול</string>
+    <string name="confirmation">אישור</string>
+    <string name="are_you_sure_you_want_to_leave">האם אתה בטוח שברצונך לעזוב?</string>
+    <string name="reset_to_default_items">איפוס לפריטים ברירת מחדל</string>
+    <string name="confirm">אישור</string>
+    <string name="are_you_sure_you_want_to_reset_to_default_items">האם אתה בטוח שברצונך לאפס לפריטי ברירת מחדל?</string>
+    <string name="location_permission_denied">הרשאת מיקום נדחתה</string>
+    <string name="quantity_text">כמות: %1$d</string>
+    <string name="address_text">כתובת: %1$s</string>
+    <string name="unknown_address">כתובת לא ידועה</string>
+    <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
 
 </resources>

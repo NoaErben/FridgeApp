@@ -49,40 +49,42 @@ object Dialogs {
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Enter Custom Product Name")
-            .setPositiveButton("OK") { dialog, _ ->
+            .setTitle(context.getString(R.string.enter_custom_product_name))
+            .setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
                 val customProductName = customProductNameEditText.text.toString()
                 if (customProductName.isNotBlank()) {
-                    val position = adapter.getPosition("Other")
+                    val position = adapter.getPosition(context.getString(R.string.other))
                     if (position != -1) {
-                        adapter.remove("Other")
+                        adapter.remove(context.getString(R.string.other))
                         adapter.insert(customProductName, position)
                         productNameSpinner.setSelection(position)
                     }
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
             .create()
         dialog.show()
     }
 
+
     fun showReplaceDiscardDialog(context: Context, onReplace: () -> Unit, onDiscard: () -> Unit) {
         val builder = AlertDialog.Builder(context)
-        builder.setTitle("Item Exists")
-            .setMessage("An item with this name already exists. Do you want to replace it or discard the changes?")
-            .setPositiveButton("Replace") { dialog, _ ->
+        builder.setTitle(context.getString(R.string.item_exists))
+            .setMessage(context.getString(R.string.replace_or_discard_message))
+            .setPositiveButton(context.getString(R.string.replace)) { dialog, _ ->
                 onReplace()
                 dialog.dismiss()
             }
-            .setNegativeButton("Discard") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.discard)) { dialog, _ ->
                 onDiscard()
                 dialog.dismiss()
             }
         builder.create().show()
     }
+
 
     fun showInsertNumberDialog(
         context: Context,
@@ -94,8 +96,8 @@ object Dialogs {
 
         val dialog = AlertDialog.Builder(context)
             .setView(dialogView)
-            .setTitle("Insert Number")
-            .setPositiveButton("OK") { dialog, _ ->
+            .setTitle(context.getString(R.string.insert_number))
+            .setPositiveButton(context.getString(R.string.ok)) { dialog, _ ->
                 val numberStr = numberEditText.text.toString()
                 if (numberStr.isNotBlank()) {
                     val number = numberStr.toInt()
@@ -105,7 +107,7 @@ object Dialogs {
                 }
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 onCancel()
                 dialog.dismiss()
             }
@@ -113,12 +115,13 @@ object Dialogs {
         dialog.show()
     }
 
+
     fun showConfirmLeaveDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)
-            .setTitle("Confirmation")
-            .setMessage("Are you sure you want to leave?")
-            .setPositiveButton("Yes") { _, _ -> onConfirm() }
-            .setNegativeButton("No") { dialog, _ ->
+            .setTitle(context.getString(R.string.confirmation))
+            .setMessage(context.getString(R.string.are_you_sure_you_want_to_leave))
+            .setPositiveButton(context.getString(R.string.yes)) { _, _ -> onConfirm() }
+            .setNegativeButton(context.getString(R.string.no)) { dialog, _ ->
                 dialog.dismiss()
                 onCancel()
             }
@@ -128,13 +131,13 @@ object Dialogs {
 
     fun showResetConfirmationDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)
-            .setTitle("Reset to Default Items")
-            .setMessage("Are you sure you want to reset to default items?")
-            .setPositiveButton("Confirm") { dialog, _ ->
+            .setTitle(context.getString(R.string.reset_to_default_items))
+            .setMessage(context.getString(R.string.are_you_sure_you_want_to_reset_to_default_items))
+            .setPositiveButton(context.getString(R.string.confirm)) { dialog, _ ->
                 onConfirm()
                 dialog.dismiss()
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
+            .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 onCancel()
                 dialog.dismiss()
             }

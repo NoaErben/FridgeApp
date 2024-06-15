@@ -9,7 +9,6 @@ import android.widget.Toast
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
@@ -20,6 +19,7 @@ import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.ui.fridge.FridgeItemAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 
 class FridgeShoppingListFragment : Fragment() {
 
@@ -132,9 +132,9 @@ class FridgeShoppingListFragment : Fragment() {
                 onConfirm = {
                     viewModel.deleteItemFromCartDatabase(item) { result ->
                         result.onSuccess {
-                            showToast("Item deleted successfully")
+                            showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("Failed to delete item: ${exception.message}")
+                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                             cartItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }
@@ -164,9 +164,9 @@ class FridgeShoppingListFragment : Fragment() {
                 onConfirm = { quantity ->
                     viewModel.deleteItemFromFridgeDatabase(item) { result ->
                         result.onSuccess {
-                            showToast("Item deleted successfully")
+                            showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("Failed to delete item: ${exception.message}")
+                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }
@@ -182,9 +182,9 @@ class FridgeShoppingListFragment : Fragment() {
                         requireContext(),
                     ) { result ->
                         result.onSuccess {
-                            showToast("Item deleted successfully")
+                            showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("Failed to delete item: ${exception.message}")
+                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                         }
                     }
                 },

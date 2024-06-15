@@ -129,7 +129,8 @@ class FridgeManagerFragment : Fragment() {
                         result.onSuccess {
                             showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("failed_to_delete_item" + exception.message)
+                            val errorMessage = getString(R.string.failed_to_delete_item_in_fridge) + exception.message
+                            showToast(errorMessage)
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
                         }
                     }
@@ -148,12 +149,12 @@ class FridgeManagerFragment : Fragment() {
             when (item.itemId) {
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
-                    showToast("shopping list clicked")
+                    showToast(getString(R.string.shopping_list_clicked))
                     true
                 }
                 R.id.Favorite_items -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
-                    showToast("Favorite items clicked")
+                    showToast(getString(R.string.favorite_items_clicked))
                     true
                 }
                 R.id.My_profile -> {

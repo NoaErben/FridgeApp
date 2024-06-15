@@ -18,6 +18,7 @@ class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
 //    private val foodRepositoryOld = FoodRepositoryOld(application)
 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()
+
     private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish", "Other")
     private val _unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
