@@ -123,4 +123,9 @@
     <string name="confirm">אישור</string>
     <string name="are_you_sure_you_want_to_reset_to_default_items">האם אתה בטוח שברצונך לאפס לפריטי ברירת מחדל?</string>
     <string name="location_permission_denied">הרשאת מיקום נדחתה</string>
+    <string name="quantity_text">כמות: %1$d</string>
+    <string name="address_text">כתובת: %1$s</string>
+    <string name="unknown_address">כתובת לא ידועה</string>
+    <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
+
 </resources>

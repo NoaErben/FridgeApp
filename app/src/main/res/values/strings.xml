@@ -124,5 +124,9 @@
     <string name="location_permission_denied">Location permission denied</string>
 
     <string name="quantity_text">Quantity: %1$d</string>
+    <string name="address_text">Address: %1$s</string>
+    <string name="unknown_address">Unknown address</string>
+    <string name="failed_to_delete_item">Failed to delete item: %1$s</string>
+
 
 </resources>
