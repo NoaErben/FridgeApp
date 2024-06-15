@@ -25,6 +25,26 @@
             android:textSize="20sp" />
 
         <TextView
+            android:id="@+id/nearest_supermarket_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/nearest_supermarket"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+
+
+
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/map"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
             android:id="@+id/tvGoogleMapsLink"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,12 +55,6 @@
             android:textSize="20sp"
             android:autoLink="web"
             android:text="@string/google_maps_link" />
-
-        <com.google.android.gms.maps.MapView
-            android:id="@+id/map"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
 </FrameLayout>

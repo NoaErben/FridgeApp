@@ -104,7 +104,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                         if (location != null) {
                             currentLocation = LatLng(location.latitude, location.longitude)
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-                            addMarker(currentLocation, "You are here", BitmapDescriptorFactory.HUE_BLUE)
+//                            addMarker(currentLocation, getString(R.string.you_are_here), BitmapDescriptorFactory.HUE_BLUE)
                             findNearbySupermarkets(currentLocation)
                         }
                     }
@@ -156,10 +156,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     val lat = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lat")
                     val lng = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lng")
                     val name = nearestSupermarket.getString("name")
+                    val address = nearestSupermarket.getString("vicinity")
                     val supermarketLocation = LatLng(lat, lng)
 
                     addMarker(supermarketLocation, name, BitmapDescriptorFactory.HUE_RED)
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(supermarketLocation, 15f))
+                    val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
+                    binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel $name , $address"
+
                 } else {
                     Toast.makeText(requireContext(), "No supermarkets found nearby", Toast.LENGTH_LONG).show()
                 }
