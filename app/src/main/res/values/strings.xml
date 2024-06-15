@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FridgeApp</string>
+    <string name="app_name">FridgeHub</string>
     <string name="add_product_expiry">add product expiry</string>
     <string name="expire_date">Expire Date:</string>
     <string name="purchase_date">Purchase Date:</string>
@@ -133,6 +133,11 @@
     <string name="allow_your_location">Allow your location</string>
     <string name="we_will_need_your_location_to_give_you_better_experience">We will need your location to give you better experience</string>
     <string name="allow_location_access">Allow location access</string>
+    <string name="permission_denied">permission denied</string>
+    <string name="location_permission_denied_explanation">location permission denied explanation</string>
+    <string name="settings">settings</string>
+    <string name="permission_required">permission required</string>
+    <string name="location_permission_explanation">location permission explanation</string>
 
 
 </resources>
