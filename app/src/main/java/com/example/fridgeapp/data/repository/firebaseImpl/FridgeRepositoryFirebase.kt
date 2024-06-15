@@ -71,8 +71,8 @@ class FridgeRepositoryFirebase : FridgeRepository {
     }
 
 
-    override fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
-                                          onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
+                                                  onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             fridgeDatabaseReference.child(it).child(fridgeItem.name.toString()).setValue(fridgeItem)
@@ -144,8 +144,8 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
-                                            photoUri: String?, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
+                                                    photoUri: String?, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             if (photoUri != null && !photoUri.contains("firebase")) {
@@ -173,7 +173,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             fridgeItem.name?.let { it1 ->
@@ -191,7 +191,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit) {
         // TODO: use somewhere
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
@@ -208,7 +208,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
         }
     }
 
-    override fun checkItemExists(itemName: String, callback: (Boolean) -> Unit) {
+    override suspend fun checkItemExists(itemName: String, callback: (Boolean) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             fridgeDatabaseReference.child(it).child(itemName).get()

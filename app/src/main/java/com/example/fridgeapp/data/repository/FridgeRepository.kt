@@ -11,15 +11,15 @@ interface FridgeRepository {
     fun currentUser(): FirebaseUser?
     fun getItems(): LiveData<List<FridgeItem>>
 
-    fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
+    suspend fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
                                           onComplete: (Result<Unit>) -> Unit)
 
-    fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
+    suspend fun updateFridgeItemInDatabase(fridgeItem: FridgeItem, context: Context,
                                             photoUri: String?, onComplete: (Result<Unit>) -> Unit)
 
-    fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit)
+    suspend fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit)
 
-    fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit)
+    suspend fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit)
 
-    fun checkItemExists(itemName: String, callback: (Boolean) -> Unit)
+    suspend fun checkItemExists(itemName: String, callback: (Boolean) -> Unit)
 }

@@ -7,11 +7,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.AuthRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 
 class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
 
@@ -66,13 +68,19 @@ class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
             expiryDate = expiryDate,
             category = productCategory
         )
-
-        fridgeRep.saveFridgeItemToDatabase(fridgeItem, imageChanged, imageUri, context){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            fridgeRep.saveFridgeItemToDatabase(
+                fridgeItem,
+                imageChanged,
+                imageUri,
+                context
+            ) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
@@ -90,31 +98,36 @@ class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
             expiryDate = expiryDate,
             photoUrl = photoUri.toString()
         )
-
-        fridgeRep.updateFridgeItemInDatabase(fridgeItem, context, photoUri){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            fridgeRep.updateFridgeItemInDatabase(fridgeItem, context, photoUri) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
 
     fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
-        fridgeRep.deleteItemFromFridgeDatabase(fridgeItem){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            fridgeRep.deleteItemFromFridgeDatabase(fridgeItem) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
 
     fun checkItemExists(itemName: String, callback: (Boolean) -> Unit) {
-        fridgeRep.checkItemExists(itemName) { exists ->
-            callback(exists)
+        viewModelScope.launch {
+            fridgeRep.checkItemExists(itemName) { exists ->
+                callback(exists)
+            }
         }
     }
 

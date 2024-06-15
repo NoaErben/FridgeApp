@@ -47,6 +47,7 @@ class FridgeManagerFragment : Fragment() {
         setupNavigation()
         setupSwipeActions()
         handleBackButtonPress()
+        binding.progressBar?.visibility = View.VISIBLE
     }
 
     private fun setupRecyclerView() {
@@ -71,6 +72,7 @@ class FridgeManagerFragment : Fragment() {
 
     private fun observeViewModel() {
         viewModel.items.observe(viewLifecycleOwner, Observer { items ->
+            binding.progressBar?.visibility = View.GONE
             Log.d("MyTag", "Observed items: ${items.size}")
             val sortedItems = items.sortedBy { it.timeUntilExpiry() }
             fridgeItemAdapter.updateItems(sortedItems)
