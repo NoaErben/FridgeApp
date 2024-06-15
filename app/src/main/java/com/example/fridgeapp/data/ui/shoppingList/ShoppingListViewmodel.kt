@@ -7,10 +7,12 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.CartRepository
 import com.google.firebase.auth.FirebaseUser
+import kotlinx.coroutines.launch
 
 class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
 
@@ -68,13 +70,14 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
             addedDate = addedDate,
             photoUrl = photoUrl
         )
-
-        cartRep.saveCartItemToDatabase(cartItem, imageChanged, imageUri, context){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            cartRep.saveCartItemToDatabase(cartItem, imageChanged, imageUri, context) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
@@ -90,41 +93,48 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
             addedDate = addedDate,
             photoUrl = photoUrl
         )
-
-        cartRep.updateCartItemInDatabase(cartItem, context, photoUrl){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            cartRep.updateCartItemInDatabase(cartItem, context, photoUrl) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
 
     fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit) {
-        cartRep.deleteItemFromCartDatabase(cartItem){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            cartRep.deleteItemFromCartDatabase(cartItem) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }
 
     fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
-        cartRep.checkCartItemExists(itemName) { exists ->
-            callback(exists)
+        viewModelScope.launch {
+            cartRep.checkCartItemExists(itemName) { exists ->
+                callback(exists)
+            }
         }
     }
 
     fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
-        cartRep.deleteItemFromFridgeDatabase(fridgeItem){ result ->
-            result.onSuccess {
-                onComplete(Result.success(Unit))
-            }
-            result.onFailure {
-                onComplete(Result.failure(it))
+        viewModelScope.launch {
+            cartRep.deleteItemFromFridgeDatabase(fridgeItem) { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
             }
         }
     }

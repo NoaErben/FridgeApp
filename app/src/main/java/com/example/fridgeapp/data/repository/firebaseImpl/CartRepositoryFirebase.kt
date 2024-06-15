@@ -96,8 +96,8 @@ class CartRepositoryFirebase : CartRepository {
     }
 
 
-    override fun saveCartItemToDatabase(cartItem: CartItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
-                                        onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun saveCartItemToDatabase(cartItem: CartItem, imageChanged: Boolean, imageUri: Uri?, context: Context,
+                                                onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             cartDatabaseReference.child(it).child(cartItem.name.toString()).setValue(cartItem)
@@ -169,8 +169,8 @@ class CartRepositoryFirebase : CartRepository {
         }
     }
 
-    override fun updateCartItemInDatabase(cartItem: CartItem, context: Context,
-                                            photoUri: String?, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun updateCartItemInDatabase(cartItem: CartItem, context: Context,
+                                                  photoUri: String?, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             if (photoUri != null && !photoUri.contains("firebase")) {
@@ -184,7 +184,7 @@ class CartRepositoryFirebase : CartRepository {
         }
     }
 
-    override fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun deleteItemFromCartDatabase(cartItem: CartItem, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             cartItem.name?.let { it1 ->
@@ -202,7 +202,7 @@ class CartRepositoryFirebase : CartRepository {
         }
     }
 
-    override fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit) {
         // TODO: use somewhere
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
@@ -219,7 +219,7 @@ class CartRepositoryFirebase : CartRepository {
         }
     }
 
-    override fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
+    override suspend fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             cartDatabaseReference.child(it).child(itemName).get()
@@ -235,7 +235,7 @@ class CartRepositoryFirebase : CartRepository {
         }
     }
 
-    override fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
+    override suspend fun deleteItemFromFridgeDatabase(fridgeItem: FridgeItem, onComplete: (Result<Unit>) -> Unit) {
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             fridgeItem.name?.let { it1 ->
