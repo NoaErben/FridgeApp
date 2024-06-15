@@ -40,6 +40,8 @@ import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.*
+import java.util.Locale
+
 
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
@@ -49,6 +51,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private lateinit var placesClient: PlacesClient
     private lateinit var currentLocation: LatLng
+    val currentLocale = Locale.getDefault()
+    val languageCode = currentLocale.language
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -104,7 +109,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                         if (location != null) {
                             currentLocation = LatLng(location.latitude, location.longitude)
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-                            addMarker(currentLocation, "You are here", BitmapDescriptorFactory.HUE_BLUE)
+//                            addMarker(currentLocation, getString(R.string.you_are_here), BitmapDescriptorFactory.HUE_BLUE)
                             findNearbySupermarkets(currentLocation)
                         }
                     }
@@ -120,12 +125,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         val locationString = "${location.latitude},${location.longitude}"
         val radius = 5000 // Search radius in meters
         val type = "supermarket"
+        val language = Locale.getDefault().language
 
         val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
                 "?location=$locationString" +
                 "&radius=$radius" +
                 "&type=$type" +
-                "&key=$apiKey"
+                "&key=$apiKey" +
+                "&language=$language"
 
         NearbySearchTask().execute(urlString)
     }
@@ -137,6 +144,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 val url = URL(urls[0])
                 urlConnection = url.openConnection() as HttpURLConnection
                 urlConnection.requestMethod = "GET"
+
+                // Set the Accept-Language header based on the device's language
+                urlConnection.setRequestProperty("Accept-Language", Locale.getDefault().language)
+
                 val inputStream = urlConnection.inputStream
                 val scanner = Scanner(inputStream).useDelimiter("\\A")
                 if (scanner.hasNext()) scanner.next() else ""
@@ -156,10 +167,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     val lat = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lat")
                     val lng = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lng")
                     val name = nearestSupermarket.getString("name")
+                    val address = nearestSupermarket.getString("vicinity")
                     val supermarketLocation = LatLng(lat, lng)
 
                     addMarker(supermarketLocation, name, BitmapDescriptorFactory.HUE_RED)
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(supermarketLocation, 15f))
+                    val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
+                    binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel $name , $address"
+
                 } else {
                     Toast.makeText(requireContext(), "No supermarkets found nearby", Toast.LENGTH_LONG).show()
                 }
