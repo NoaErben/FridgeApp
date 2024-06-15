@@ -36,7 +36,11 @@
             android:autoLink="web"
             android:text="@string/google_maps_link" />
 
-
+        <com.google.android.gms.maps.MapView
+            android:id="@+id/mapView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="20dp"/>
     </LinearLayout>
 
 </FrameLayout>
