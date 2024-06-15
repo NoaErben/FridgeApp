@@ -29,6 +29,7 @@ import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.MyDates
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.EditItemInFridgeBinding
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -37,8 +38,7 @@ import java.util.Locale
 
 class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-    private var _binding: EditItemInFridgeBinding? = null
-    private val binding get() = _binding!!
+    private var binding : EditItemInFridgeBinding by autoCleared()
 
     private val favoriteViewModel: FavoriteViewModel by viewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
@@ -75,7 +75,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = EditItemInFridgeBinding.inflate(inflater, container, false)
+        binding = EditItemInFridgeBinding.inflate(inflater, container, false)
 
         binding.imageView.setOnClickListener {
             pickLauncher.launch(arrayOf("image/*"))
@@ -371,10 +371,4 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun hideProgressBar() {
         dialog.dismiss()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
 }

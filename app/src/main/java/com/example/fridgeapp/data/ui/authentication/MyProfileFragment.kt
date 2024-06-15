@@ -19,14 +19,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.authentication.location.Location
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 
 class MyProfileFragment : Fragment() {
 
-    private var _binding: AuthMyProfileBinding? = null
-    private val binding get() = _binding!!
+    private var binding : AuthMyProfileBinding by autoCleared()
 
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
@@ -37,7 +37,7 @@ class MyProfileFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = AuthMyProfileBinding.inflate(inflater, container, false)
+        binding = AuthMyProfileBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -118,10 +118,5 @@ class MyProfileFragment : Fragment() {
                 Toast.makeText(requireContext(), getString(R.string.please_log_in), Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

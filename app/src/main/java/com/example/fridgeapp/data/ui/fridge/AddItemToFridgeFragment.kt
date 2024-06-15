@@ -32,6 +32,7 @@ import com.example.fridgeapp.data.ui.utils.Constants
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.MyDates
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FridgeAddItemBinding
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -41,8 +42,7 @@ import java.util.Locale
 
 class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
-    private var _binding: FridgeAddItemBinding? = null
-    private val binding get() = _binding!!
+    private var binding : FridgeAddItemBinding by autoCleared()
 
     private val favoriteViewModel: FavoriteViewModel by activityViewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
@@ -69,7 +69,7 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FridgeAddItemBinding.inflate(inflater, container, false)
+        binding = FridgeAddItemBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -399,10 +399,5 @@ class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun showToast(message: String) {
         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

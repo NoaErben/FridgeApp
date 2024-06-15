@@ -12,11 +12,12 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthFragmentSetPasswordBinding
 
 class SetPasswordFragment: Fragment() {
-    private var _binding: AuthFragmentSetPasswordBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : AuthFragmentSetPasswordBinding by autoCleared()
     private lateinit var dialog: Dialog
 
     private val viewModel : AuthenticationViewmodel by viewModels {
@@ -26,7 +27,7 @@ class SetPasswordFragment: Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = AuthFragmentSetPasswordBinding.inflate(inflater, container, false)
+        binding = AuthFragmentSetPasswordBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -102,10 +103,4 @@ class SetPasswordFragment: Fragment() {
     private fun hideProgressBar() {
         dialog.dismiss()
     }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
 }

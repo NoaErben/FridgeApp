@@ -19,23 +19,23 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
 class FridgeManagerFragment : Fragment() {
-    private var _binding: FridgeFragmentBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : FridgeFragmentBinding by autoCleared()
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
     private val viewModel: FridgeViewmodel by activityViewModels {
         FridgeViewmodel.FridgeViewmodelFactory(FridgeRepositoryFirebase())
     }
 
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FridgeFragmentBinding.inflate(inflater, container, false)
+        binding = FridgeFragmentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -178,11 +178,6 @@ class FridgeManagerFragment : Fragment() {
     private fun FridgeItem.timeUntilExpiry(): Long {
         val currentTime = System.currentTimeMillis()
         return expiryDate - currentTime
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun handleBackButtonPress() {

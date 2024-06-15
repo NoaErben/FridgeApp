@@ -15,12 +15,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
 class FavoriteExpirationFragment : Fragment() {
 
-    private var _binding: FavoriteExpirationDatesBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : FavoriteExpirationDatesBinding by autoCleared()
 
     private val favoriteViewModel: FavoriteViewModel by activityViewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
@@ -29,7 +30,7 @@ class FavoriteExpirationFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
+        binding = FavoriteExpirationDatesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -111,10 +112,5 @@ class FavoriteExpirationFragment : Fragment() {
         favoriteViewModel.foodItems?.observe(viewLifecycleOwner, Observer { foodItems ->
             (binding.productRecyclerView.adapter as FavoriteItemAdapter).setItems(foodItems)
         })
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }

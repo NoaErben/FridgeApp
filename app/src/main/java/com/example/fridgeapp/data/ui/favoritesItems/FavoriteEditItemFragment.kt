@@ -14,21 +14,21 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
-import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteEditItemBinding
 
 class FavoriteEditItemFragment : Fragment() {
 
-    private var _binding: FavoriteEditItemBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : FavoriteEditItemBinding by autoCleared()
+
     private val favoriteViewModel: FavoriteViewModel by activityViewModels {
         FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
     }
@@ -42,7 +42,7 @@ class FavoriteEditItemFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = FavoriteEditItemBinding.inflate(inflater, container, false)
+        binding = FavoriteEditItemBinding.inflate(inflater, container, false)
         setupUI()
         return binding.root
     }
@@ -54,11 +54,6 @@ class FavoriteEditItemFragment : Fragment() {
         setupSaveButton()
         setupThrowOutButton()
         handleBackPressed()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setupUI() {

@@ -23,13 +23,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.SplashScreenBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
-    private var _binding: SplashScreenBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : SplashScreenBinding by autoCleared()
 
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
@@ -43,7 +44,7 @@ class SplashScreenFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = SplashScreenBinding.inflate(inflater, container, false)
+        binding = SplashScreenBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -129,11 +130,6 @@ class SplashScreenFragment : Fragment() {
                 navController.navigate(R.id.action_splashScreen_to_fridgeManagerFragment)
             }
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     private fun setFirstTimeFlag(isFirstTime: Boolean) {

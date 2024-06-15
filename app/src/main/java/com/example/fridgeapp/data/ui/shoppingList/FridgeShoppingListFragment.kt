@@ -19,12 +19,13 @@ import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.ui.fridge.FridgeItemAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 
 class FridgeShoppingListFragment : Fragment() {
 
-    private var _binding: FridgeShoppingListBinding? = null
-    private val binding get() = _binding!!
+
+    private var binding : FridgeShoppingListBinding by autoCleared()
     private lateinit var cartItemAdapter: CartItemAdapter
     private lateinit var fridgeItemAdapter: FridgeItemAdapter
 
@@ -36,7 +37,7 @@ class FridgeShoppingListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FridgeShoppingListBinding.inflate(inflater, container, false)
+        binding = FridgeShoppingListBinding.inflate(inflater, container, false)
         return binding.root
     }
 

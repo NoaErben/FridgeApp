@@ -12,12 +12,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
+import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 
 class RegisterFragment : Fragment() {
 
-    private var _binding: AuthRegisterBinding? = null
-    private val binding get() = _binding!!
+    private var binding : AuthRegisterBinding by autoCleared()
+
     private lateinit var dialog: Dialog
 
 //    private val fbViewModel: FbViewModel by activityViewModels()
@@ -29,7 +30,7 @@ class RegisterFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        _binding = AuthRegisterBinding.inflate(inflater, container, false)
+        binding = AuthRegisterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -106,10 +107,5 @@ class RegisterFragment : Fragment() {
 
     private fun hideProgressBar() {
         dialog.dismiss()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 }
