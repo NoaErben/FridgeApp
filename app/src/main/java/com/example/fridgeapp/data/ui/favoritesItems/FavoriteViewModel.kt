@@ -18,13 +18,11 @@ class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
 //    private val foodRepositoryOld = FoodRepositoryOld(application)
 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()
-    private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish", "Other")
-    private val _unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
 
     val foodItems: LiveData<List<FoodItem>>? = foodRep.getAllFoodItems()
     val foodItemsNames: LiveData<List<String>>? = foodRep.getFoodsNameList()
-    val categories get() = _categories
-    val unitMeasures get() = _unitMeasures
+    val categories get() = Constants.categories
+    val unitMeasures get() = Constants.unitMeasures
 
     val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
 
