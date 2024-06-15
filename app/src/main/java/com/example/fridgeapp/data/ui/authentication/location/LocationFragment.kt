@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.AsyncTask
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.TextPaint
@@ -14,6 +15,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -27,13 +29,17 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.api.net.FindCurrentPlaceRequest
+import com.google.android.libraries.places.api.net.PlacesClient
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
+import java.util.*
 
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
@@ -41,10 +47,13 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private val location: LocationViewModel by viewModels()
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
+    private lateinit var placesClient: PlacesClient
+    private lateinit var currentLocation: LatLng
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
+        placesClient = Places.createClient(requireContext())
     }
 
     override fun onCreateView(
@@ -93,8 +102,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 fusedLocationProviderClient.lastLocation
                     .addOnSuccessListener { location ->
                         if (location != null) {
-                            val currentLocation = LatLng(location.latitude, location.longitude)
+                            currentLocation = LatLng(location.latitude, location.longitude)
                             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
+                            addMarker(currentLocation, "You are here", BitmapDescriptorFactory.HUE_BLUE)
                             findNearbySupermarkets(currentLocation)
                         }
                     }
@@ -106,28 +116,63 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun findNearbySupermarkets(location: LatLng) {
-        val placesClient = Places.createClient(requireContext())
-        val request = FindCurrentPlaceRequest.newInstance(listOf(Place.Field.NAME, Place.Field.LAT_LNG))
+        val apiKey = getString(R.string.google_maps_key)
+        val locationString = "${location.latitude},${location.longitude}"
+        val radius = 5000 // Search radius in meters
+        val type = "supermarket"
 
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            placesClient.findCurrentPlace(request).addOnSuccessListener { response ->
-                for (placeLikelihood in response.placeLikelihoods) {
-                    val place = placeLikelihood.place
-                    if (place.types?.contains(Place.Type.SUPERMARKET) == true) {
-                        mMap.addMarker(MarkerOptions().position(place.latLng!!).title(place.name))
-                    }
-                }
-            }.addOnFailureListener { exception ->
-                Log.e("LocationFragment", "Place not found: ${exception.message}")
+        val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
+                "?location=$locationString" +
+                "&radius=$radius" +
+                "&type=$type" +
+                "&key=$apiKey"
+
+        NearbySearchTask().execute(urlString)
+    }
+
+    private inner class NearbySearchTask : AsyncTask<String, Void, String>() {
+        override fun doInBackground(vararg urls: String?): String {
+            val urlConnection: HttpURLConnection?
+            return try {
+                val url = URL(urls[0])
+                urlConnection = url.openConnection() as HttpURLConnection
+                urlConnection.requestMethod = "GET"
+                val inputStream = urlConnection.inputStream
+                val scanner = Scanner(inputStream).useDelimiter("\\A")
+                if (scanner.hasNext()) scanner.next() else ""
+            } catch (e: Exception) {
+                e.printStackTrace()
+                ""
             }
-        } else {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
-                LOCATION_PERMISSION_REQUEST_CODE
-            )
         }
+
+        override fun onPostExecute(result: String?) {
+            super.onPostExecute(result)
+            if (!result.isNullOrEmpty()) {
+                val jsonObject = JSONObject(result)
+                val resultsArray = jsonObject.getJSONArray("results")
+                if (resultsArray.length() > 0) {
+                    val nearestSupermarket = resultsArray.getJSONObject(0)
+                    val lat = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lat")
+                    val lng = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lng")
+                    val name = nearestSupermarket.getString("name")
+                    val supermarketLocation = LatLng(lat, lng)
+
+                    addMarker(supermarketLocation, name, BitmapDescriptorFactory.HUE_RED)
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(supermarketLocation, 15f))
+                } else {
+                    Toast.makeText(requireContext(), "No supermarkets found nearby", Toast.LENGTH_LONG).show()
+                }
+            } else {
+                Toast.makeText(requireContext(), "Error finding supermarkets", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+    private fun addMarker(location: LatLng, title: String?, color: Float) {
+        val markerOptions = MarkerOptions().position(location).title(title)
+            .icon(BitmapDescriptorFactory.defaultMarker(color))
+        mMap.addMarker(markerOptions)
     }
 
     private fun setupLocationObserver() {
