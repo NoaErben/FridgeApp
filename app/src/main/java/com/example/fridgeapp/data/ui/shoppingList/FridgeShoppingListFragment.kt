@@ -42,6 +42,7 @@ class FridgeShoppingListFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         setupRecyclerViews()
+        setupEmpty()
         setupAdapters()
         observeViewModel()
         setupNavigation()
@@ -51,6 +52,24 @@ class FridgeShoppingListFragment : Fragment() {
     private fun setupRecyclerViews() {
         binding.cartRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
         binding.expireRecyclerView?.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setupEmpty(){
+        binding.resetToDefaultBtn?.setOnClickListener {
+            Dialogs.showConfirmDeleteAllDialog(requireContext(),
+                onConfirm = {
+                    viewModel.deleteAllItemsFromCartDatabase { result ->
+                        result.onSuccess {
+                            showToast("Item deleted successfully")
+                        }.onFailure { exception ->
+                            showToast("Failed to delete item: ${exception.message}")
+                        }
+                    }
+                },
+                onCancel = {
+                }
+            )
+        }
     }
 
     private fun setupAdapters() {

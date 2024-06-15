@@ -203,7 +203,6 @@ class CartRepositoryFirebase : CartRepository {
     }
 
     override suspend fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit) {
-        // TODO: use somewhere
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             cartDatabaseReference.child(it).removeValue()

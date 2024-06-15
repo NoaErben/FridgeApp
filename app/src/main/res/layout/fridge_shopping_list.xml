@@ -28,6 +28,18 @@
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black">
 
+        <Button
+            android:id="@+id/reset_to_default_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginEnd="0dp"
+            android:backgroundTint="@color/fridgeColor"
+            android:fontFamily="@font/amaranth"
+            android:text="Empty"
+            android:textColor="@color/black"
+            android:paddingTop="8dp"
+            android:textSize="20sp" />
 
     </com.google.android.material.appbar.MaterialToolbar>
 

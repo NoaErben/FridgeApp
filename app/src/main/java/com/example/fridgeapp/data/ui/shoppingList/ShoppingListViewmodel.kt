@@ -118,6 +118,19 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
         }
     }
 
+    fun deleteAllItemsFromCartDatabase(onComplete: (Result<Unit>) -> Unit) {
+        viewModelScope.launch {
+            cartRep.deleteAllItemsFromCartDatabase { result ->
+                result.onSuccess {
+                    onComplete(Result.success(Unit))
+                }
+                result.onFailure {
+                    onComplete(Result.failure(it))
+                }
+            }
+        }
+    }
+
     fun checkCartItemExists(itemName: String, callback: (Boolean) -> Unit) {
         viewModelScope.launch {
             cartRep.checkCartItemExists(itemName) { exists ->
