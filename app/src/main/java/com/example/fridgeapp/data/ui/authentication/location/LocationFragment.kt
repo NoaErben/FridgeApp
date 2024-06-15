@@ -40,6 +40,8 @@ import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.*
+import java.util.Locale
+
 
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
@@ -49,6 +51,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mapView: MapView
     private lateinit var placesClient: PlacesClient
     private lateinit var currentLocation: LatLng
+    val currentLocale = Locale.getDefault()
+    val languageCode = currentLocale.language
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -120,12 +125,14 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         val locationString = "${location.latitude},${location.longitude}"
         val radius = 5000 // Search radius in meters
         val type = "supermarket"
+        val language = Locale.getDefault().language
 
         val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
                 "?location=$locationString" +
                 "&radius=$radius" +
                 "&type=$type" +
-                "&key=$apiKey"
+                "&key=$apiKey" +
+                "&language=$language"
 
         NearbySearchTask().execute(urlString)
     }
@@ -137,6 +144,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 val url = URL(urls[0])
                 urlConnection = url.openConnection() as HttpURLConnection
                 urlConnection.requestMethod = "GET"
+
+                // Set the Accept-Language header based on the device's language
+                urlConnection.setRequestProperty("Accept-Language", Locale.getDefault().language)
+
                 val inputStream = urlConnection.inputStream
                 val scanner = Scanner(inputStream).useDelimiter("\\A")
                 if (scanner.hasNext()) scanner.next() else ""
