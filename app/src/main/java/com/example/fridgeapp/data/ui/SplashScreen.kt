@@ -61,6 +61,7 @@ class SplashScreenFragment : Fragment() {
             } else {
                 Toast.makeText(requireContext(), requireContext().getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
             }
+
         }
 
         // Load animations
