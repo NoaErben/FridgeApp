@@ -103,13 +103,26 @@
     <string name="expires_today">Expires today</string>
     <string name="expired_before_days">Expired before: %1$d days</string>
     <string name="item_deleted_successfully">Item deleted successfully</string>
+    <string name="failed_to_delete_item_in_fridge">Failed to delete item:</string>
+    <string name="shopping_list_clicked">Shopping list clicked</string>
+    <string name="favorite_items_clicked">Favorite items clicked</string>
 
-    <string-array name="category_array">
-        <item>Fruits</item>
-        <item>Vegetables</item>
-        <item>Dairy</item>
-        <item>Meat</item>
-        <item>Beverages</item>
-        <item>Sauces</item>
-    </string-array>
+    <string name="enter_custom_product_name">Enter Custom Product Name</string>
+    <string name="other">Other</string>
+    <string name="item_exists">Item Exists</string>
+    <string name="replace_or_discard_message">An item with this name already exists. Do you want to replace it or discard the changes?</string>
+    <string name="replace">Replace</string>
+    <string name="discard">Discard</string>
+    <string name="insert_number">Insert Number</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirmation">Confirmation</string>
+    <string name="are_you_sure_you_want_to_leave">Are you sure you want to leave?</string>
+    <string name="reset_to_default_items">Reset to Default Items</string>
+    <string name="confirm">Confirm</string>
+    <string name="are_you_sure_you_want_to_reset_to_default_items">Are you sure you want to reset to default items?</string>
+    <string name="location_permission_denied">Location permission denied</string>
+
+    <string name="quantity_text">Quantity: %1$d</string>
+
 </resources>

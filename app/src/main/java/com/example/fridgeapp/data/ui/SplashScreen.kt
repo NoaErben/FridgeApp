@@ -1,29 +1,29 @@
 package com.example.fridgeapp.data.ui
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.fridgeapp.R
-import com.example.fridgeapp.databinding.SplashScreenBinding
-import android.util.Log
-import android.Manifest
-import android.content.pm.PackageManager
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
+import com.example.fridgeapp.databinding.SplashScreenBinding
 
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
@@ -58,7 +58,7 @@ class SplashScreenFragment : Fragment() {
             if (isGranted) {
                 startLocationService()
             } else {
-                Toast.makeText(requireContext(), "Location permission denied", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), requireContext().getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -134,10 +134,6 @@ class SplashScreenFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
-    }
-
-    private fun isFirstTime(): Boolean {
-        return sharedPreferences.getBoolean("is_first_time", true)
     }
 
     private fun setFirstTimeFlag(isFirstTime: Boolean) {
