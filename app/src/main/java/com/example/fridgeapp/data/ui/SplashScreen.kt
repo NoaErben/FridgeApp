@@ -29,12 +29,8 @@ import com.example.fridgeapp.databinding.SplashScreenBinding
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
-
     private var binding : SplashScreenBinding by autoCleared()
-
     private lateinit var sharedPreferences: SharedPreferences
-    private lateinit var locationRequestLauncher: ActivityResultLauncher<String>
-
 
     private val viewModel: AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
@@ -53,16 +49,6 @@ class SplashScreenFragment : Fragment() {
 
         // Initialize SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
-
-        // Register for location permission result
-        locationRequestLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                startLocationService()
-            } else {
-                Toast.makeText(requireContext(), requireContext().getString(R.string.location_permission_denied), Toast.LENGTH_SHORT).show()
-            }
-
-        }
 
         // Load animations
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
@@ -98,25 +84,10 @@ class SplashScreenFragment : Fragment() {
             // Navigate to the next fragment after the animations are complete
             Handler(Looper.getMainLooper()).postDelayed({
                 if (isAdded) {
-                    checkLocationPermission()
+                    navigateNext()
                 }
             }, 4000) // Adjust the delay to fit your needs
         }
-    }
-
-    private fun checkLocationPermission() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            startLocationService()
-        } else {
-            locationRequestLauncher.launch(Manifest.permission.ACCESS_FINE_LOCATION)
-        }
-        navigateNext()
-    }
-
-    private fun startLocationService() {
-        Log.d("SplashScreenFragment", "Starting location service")
-        // Handle location service start logic here
-        //todo - ??
     }
 
     private fun navigateNext() {
