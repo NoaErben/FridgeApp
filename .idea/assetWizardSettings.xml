@@ -11,25 +11,11 @@
                   <entry key="vectorAssetStep">
                     <value>
                       <PersistentState>
-                        <option name="children">
-                          <map>
-                            <entry key="clipartAsset">
-                              <value>
-                                <PersistentState>
-                                  <option name="values">
-                                    <map>
-                                      <entry key="url" value="file:$PROJECT_DIR$/../Library/Android/sdk/icons/material/materialicons/favorite/baseline_favorite_24.xml" />
-                                    </map>
-                                  </option>
-                                </PersistentState>
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="baseline_favorite_24" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../Desktop/fridge.svg" />
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="location_pin_svgrepo_com" />
+                            <entry key="sourceFile" value="C:\Users\Administrator\Desktop\location-pin-svgrepo-com.svg" />
                           </map>
                         </option>
                       </PersistentState>

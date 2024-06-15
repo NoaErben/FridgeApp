@@ -145,6 +145,23 @@ class FridgeManagerFragment : Fragment() {
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(requireContext(), view)
         popupMenu.menuInflater.inflate(R.menu.popup_menu, popupMenu.menu)
+        // Use reflection to force icons to show
+        try {
+            val fields = popupMenu::class.java.declaredFields
+            for (field in fields) {
+                if ("mPopup" == field.name) {
+                    field.isAccessible = true
+                    val menuPopupHelper = field.get(popupMenu)
+                    val classPopupHelper = Class.forName(menuPopupHelper.javaClass.name)
+                    val setForceIcons = classPopupHelper.getMethod("setForceShowIcon", Boolean::class.javaPrimitiveType)
+                    setForceIcons.invoke(menuPopupHelper, true)
+                    break
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.shopping_list -> {
@@ -161,10 +178,18 @@ class FridgeManagerFragment : Fragment() {
                     handleProfileClick()
                     true
                 }
+                R.id.My_Location -> {
+                    handleLocationClick()
+                    true
+                }
                 else -> false
             }
         }
         popupMenu.show()
+    }
+
+    private fun handleLocationClick() {
+        findNavController().navigate(R.id.action_fridgeManagerFragment_to_locationFragment)
     }
 
     private fun handleProfileClick() {

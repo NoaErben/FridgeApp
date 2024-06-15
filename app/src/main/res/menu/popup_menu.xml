@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/shopping_list"
-            android:icon="@drawable/baseline_list_alt_24"
-            android:title="My shopping list" />
-        <item
-            android:id="@+id/Favorite_items"
-            android:icon="@drawable/baseline_favorite_24"
-            android:title="My favorite items" />
-        <item
-            android:id="@+id/My_profile"
-            android:icon="@drawable/io_person_icon"
-            android:title="My profile" />
-    </group>
+    <item
+        android:id="@+id/shopping_list"
+        android:icon="@drawable/baseline_list_alt_24"
+        android:title="My shopping list" />
+    <item
+        android:id="@+id/Favorite_items"
+        android:icon="@drawable/baseline_favorite_24"
+        android:title="My favorite items" />
+    <item
+        android:id="@+id/My_profile"
+        android:icon="@drawable/io_person_icon"
+        android:title="My profile" />
+    <item
+        android:id="@+id/My_Location"
+        android:icon="@drawable/location_pin_svgrepo_com"
+        android:title="My Location" />
 </menu>

@@ -59,27 +59,6 @@
                 android:textColor="@color/white"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/location_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/amaranth"
-                android:text=""
-                android:textColor="@color/white"
-                android:textSize="20sp"/>
-
-            <TextView
-                android:id="@+id/tvGoogleMapsLink"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="15dp"
-                android:layout_marginTop="10dp"
-                android:fontFamily="@font/amaranth"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:autoLink="web"
-                android:text="@string/google_maps_link" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
