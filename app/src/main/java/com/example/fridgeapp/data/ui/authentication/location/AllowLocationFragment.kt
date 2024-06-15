@@ -36,7 +36,16 @@ class AllowLocationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = AllowLocationFragmentBinding.inflate(inflater, container, false)
+
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Check location permission when the fragment is resumed
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            findNavController().navigate(R.id.action_allowLocationFragment_to_locationFragment)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,9 +54,6 @@ class AllowLocationFragment : Fragment() {
         binding.btnAllowLocation.setOnClickListener {
             requestLocationPermission()
         }
-
-        // Check location permission when the fragment is created
-        requestLocationPermission()
     }
 
     private fun requestLocationPermission() {

@@ -232,6 +232,7 @@
             app:destination="@id/fridgeManagerFragment" />
         <action
             android:id="@+id/action_allowLocationFragment_to_locationFragment"
-            app:destination="@id/locationFragment" />
+            app:destination="@id/locationFragment"
+            app:popUpTo="@id/fridgeManagerFragment" />
     </fragment>
 </navigation>
