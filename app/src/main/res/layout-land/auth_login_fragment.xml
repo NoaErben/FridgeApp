@@ -38,7 +38,7 @@
             android:id="@+id/imgAppLoginIcon"
             android:layout_width="107dp"
             android:layout_height="78dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:src="@drawable/refrigerator_svgrepo_com"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

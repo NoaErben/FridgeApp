@@ -124,6 +124,7 @@
         android:backgroundTint="@color/fridgeColor"
         android:fontFamily="@font/amaranth"
         android:foregroundGravity="center_horizontal"
+        android:layout_marginEnd="16dp"
         android:text="Add" />
 
 </LinearLayout>
