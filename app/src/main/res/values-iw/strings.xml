@@ -127,5 +127,6 @@
     <string name="address_text">כתובת: %1$s</string>
     <string name="unknown_address">כתובת לא ידועה</string>
     <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
+    <string name="google_maps_key">AIzaSyCrMtOEQWWeKuQZOqRnkojPkrvx76oxX-M</string>
 
 </resources>
