@@ -6,8 +6,7 @@
     android:id="@+id/register"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <LinearLayout
         android:id="@+id/registerProgressdialog"
@@ -31,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/darkerCyan"
-            >
+            android:padding="20dp">
 
             <ImageView
                 android:layout_marginTop="15dp"
@@ -60,8 +59,8 @@
 
             <EditText
                 android:id="@+id/etName"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -83,8 +82,8 @@
                 android:id="@+id/etEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_email"
@@ -104,8 +103,8 @@
                 android:id="@+id/etPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_password"
@@ -125,8 +124,8 @@
                 android:id="@+id/etConfirmPassword"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginStart="100dp"
+                android:layout_marginEnd="100dp"
                 android:layout_marginTop="16dp"
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/ic_icon_password"
@@ -146,8 +145,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginStart="200dp"
-                android:layout_marginEnd="200dp"
+                android:layout_marginStart="160dp"
+                android:layout_marginEnd="160dp"
                 android:backgroundTint="@color/fridgeColor"
                 android:text="@string/register"
                 android:textColor="#fff"
