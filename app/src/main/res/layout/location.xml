@@ -27,8 +27,7 @@
         android:orientation="vertical"
         android:padding="16dp"
         android:elevation="4dp"
-        android:layout_gravity="center"
-        >
+        android:layout_gravity="center">
 
         <TextView
             android:id="@+id/location_text_view"
@@ -81,8 +80,7 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:id="@+id/progress_bar"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center" />
 
 
 </FrameLayout>

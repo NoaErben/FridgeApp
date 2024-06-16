@@ -48,7 +48,7 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="20dp"
             android:background="@drawable/rounder_border_for_view"
-            android:drawableStart="@drawable/ic_icon_mobile"
+            android:drawableStart="@drawable/ic_icon_email"
             android:drawablePadding="4dp"
             android:hint="@string/e_mail_address"
             android:imeOptions="actionDone"

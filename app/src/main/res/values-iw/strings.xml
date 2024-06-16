@@ -138,5 +138,8 @@
     <string name="settings">settings</string>
     <string name="permission_required">permission required</string>
     <string name="location_permission_explanation">location permission explanation</string>
+    <string name="enter_custom_product_name_msg">Enter custom product name</string>
+    <string name="enter_a_number">Enter a number</string>
+    <string name="please_wait">please wait...</string>
 
 </resources>

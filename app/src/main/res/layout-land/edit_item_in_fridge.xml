@@ -8,7 +8,7 @@
     android:background="@color/cyanBackground"
     app:cardCornerRadius="30dp"
     app:cardUseCompatPadding="true"
-    app:contentPadding="4dp">
+    app:contentPadding="8dp">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="6dp">
+            android:padding="12dp">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/image_and_title_container"
@@ -34,7 +34,7 @@
                     android:id="@+id/days_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="30dp"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +53,7 @@
                         android:gravity="center"
                         android:text="@string/x_days_for"
                         android:textColor="@color/gray"
-                        android:textSize="22sp" />
+                        android:textSize="24sp" />
 
                     <Space
                         android:layout_width="0dp"
@@ -65,13 +65,12 @@
                     android:id="@+id/item_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/amaranth"
                     android:gravity="center"
                     android:text="@string/item_name"
-                    app:layout_constraintTop_toBottomOf="@id/item_days"
                     android:textColor="@color/black"
-                    android:textSize="40sp"
+                    android:textSize="42sp"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -80,7 +79,7 @@
                     android:id="@+id/imageView"
                     android:layout_width="180dp"
                     android:layout_height="180dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="24dp"
                     android:contentDescription="@string/image_view"
                     app:layout_constraintTop_toBottomOf="@id/item_name"
                     app:layout_constraintStart_toStartOf="parent"
@@ -94,7 +93,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="6dp"
+                android:padding="12dp"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,46 +105,46 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="12dp">
 
                     <TextView
                         android:id="@+id/category_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_marginBottom="4dp"
                         android:fontFamily="@font/amaranth"
                         android:gravity="center"
                         android:text="@string/category"
                         android:textColor="@color/black"
-                        android:textSize="22sp" />
+                        android:textSize="24sp" />
 
                     <Spinner
                         android:id="@+id/product_category"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/rounded_frame"
-                        android:dropDownHorizontalOffset="8dp"
-                        android:dropDownVerticalOffset="8dp"
+                        android:dropDownHorizontalOffset="10dp"
+                        android:dropDownVerticalOffset="10dp"
                         android:fontFamily="@font/amaranth"
-                        android:padding="8dp"
+                        android:padding="10dp"
                         android:layout_weight="1" />
                 </LinearLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp">
+                    android:layout_marginTop="10dp">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/quantity"
                         android:layout_width="match_parent"
-                        android:layout_height="45dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_height="48dp"
+                        android:layout_marginBottom="6dp"
                         android:drawableStart="@drawable/bag_svgrepo_com"
                         android:fontFamily="@font/amaranth"
                         android:hint="@string/quantity"
@@ -157,7 +156,7 @@
                     android:id="@+id/measure_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -165,27 +164,27 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginEnd="12dp"
-                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginEnd="14dp"
+                        android:layout_marginBottom="4dp"
                         android:fontFamily="@font/amaranth"
                         android:gravity="center"
                         android:text="@string/measure"
                         android:textColor="@color/black"
-                        android:textSize="22sp" />
+                        android:textSize="24sp" />
 
                     <Spinner
                         android:id="@+id/measure_category"
                         android:layout_width="0dp"
                         android:layout_height="48dp"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
                         android:layout_weight="1"
                         android:background="@drawable/rounded_frame"
-                        android:dropDownHorizontalOffset="8dp"
-                        android:dropDownVerticalOffset="8dp"
+                        android:dropDownHorizontalOffset="10dp"
+                        android:dropDownVerticalOffset="10dp"
                         android:fontFamily="@font/amaranth"
-                        android:padding="8dp" />
+                        android:padding="10dp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -193,20 +192,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="10dp"
                     android:baselineAligned="false">
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="10dp">
+                        android:layout_marginEnd="12dp">
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/buying_date"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="6dp"
                             android:clickable="true"
                             android:drawableStart="@drawable/calendar_appointment_date_svgrepo_com"
                             android:focusable="false"
@@ -224,7 +223,7 @@
                             android:id="@+id/product_days_to_expire"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginBottom="5dp"
+                            android:layout_marginBottom="6dp"
                             android:clickable="true"
                             android:drawableStart="@drawable/expire_svgrepo_com"
                             android:focusable="false"
@@ -240,7 +239,7 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
                     android:orientation="horizontal"
-                    android:layout_marginTop="10dp">
+                    android:layout_marginTop="12dp">
 
                     <Button
                         android:id="@+id/throw_out_button"
@@ -250,7 +249,7 @@
                         android:background="@android:color/transparent"
                         android:text="@string/throw_out"
                         android:textColor="@color/red"
-                        android:textSize="23sp"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         style="?android:attr/buttonBarButtonStyle" />
 
@@ -262,7 +261,7 @@
                         android:background="@android:color/transparent"
                         android:text="@string/save"
                         android:textColor="@color/green"
-                        android:textSize="23sp"
+                        android:textSize="25sp"
                         android:textStyle="bold"
                         style="?android:attr/buttonBarButtonStyle" />
                 </LinearLayout>
