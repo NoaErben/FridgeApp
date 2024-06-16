@@ -51,6 +51,7 @@ class AddItemToFavoriteFragment : Fragment() {
     }
 
 
+
     private fun setupCategorySpinner() {
         val categories = favoriteViewModel.categories
         val adapter = CustomArrayAdapter(
