@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Logo designed by Naveen -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layoutDirection="ltr">
+
+        <!-- Title TextView -->
+        <TextView
+            android:id="@+id/dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:background="@color/fridgeColor"
+            android:fontFamily="@font/amaranth"
+            android:gravity="center"
+            android:text="@string/add_item_to_nfavorites"
+            android:textColor="@color/white"
+            android:textSize="42sp"
+            android:textStyle="bold"
+            android:singleLine="true"/>
+
+        <!-- Horizontal container for content -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Container for ImageView -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp">
+
+                <!-- ImageView for the image -->
+                <ImageView
+                    android:id="@+id/item_image"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:src="@drawable/add_photo_svgrepo_com"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/image_view" />
+            </LinearLayout>
+
+            <!-- Container for TextInputLayouts -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:layout_marginEnd="2dp">
+
+                <!-- Product Name Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/dish"
+                        android:fontFamily="@font/amaranth"
+                        android:hint="Product Name"
+                        android:imeOptions="actionDone"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Days to Expire Input -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_days_to_expire"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/expire_svgrepo_com"
+                        android:fontFamily="@font/amaranth"
+                        android:hint="@string/days_to_expire"
+                        android:inputType="number"
+                        android:imeOptions="actionDone"/>
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Category Label and Spinner -->
+                <LinearLayout
+                    android:id="@+id/expire_date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/category_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/category"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <Spinner
+                        android:id="@+id/product_category"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/rounded_frame"
+                        android:dropDownHorizontalOffset="8dp"
+                        android:dropDownVerticalOffset="8dp"
+                        android:fontFamily="@font/amaranth"
+                        android:padding="8dp" />
+                </LinearLayout>
+
+                <!-- Add Item Button -->
+                <Button
+                    android:id="@+id/add_item_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:backgroundTint="@color/fridgeColor"
+                    android:fontFamily="@font/amaranth"
+                    android:foregroundGravity="center_horizontal"
+                    android:text="Add"
+                    android:textSize="20sp"
+                    android:layout_marginTop="5dp"/>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

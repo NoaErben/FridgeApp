@@ -10,235 +10,221 @@
     app:cardUseCompatPadding="true"
     app:contentPadding="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="6dp">
+        android:layout_height="match_parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/image_and_title_container"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/content_container"
-            app:layout_constraintHeight_percent="1"
-            app:layout_constraintWidth_percent="0.5">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="6dp">
 
-            <TextView
-                android:id="@+id/item_days"
-                android:layout_width="wrap_content"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/image_and_title_container"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="@font/amaranth"
-                android:gravity="center"
-                android:foregroundGravity="center"
-                android:text="@string/x_days_for"
-                android:textColor="@color/gray"
-                android:textSize="22sp"
-                app:layout_constraintTop_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/content_container"
+                app:layout_constraintHeight_percent="1"
+                app:layout_constraintWidth_percent="0.5">
 
-            <TextView
-                android:id="@+id/item_name"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:id="@+id/item_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:fontFamily="@font/amaranth"
+                    android:gravity="center"
+                    android:text="@string/item_name"
+                    android:textColor="@color/black"
+                    android:textSize="40sp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <ImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="10dp"
+                    android:contentDescription="@string/image_view"
+                    app:layout_constraintTop_toBottomOf="@id/item_name"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:srcCompat="@drawable/new_food_option_2" />
+
+                <Button
+                    android:id="@+id/pic_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:backgroundTint="@color/fridgeColor"
+                    android:text="@string/replace_image"
+                    android:textSize="16sp"
+                    app:layout_constraintTop_toBottomOf="@id/imageView"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <LinearLayout
+                android:id="@+id/content_container"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:fontFamily="@font/amaranth"
-                android:gravity="center"
-                android:text="@string/item_name"
-                android:textColor="@color/black"
-                android:textSize="40sp"
-                app:layout_constraintTop_toBottomOf="@id/item_days"
+                android:orientation="vertical"
+                android:padding="6dp"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="180dp"
-                android:layout_height="180dp"
-                android:layout_marginTop="16dp"
-                android:contentDescription="@string/image_view"
-                app:layout_constraintTop_toBottomOf="@id/item_name"
-                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                tools:srcCompat="@drawable/new_food_option_2" />
+                app:layout_constraintStart_toEndOf="@id/image_and_title_container"
+                app:layout_constraintWidth_percent="0.5">
 
-            <Button
-                android:id="@+id/pic_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:backgroundTint="@color/fridgeColor"
-                android:text="@string/replace_image"
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView" />
+                <LinearLayout
+                    android:id="@+id/name_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
 
+                    <TextView
+                        android:id="@+id/name_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/name"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <EditText
+                        android:id="@+id/name_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/answer"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:inputType="text"
+                        android:imeOptions="actionDone"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/expire_date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/category_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/category"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <Spinner
+                        android:id="@+id/product_category"
+                        android:layout_width="0dp"
+                        android:layout_marginEnd="80dp"
+                        android:layout_height="42dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/rounded_frame"
+                        android:dropDownHorizontalOffset="8dp"
+                        android:dropDownVerticalOffset="8dp"
+                        android:fontFamily="@font/amaranth"
+                        android:padding="8dp"
+                        android:layout_weight="1" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/purchase_date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="8dp">
+
+                    <TextView
+                        android:id="@+id/days_to_expire_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/default_days_to_expire"
+                        android:textColor="@color/black"
+                        android:textSize="22sp" />
+
+                    <EditText
+                        android:id="@+id/days_to_expire_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="13dp"
+                        android:layout_marginTop="3dp"
+                        android:layout_marginBottom="3dp"
+                        android:fontFamily="@font/amaranth"
+                        android:gravity="center"
+                        android:text="@string/answer"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:inputType="number"
+                        android:paddingEnd="20dp"
+                        android:paddingStart="20dp"
+                        android:imeOptions="actionDone"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/button_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="10dp">
+
+                    <Button
+                        android:id="@+id/throw_out_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/remove"
+                        android:textColor="@color/red"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/save_button"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="20dp"
+                        android:background="@android:color/transparent"
+                        android:text="@string/save"
+                        android:textColor="@color/green"
+                        android:textSize="20sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <LinearLayout
-            android:id="@+id/content_container"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="6dp"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image_and_title_container"
-            app:layout_constraintWidth_percent="0.5">
-
-            <LinearLayout
-                android:id="@+id/name_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/name_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/amaranth"
-                    android:gravity="center"
-                    android:text="@string/name"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
-
-                <EditText
-                    android:id="@+id/name_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/amaranth"
-                    android:gravity="center"
-                    android:text="@string/answer"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:inputType="text"
-                    android:imeOptions="actionDone"
-                    android:paddingEnd="20dp"
-                    android:paddingStart="20dp"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/expire_date_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/category_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginEnd="12dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/amaranth"
-                    android:gravity="center"
-                    android:text="@string/category"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
-
-                <Spinner
-                    android:id="@+id/product_category"
-                    android:layout_width="0dp"
-                    android:layout_marginEnd="80dp"
-                    android:layout_height="42dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/rounded_frame"
-                    android:dropDownHorizontalOffset="8dp"
-                    android:dropDownVerticalOffset="8dp"
-                    android:fontFamily="@font/amaranth"
-                    android:padding="8dp"
-                    android:layout_weight="1" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/purchase_date_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="8dp">
-
-                <TextView
-                    android:id="@+id/days_to_expire_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/amaranth"
-                    android:gravity="center"
-                    android:text="@string/default_days_to_expire"
-                    android:textColor="@color/black"
-                    android:textSize="22sp" />
-
-                <EditText
-                    android:id="@+id/days_to_expire_data"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="13dp"
-                    android:layout_marginTop="3dp"
-                    android:layout_marginBottom="3dp"
-                    android:fontFamily="@font/amaranth"
-                    android:gravity="center"
-                    android:text="@string/answer"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    android:inputType="number"
-                    android:paddingEnd="20dp"
-                    android:paddingStart="20dp"
-                    android:imeOptions="actionDone"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/button_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal"
-                android:layout_marginTop="10dp">
-
-                <Button
-                    android:id="@+id/throw_out_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:background="@android:color/transparent"
-                    android:text="@string/remove"
-                    android:textColor="@color/red"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-
-                <Button
-                    android:id="@+id/save_button"
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="20dp"
-                    android:background="@android:color/transparent"
-                    android:text="@string/save"
-                    android:textColor="@color/green"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </androidx.cardview.widget.CardView>
