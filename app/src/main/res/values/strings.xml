@@ -81,7 +81,7 @@
     <string name="Sign_in_successful">Sign in successful</string>
     <string name="authentication_failed">Authentication failed: %1$s</string>
     <string name="please_enter_email">Please enter your email</string>
-    <string name="password__email_sent">Password reset email sent</string>
+    <string name="password_email_sent">Password reset email sent</string>
     <string name="error_sending_password_reset_email">Error sending password reset email</string>
     <string name="email_label">E-mail: %1$s</string>
     <string name="hello_user">Hello, %1$s</string>
@@ -149,6 +149,7 @@
     <string name="my_profile">My profile</string>
     <string name="my_location">My Location</string>
     <string name="reset_favorite">reset</string>
+    <string name="password_reset_email_sent">an email to reset password was sent</string>
     <string name="location_permission_denied_explanation">location permission denied explanation</string>
     <string name="change_password">Change Password</string>
     <string name="enter_the_following">Enter the following:</string>

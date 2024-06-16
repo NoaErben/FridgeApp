@@ -23,7 +23,6 @@
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black"
-        android:layoutDirection="ltr"
         />
 
     <androidx.recyclerview.widget.RecyclerView

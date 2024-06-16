@@ -6,16 +6,13 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".data.ui.shoppingList.FridgeShoppingListFragment"
-    android:layoutDirection="ltr"
-    >
+    android:layoutDirection="ltr">
 
     <!-- Toolbar -->
-
-    <!-- Divider Line -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/fridgeColor"
         app:contentInsetStartWithNavigation="0dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,21 +25,38 @@
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black">
 
-        <Button
-            android:id="@+id/reset_to_default_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="0dp"
-            android:backgroundTint="@color/fridgeColor"
-            android:fontFamily="@font/amaranth"
-            android:text="@string/empty"
-            android:textColor="@color/black"
-            android:paddingTop="8dp"
-            android:textSize="20sp" />
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:fontFamily="@font/amaranth"
+                android:text="@string/my_shopping_list_label"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <Button
+                android:id="@+id/reset_to_default_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/fridgeColor"
+                android:fontFamily="@font/amaranth"
+                android:paddingTop="8dp"
+                android:text="@string/empty"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+        </LinearLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
 
+    <!-- Divider Line -->
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
@@ -99,8 +113,7 @@
                 tools:listitem="@layout/cart_layout"
                 android:layout_gravity="center_vertical"
                 android:layout_marginBottom="150dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </LinearLayout>
 
@@ -144,14 +157,11 @@
                 android:layout_marginBottom="150dp"
                 android:layout_marginTop="8dp"
                 tools:listitem="@layout/cart_layout"
-                app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintBottom_toBottomOf="parent" />
 
         </LinearLayout>
 
     </LinearLayout>
-
-
 
     <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -82,6 +82,8 @@
     <string name="authentication_failed">ההזדהות נכשלה: %1$s</string>
     <string name="please_enter_email">אנא הזן את האימייך שלך</string>
     <string name="password_reset_email_sent">כתובת אימייל לאיפוס סיסמה נשלחה</string>
+    <string name="my_location">המיקום שלי</string>
+    <string name="password_email_sent">נשלח מייל לאיפוס סיסמה</string>
     <string name="error_sending_password_reset_email">שגיאה בשליחת כתובת אימייל לאיפוס סיסמה</string>
     <string name="email_label">כתובת אימייל: %1$s</string>
     <string name="hello_user">שלום, %1$s</string>
@@ -150,7 +152,7 @@
     <string name="my_favorite_items">המוצרים המועדפים שלי</string>
     <string name="my_profile">הפרופיל שלי</string>
     <string name="reset_favorite">רוקן רשימה</string>
-    <string name="location_permission_denied_explanation">location permission denied explanation</string>
+    <string name="location_permission_denied_explanation">לא נתת הרשאת מיקום, על מנת להנות מחווית משתמש טובה אנו ממליצים לתת הרשאת מיקום דרך ההגדרות</string>
     <string name="change_password">החלף סיסמה</string>
     <string name="enter_the_following">מלא את הפרטים הבאים:</string>
     <string name="current_password">סיסמה נוכחית</string>

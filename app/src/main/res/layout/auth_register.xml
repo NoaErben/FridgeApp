@@ -103,7 +103,7 @@
                 android:singleLine="true"
                 android:textSize="18sp"
                 tools:ignore="Autofill"
-                android:imeOptions="actionDone"/>
+                android:imeOptions="actionDone" />
 
             <EditText
                 android:id="@+id/etConfirmPassword"
