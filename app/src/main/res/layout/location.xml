@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/fridgeColor"
-        app:title="My Location"
+        app:title="@string/my_location_label"
         app:titleTextColor="@color/black"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleCentered="true"

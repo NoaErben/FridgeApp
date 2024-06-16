@@ -3,17 +3,17 @@
     <item
         android:id="@+id/shopping_list"
         android:icon="@drawable/baseline_list_alt_24"
-        android:title="My shopping list" />
+        android:title="@string/my_shopping_list" />
     <item
         android:id="@+id/Favorite_items"
         android:icon="@drawable/baseline_favorite_24"
-        android:title="My favorite items" />
+        android:title="@string/my_favorite_items" />
     <item
         android:id="@+id/My_profile"
         android:icon="@drawable/io_person_icon"
-        android:title="My profile" />
+        android:title="@string/my_profile" />
     <item
         android:id="@+id/My_Location"
         android:icon="@drawable/location_pin_svgrepo_com"
-        android:title="My Location" />
+        android:title="@string/my_location_label" />
 </menu>
