@@ -41,7 +41,7 @@
     <string name="please_enter_valid_dates">Please enter \nvalid dates</string>
     <string name="expiry_date_must_be_after_buying_date">Expiry date must be after buying date</string>
     <string name="please_login_to_add_items">Please login to add items</string>
-    <string name="back" />
+    <string name="back" >back</string>
     <string name="add_item_to_shopping_list">Add item to shopping list</string>
     <string name="add">Add</string>
     <string name="amount_measure">Amount Measure</string>
@@ -76,7 +76,7 @@
     <string name="date_added">Date added:</string>
     <string name="_null">NULL</string>
     <string name="find_supermarkets_nearby">Click here to find supermarkets nearby</string>
-    <string name="google_maps_link"></string>
+    <string name="google_maps_link">Google Maps link</string>
     <string name="insert_email_password">Insert E-mail and password</string>
     <string name="Sign_in_successful">Sign in successful</string>
     <string name="authentication_failed">Authentication failed: %1$s</string>
@@ -155,6 +155,11 @@
     <string name="enter_the_following">Enter the following:</string>
     <string name="current_password">Current password</string>
     <string name="new_password">New password</string>
+    <string name="no_supermarkets_found">No supermarkets found nearby</string>
+    <string name="error_finding_supermarkets">Error finding supermarkets</string>
+    <string name="swipe_to_add_cart">Swipe right to add to cart</string>
+    <string name="quantity_x">Quantity: X</string>
+    <string name="empty_fridge">empty_fridge</string>
     <string-array name="categories">
         <item>Breads</item>
         <item>Dairy</item>

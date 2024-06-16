@@ -73,7 +73,7 @@
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/dish"
                         android:fontFamily="@font/amaranth"
-                        android:hint="Product Name"
+                        android:hint="@string/product_name"
                         android:imeOptions="actionDone"
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>

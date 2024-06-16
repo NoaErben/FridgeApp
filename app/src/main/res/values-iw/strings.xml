@@ -54,7 +54,7 @@
     <string name="forgot_password">שכח סיסמה</string>
     <string name="enter_the_following_details">הזן את הפרטים הבאים</string>
     <string name="we_will_send_to_the_registered_email">נשלח לכתובת הדוא"ל הרשומה</string>
-    <string name="email_address">כתובת דוא"ל</string>
+    <string name="email_address">כתובת אימייל</string>
     <string name="next">הבא</string>
     <string name="location">מיקום:</string>
     <string name="set_password">הגדר סיסמה</string>
@@ -76,7 +76,7 @@
     <string name="date_added">תאריך הוספה:</string>
     <string name="_null">NULL</string>
     <string name="find_supermarkets_nearby">לחץ כאן למציאת סופרים קרובים</string>
-    <string name="google_maps_link"></string>
+    <string name="google_maps_link">גוגל מפות לינק</string>
     <string name="insert_email_password">הזן אימייל וסיסמה</string>
     <string name="Sign_in_successful">התחברות צלחה</string>
     <string name="authentication_failed">ההזדהות נכשלה: %1$s</string>
@@ -157,5 +157,10 @@
     <string name="enter_the_following">מלא את הפרטים הבאים:</string>
     <string name="current_password">סיסמה נוכחית</string>
     <string name="new_password">סיסמה חדשה</string>
+    <string name="no_supermarkets_found">לא נמצאו סופרים קרובים למיקומך</string>
+    <string name="error_finding_supermarkets">שגיאה ארעה בחיפוש אחר סופרים קרובים</string>
+    <string name="swipe_to_add_cart">החלק ימינה אם ברצונך להסויף לעגלת הקניות</string>
+    <string name="quantity_x">כמות: X</string>
+    <string name="empty_fridge">מקרר ריק</string>
 
 </resources>

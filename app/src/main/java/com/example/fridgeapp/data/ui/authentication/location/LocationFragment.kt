@@ -11,7 +11,6 @@ import android.text.SpannableString
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,8 +39,8 @@ import java.net.HttpURLConnection
 import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
-import java.util.*
 import java.util.Locale
+import java.util.Scanner
 
 
 class LocationFragment : Fragment(), OnMapReadyCallback {
@@ -185,10 +184,10 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel $name , $address"
 
                 } else {
-                    Toast.makeText(requireContext(), "No supermarkets found nearby", Toast.LENGTH_LONG).show()
+                    Toast.makeText(requireContext(), getString(R.string.no_supermarkets_found), Toast.LENGTH_LONG).show();
                 }
             } else {
-                Toast.makeText(requireContext(), "Error finding supermarkets", Toast.LENGTH_LONG).show()
+                Toast.makeText(requireContext(), getString(R.string.error_finding_supermarkets) , Toast.LENGTH_LONG).show()
             }
         }
     }

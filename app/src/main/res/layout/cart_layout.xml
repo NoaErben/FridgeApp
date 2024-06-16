@@ -32,7 +32,7 @@
                 android:id="@+id/item_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Item Name"
+                android:text="@string/item_name"
                 android:fontFamily="@font/amaranth"
                 android:textSize="20sp"
                 android:textStyle="bold" />
@@ -41,7 +41,7 @@
                 android:id="@+id/item_category"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Category"
+                android:text="@string/category"
                 android:fontFamily="@font/amaranth"
                 android:textSize="18sp" />
 
@@ -49,7 +49,7 @@
                 android:id="@+id/item_quantity"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Quantity: X"
+                android:text="@string/quantity_x"
                 android:fontFamily="@font/amaranth"
                 android:textSize="18sp" />
         </LinearLayout>
