@@ -230,7 +230,8 @@
                     android:backgroundTint="@color/fridgeColor"
                     android:fontFamily="@font/amaranth"
                     android:foregroundGravity="center_horizontal"
-                    android:text="@string/add" />
+                    android:text="@string/add"
+                    android:textSize="20sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

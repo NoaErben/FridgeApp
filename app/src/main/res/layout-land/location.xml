@@ -53,7 +53,8 @@
                 android:fontFamily="@font/amaranth"
                 android:text="@string/nearest_supermarket"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/tvGoogleMapsLink"
@@ -73,7 +74,15 @@
             android:layout_height="263dp"
             android:layout_gravity="center_vertical"
             android:layout_margin="10dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:visibility="gone"/>
     </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:id="@+id/progress_bar"
+        android:layout_gravity="center" />
 
 </FrameLayout>
