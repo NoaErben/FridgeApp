@@ -83,6 +83,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         }
 
         setupLocationObserver()
+        binding.progressBar?.visibility = View.VISIBLE
+
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -198,6 +200,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun setupLocationObserver() {
         location.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
+            binding.progressBar?.visibility = View.GONE
             binding.locationTextView.text = address
 
             val query = "supermarkets near $address"

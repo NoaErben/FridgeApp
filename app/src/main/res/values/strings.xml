@@ -106,7 +106,6 @@
     <string name="failed_to_delete_item_in_fridge">Failed to delete item:</string>
     <string name="shopping_list_clicked">Shopping list clicked</string>
     <string name="favorite_items_clicked">Favorite items clicked</string>
-
     <string name="enter_custom_product_name">Enter Custom Product Name</string>
     <string name="other">Other</string>
     <string name="item_exists">Item Exists</string>
@@ -122,7 +121,6 @@
     <string name="confirm">Confirm</string>
     <string name="are_you_sure_you_want_to_reset_to_default_items">Are you sure you want to reset to default items?</string>
     <string name="location_permission_denied">Location permission denied</string>
-
     <string name="quantity_text">Quantity: %1$d</string>
     <string name="address_text">Address: %1$s</string>
     <string name="unknown_address">Unknown address</string>
@@ -138,6 +136,24 @@
     <string name="settings">settings</string>
     <string name="permission_required">permission required</string>
     <string name="location_permission_explanation">location permission explanation</string>
+    <string-array name="categories">
+        <item>Breads</item>
+        <item>Dairy</item>
+        <item>Vegetables</item>
+        <item>Meat</item>
+        <item>Sauces</item>
+        <item>Fish</item>
+        <item>Other</item>
+    </string-array>
 
+    <string-array name="unit_measures">
+        <item>Grams</item>
+        <item>Kilograms</item>
+        <item>Milliliters</item>
+        <item>Liters</item>
+        <item>Pieces</item>
+        <item>Packets</item>
+        <item>Boxes</item>
+    </string-array>
 
 </resources>
