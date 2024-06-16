@@ -61,9 +61,9 @@ class FridgeShoppingListFragment : Fragment() {
                 onConfirm = {
                     viewModel.deleteAllItemsFromCartDatabase { result ->
                         result.onSuccess {
-                            showToast("Item deleted successfully")
+                            showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast("Failed to delete item: ${exception.message}")
+                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                         }
                     }
                 },
@@ -80,10 +80,10 @@ class FridgeShoppingListFragment : Fragment() {
             }
 
             override fun onItemLongClick(index: Int) {
-                showToast("Swipe right to add to cart")
+                showToast(getString(R.string.swipe_to_add_cart));
             }
         })
-        binding.expireRecyclerView?.adapter = fridgeItemAdapter
+        binding.expireRecyclerView.adapter = fridgeItemAdapter
 
         cartItemAdapter = CartItemAdapter(emptyList(), object : CartItemAdapter.ItemListener {
             override fun onItemClick(index: Int) {
@@ -96,7 +96,7 @@ class FridgeShoppingListFragment : Fragment() {
                 showToast(getString(R.string.swipe_to_delete))
             }
         })
-        binding.cartRecyclerView?.adapter = cartItemAdapter
+        binding.cartRecyclerView.adapter = cartItemAdapter
     }
 
     private fun observeViewModel() {
