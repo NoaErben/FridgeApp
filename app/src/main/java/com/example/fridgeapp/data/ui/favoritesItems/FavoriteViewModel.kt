@@ -21,9 +21,6 @@ class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
 
     val foodItems: LiveData<List<FoodItem>>? = foodRep.getAllFoodItems()
     val foodItemsNames: LiveData<List<String>>? = foodRep.getFoodsNameList()
-    val categories get() = Constants.categories
-    val unitMeasures get() = Constants.unitMeasures
-
     val chosenFoodItem: LiveData<FoodItem> get() = _chosenFoodItem
 
     fun setFoodChosenItem(foodItem: FoodItem) {

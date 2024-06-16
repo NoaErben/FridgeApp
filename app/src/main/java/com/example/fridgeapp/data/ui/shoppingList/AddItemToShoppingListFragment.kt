@@ -88,7 +88,7 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupCategorySpinner() {
-        val categories = Constants.categories
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
             requireContext(), android.R.layout.simple_spinner_item, categories,
             R.font.amaranth
@@ -98,9 +98,9 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun setupMeasureSpinner() {
-        val categories = Constants.unitMeasures
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), android.R.layout.simple_spinner_item, categories,
+            requireContext(), android.R.layout.simple_spinner_item, unitMeasures,
             R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -143,10 +143,11 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
                         Dialogs.showCustomProductNameDialog(requireContext(), binding.productName, binding.productName.adapter as ArrayAdapter<String>)
                     }
                     else -> {
+                        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
                         viewLifecycleOwner.lifecycleScope.launch {
                             val foodItem = favoriteViewModel.getFoodItem(selectedName)
                             foodItem?.let {
-                                binding.productCategory.setSelection(favoriteViewModel.categories.indexOf(it.category ?: favoriteViewModel.categories[0]))
+                                binding.productCategory.setSelection(categories.indexOf(it.category ?: categories[0]))
                                 // Load image with Glide
                                 Glide.with(requireContext())
                                     .load(it.photoUrl)
@@ -291,8 +292,10 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     }
 
     private fun hasUnsavedChanges(): Boolean {
-        val defaultCategory = Constants.categories[0]
-        val defaultMeasure = Constants.unitMeasures[0]
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
+        val defaultCategory = categories[0]
+        val defaultMeasure = unitMeasures[0]
 
         val productName = binding.productName.tag as? String ?: binding.productName.selectedItem?.toString() ?: ""
         val quantity = binding.quantity.text.toString()

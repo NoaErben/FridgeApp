@@ -127,12 +127,14 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setCategorySpinnerSelection(item: FridgeItem) {
-        val defaultCategoryIndex = favoriteViewModel.categories.indexOf(item.category)
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
+        val defaultCategoryIndex = categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 
     private fun setMeasureSpinnerSelection(item: FridgeItem) {
-        val defaultMeasureIndex = favoriteViewModel.unitMeasures.indexOf(item.amountMeasure)
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
+        val defaultMeasureIndex = unitMeasures.indexOf(item.amountMeasure)
         binding.measureCategory.setSelection(defaultMeasureIndex)
     }
 
@@ -149,7 +151,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -159,9 +161,9 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setupMeasureSpinner() {
-        val categories = favoriteViewModel.unitMeasures
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, categories,
+            requireContext(), R.layout.simple_spinner_item, unitMeasures,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

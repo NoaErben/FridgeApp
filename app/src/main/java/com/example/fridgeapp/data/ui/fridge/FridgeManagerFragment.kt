@@ -169,12 +169,12 @@ class FridgeManagerFragment : Fragment() {
             when (item.itemId) {
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
-                    showToast(getString(R.string.shopping_list_clicked))
+//                    showToast(getString(R.string.shopping_list_clicked))
                     true
                 }
                 R.id.Favorite_items -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
-                    showToast(getString(R.string.favorite_items_clicked))
+//                    showToast(getString(R.string.favorite_items_clicked))
                     true
                 }
                 R.id.My_profile -> {

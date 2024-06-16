@@ -105,12 +105,14 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     }
 
     private fun setCategorySpinnerSelection(item: CartItem) {
-        val defaultCategoryIndex = favoriteViewModel.categories.indexOf(item.category)
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
+        val defaultCategoryIndex = categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 
     private fun setMeasureSpinnerSelection(item: CartItem) {
-        val defaultMeasureIndex = favoriteViewModel.unitMeasures.indexOf(item.amountMeasure)
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
+        val defaultMeasureIndex = unitMeasures.indexOf(item.amountMeasure)
         binding.measureCategory.setSelection(defaultMeasureIndex)
     }
 
@@ -127,7 +129,7 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     }
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
@@ -137,9 +139,9 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     }
 
     private fun setupMeasureSpinner() {
-        val categories = favoriteViewModel.unitMeasures
+        val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, categories,
+            requireContext(), R.layout.simple_spinner_item, unitMeasures,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

@@ -184,7 +184,7 @@ class FridgeShoppingListFragment : Fragment() {
                 onConfirm = { quantity ->
                     viewModel.deleteItemFromFridgeDatabase(item) { result ->
                         result.onSuccess {
-                            showToast(getString(R.string.item_deleted_successfully))
+                            showToast(getString(R.string.item_added_to_cart))
                         }.onFailure { exception ->
                             showToast(getString(R.string.failed_to_delete_item, exception.message))
                             fridgeItemAdapter.notifyItemChanged(viewHolder.adapterPosition)
@@ -204,7 +204,7 @@ class FridgeShoppingListFragment : Fragment() {
                         result.onSuccess {
                             showToast(getString(R.string.item_deleted_successfully))
                         }.onFailure { exception ->
-                            showToast(getString(R.string.failed_to_delete_item, exception.message))
+//                            showToast(getString(R.string.failed_to_delete_item, exception.message))
                         }
                     }
                 },

@@ -152,7 +152,7 @@
     <string name="my_favorite_items">המוצרים המועדפים שלי</string>
     <string name="my_profile">הפרופיל שלי</string>
     <string name="reset_favorite">רוקן רשימה</string>
-    <string name="location_permission_denied_explanation">לא נתת הרשאת מיקום, על מנת להנות מחווית משתמש טובה אנו ממליצים לתת הרשאת מיקום דרך ההגדרות</string>
+    <string name="location_permission_denied_explanation">לא אושרו הרשאת מיקום, על מנת להנות מחווית משתמש טובה אנו ממליצים לאשר הרשאת מיקום דרך ההגדרות</string>
     <string name="change_password">החלף סיסמה</string>
     <string name="enter_the_following">מלא את הפרטים הבאים:</string>
     <string name="current_password">סיסמה נוכחית</string>
@@ -162,5 +162,26 @@
     <string name="swipe_to_add_cart">החלק ימינה אם ברצונך להסויף לעגלת הקניות</string>
     <string name="quantity_x">כמות: X</string>
     <string name="empty_fridge">מקרר ריק</string>
+    <string name="item_added_to_cart">פריט נוסף לעגלה</string>
+    <string-array name="categories">
+        <item>לחם</item>
+        <item>מוצרי חלב</item>
+        <item>ירקות</item>
+        <item>בשר</item>
+        <item>רטבים</item>
+        <item>דגים</item>
+        <item>אחר</item>
+    </string-array>
+
+    <string-array name="unit_measures">
+        <item>גרם</item>
+        <item>קילוגרם</item>
+        <item>מיליליטר</item>
+        <item>ליטר</item>
+        <item>חתיכות</item>
+        <item>אריזות</item>
+        <item>קופסאות</item>
+    </string-array>
+
 
 </resources>

@@ -72,7 +72,7 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_item,
@@ -94,7 +94,8 @@ class FavoriteEditItemFragment : Fragment() {
     }
 
     private fun setCategorySpinnerSelection(item: FoodItem) {
-        val defaultCategoryIndex = favoriteViewModel.categories.indexOf(item.category)
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
+        val defaultCategoryIndex = categories.indexOf(item.category)
         binding.productCategory.setSelection(defaultCategoryIndex)
     }
 

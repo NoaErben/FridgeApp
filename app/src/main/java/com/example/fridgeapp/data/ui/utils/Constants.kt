@@ -4,12 +4,6 @@ import com.example.fridgeapp.data.model.FoodItem
 
 object Constants {
 
-    private val _categories = listOf("Breads", "Dairy", "Vegetables", "Meat", "Sauces", "Fish", "Other")
-    private val _unitMeasures = listOf("Grams", "Kilograms", "Milliliters", "Liters", "Pieces", "Packets", "Boxes")
-
-    val categories get() = _categories
-    val unitMeasures get() = _unitMeasures
-
     val defaultFoodItems = listOf(
         FoodItem(name = "Bread", category = "Breads", daysToExpire = 8, photoUrl = "https://firebasestorage.googleapis.com/v0/b/fridgeapp-ad44a.appspot.com/o/default_images%2Fbread.jpg?alt=media&token=4e3dac77-cba9-4ce3-bb62-d688e1f17924"),
         FoodItem(name = "Butter", category = "Dairy", daysToExpire = 21, photoUrl = "https://firebasestorage.googleapis.com/v0/b/fridgeapp-ad44a.appspot.com/o/default_images%2Fbutter.jpg?alt=media&token=31f4452c-7b73-4045-b3f3-4307831783c4"),

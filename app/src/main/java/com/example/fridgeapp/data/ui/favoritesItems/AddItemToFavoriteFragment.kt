@@ -53,7 +53,7 @@ class AddItemToFavoriteFragment : Fragment() {
 
 
     private fun setupCategorySpinner() {
-        val categories = favoriteViewModel.categories
+        val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
             requireContext(), R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
