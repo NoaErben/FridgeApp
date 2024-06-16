@@ -81,7 +81,7 @@
     <string name="Sign_in_successful">Sign in successful</string>
     <string name="authentication_failed">Authentication failed: %1$s</string>
     <string name="please_enter_email">Please enter your email</string>
-    <string name="password_reset_email_sent">Password reset email sent</string>
+    <string name="password__email_sent">Password reset email sent</string>
     <string name="error_sending_password_reset_email">Error sending password reset email</string>
     <string name="email_label">E-mail: %1$s</string>
     <string name="hello_user">Hello, %1$s</string>
@@ -126,19 +126,34 @@
     <string name="unknown_address">Unknown address</string>
     <string name="failed_to_delete_item">Failed to delete item: %1$s</string>
     <string name="google_maps_key">AIzaSyCrMtOEQWWeKuQZOqRnkojPkrvx76oxX-M</string>
-    <string name="you_are_here">You are here</string>
     <string name="nearest_supermarket">The nearest supermarket nearby is: </string>
     <string name="allow_your_location">Allow your location</string>
     <string name="we_will_need_your_location_to_give_you_better_experience">We will need your location to give you better experience</string>
     <string name="allow_location_access">Allow location access</string>
     <string name="permission_denied">permission denied</string>
-    <string name="location_permission_denied_explanation">location permission denied explanation</string>
     <string name="settings">settings</string>
     <string name="permission_required">permission required</string>
-    <string name="location_permission_explanation">location permission explanation</string>
     <string name="enter_custom_product_name_msg">Enter custom product name</string>
     <string name="enter_a_number">Enter a number</string>
     <string name="please_wait">please wait...</string>
+    <string name="manage_your_fridge_easily">Manage Your Fridge Easily!</string>
+    <string name="my_location_label">My Location</string>
+    <string name="my_fridge_label">My Fridge</string>
+    <string name="my_shopping_list_label">My Shopping List</string>
+    <string name="empty">Empty</string>
+    <string name="top_picks">Top Picks</string>
+    <string name="your_cart">Your cart</string>
+    <string name="your_fridge_is_empty">Your fridge is empty!</string>
+    <string name="my_shopping_list">My shopping list</string>
+    <string name="my_favorite_items">My favorite items</string>
+    <string name="my_profile">My profile</string>
+    <string name="my_location">My Location</string>
+    <string name="reset_favorite">reset</string>
+    <string name="location_permission_denied_explanation">location permission denied explanation</string>
+    <string name="change_password">Change Password</string>
+    <string name="enter_the_following">Enter the following:</string>
+    <string name="current_password">Current password</string>
+    <string name="new_password">New password</string>
     <string-array name="categories">
         <item>Breads</item>
         <item>Dairy</item>

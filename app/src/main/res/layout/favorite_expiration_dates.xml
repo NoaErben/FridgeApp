@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/fridgeColor"
-        app:title="My Favorite Items"
+        app:title="@string/my_favorite_items"
         app:titleTextColor="@color/black"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleCentered="true"
@@ -29,7 +29,7 @@
             android:layout_marginEnd="0dp"
             android:backgroundTint="@color/fridgeColor"
             android:fontFamily="@font/amaranth"
-            android:text="Reset"
+            android:text="@string/reset_favorite"
             android:textColor="@color/black"
             android:paddingTop="8dp"
             android:textSize="20sp" />

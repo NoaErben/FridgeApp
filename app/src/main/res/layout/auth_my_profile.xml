@@ -72,7 +72,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="20dp"
                 android:backgroundTint="@color/fridgeColor"
-                android:text="Change Password"
+                android:text="@string/change_password"
                 android:textColor="#fff"
                 android:textSize="20sp" />
 
