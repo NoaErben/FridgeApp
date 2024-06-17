@@ -15,9 +15,7 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
-        //liraz add this
         vectorDrawables.useSupportLibrary = true
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -83,7 +81,6 @@ dependencies {
     implementation(libs.androidx.lifecycle.livedata.ktx)
 
     //gradle
-    //for trying location
     implementation ("com.google.android.gms:play-services-location:21.3.0")
     //for Grocery Store Locator
     implementation ("com.google.android.gms:play-services-maps:18.1.0")

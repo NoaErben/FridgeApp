@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
+import com.example.fridgeapp.data.ui.utils.DeafultFoodList
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
@@ -101,7 +102,8 @@ class FavoriteExpirationFragment : Fragment() {
             Dialogs.showResetConfirmationDialog(requireContext(),
                 onConfirm = {
                     Toast.makeText(requireContext(), getString(R.string.resetting_to_default_items), Toast.LENGTH_SHORT).show()
-                    favoriteViewModel.resetToDefaultItems()
+                    val defaultFoodItems = DeafultFoodList.createDefaultFoodItems(requireContext())
+                    favoriteViewModel.resetToDefaultItems(defaultFoodItems)
                 },
                 onCancel = {}
             )

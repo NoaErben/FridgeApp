@@ -181,4 +181,42 @@
         <item>Boxes</item>
     </string-array>
 
+    <string-array name="default_food_names">
+        <item>Bread</item>
+        <item>Butter</item>
+        <item>Eggs</item>
+        <item>Milk</item>
+        <item>Yellow Cheese</item>
+        <item>Yogurt</item>
+        <item>Chicken</item>
+        <item>Ground Beef</item>
+        <item>Carrot</item>
+        <item>Cucumber</item>
+        <item>Lettuce</item>
+        <item>Tomato</item>
+        <item>Salmon</item>
+        <item>Ketchup</item>
+        <item>Mayonnaise</item>
+        <item>Mustard</item>
+    </string-array>
+
+    <string-array name="default_food_categories">
+        <item>Breads</item>
+        <item>Dairy</item>
+        <item>Dairy</item>
+        <item>Dairy</item>
+        <item>Dairy</item>
+        <item>Dairy</item>
+        <item>Meat</item>
+        <item>Meat</item>
+        <item>Vegetables</item>
+        <item>Vegetables</item>
+        <item>Vegetables</item>
+        <item>Vegetables</item>
+        <item>Fish</item>
+        <item>Sauces</item>
+        <item>Sauces</item>
+        <item>Sauces</item>
+    </string-array>
+
 </resources>

@@ -183,5 +183,43 @@
         <item>קופסאות</item>
     </string-array>
 
+    <string-array name="default_food_names">
+        <item>לחם</item>
+        <item>חמאה</item>
+        <item>ביצים</item>
+        <item>חלב</item>
+        <item>גבינה צהובה</item>
+        <item>יוגורט</item>
+        <item>עוף</item>
+        <item>בשר בקר</item>
+        <item>גזר</item>
+        <item>מלפפון</item>
+        <item>חסה</item>
+        <item>עגבניה</item>
+        <item>סלמון</item>
+        <item>קטשופ</item>
+        <item>מיונז</item>
+        <item>חרדל</item>
+    </string-array>
+
+    <string-array name="default_food_categories">
+        <item>לחם</item>
+        <item>מוצרי חלב</item>
+        <item>מוצרי חלב</item>
+        <item>מוצרי חלב</item>
+        <item>מוצרי חלב</item>
+        <item>מוצרי חלב</item>
+        <item>בשר</item>
+        <item>בשר</item>
+        <item>ירקות</item>
+        <item>ירקות</item>
+        <item>ירקות</item>
+        <item>ירקות</item>
+        <item>דגים</item>
+        <item>רטבים</item>
+        <item>רטבים</item>
+        <item>רטבים</item>
+    </string-array>
+
 
 </resources>

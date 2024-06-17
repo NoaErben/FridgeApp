@@ -8,6 +8,7 @@ import androidx.room.RoomDatabase
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.ui.utils.Constants
+import com.example.fridgeapp.data.ui.utils.DeafultFoodList
 import kotlinx.coroutines.runBlocking
 
 @Database(entities = arrayOf(FoodItem::class), version = 1, exportSchema = false)
@@ -30,7 +31,7 @@ abstract class FridgeDB : RoomDatabase() {
                     // Default items for foodDB
                     instance?.let { database ->
                         runBlocking {
-                            foodTableDefaultValues(database.foodDao())
+                            foodTableDefaultValues(database.foodDao(), context)
                         }
                     }
                 }
@@ -38,7 +39,7 @@ abstract class FridgeDB : RoomDatabase() {
             return instance!!
         }
 
-        private suspend fun foodTableDefaultValues(foodDao: FoodDao) {
+        private suspend fun foodTableDefaultValues(foodDao: FoodDao, context: Context) {
             val count = foodDao.getCount()
             if (count == 0) {
 //                val breadID = context.resources.getIdentifier("bread", "drawable", context?.packageName)
@@ -46,7 +47,7 @@ abstract class FridgeDB : RoomDatabase() {
 //                Log.d("MyTag",R.drawable.bread.toString())
 
                 // Default items for foodDB
-                val defaultFoodItems = Constants.defaultFoodItems
+                val defaultFoodItems = DeafultFoodList.createDefaultFoodItems(context)
                 foodDao.insertAll(defaultFoodItems)
             }
             //else
