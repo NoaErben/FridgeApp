@@ -54,20 +54,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:gravity=""
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/rounder_border_for_view"
                 android:drawableStart="@drawable/io_person_icon"
                 android:drawablePadding="4dp"
+                android:gravity=""
                 android:hint="@string/namee"
+                android:imeOptions="actionDone"
                 android:inputType="text"
                 android:maxLength="20"
                 android:padding="14dp"
                 android:textSize="18sp"
-                tools:ignore="Autofill"
-                android:imeOptions="actionDone"/>
+                tools:ignore="Autofill" />
 
 
             <EditText
@@ -81,12 +81,12 @@
                 android:drawableStart="@drawable/ic_icon_email"
                 android:drawablePadding="4dp"
                 android:hint="@string/e_mail_address"
+                android:imeOptions="actionDone"
                 android:inputType="textEmailAddress"
                 android:maxLength="40"
                 android:padding="14dp"
                 android:textSize="18sp"
-                tools:ignore="Autofill"
-                android:imeOptions="actionDone"/>
+                tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/etPassword"
@@ -99,12 +99,12 @@
                 android:drawableStart="@drawable/ic_icon_password"
                 android:drawablePadding="4dp"
                 android:hint="@string/password_min_6_digits"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:padding="14dp"
                 android:singleLine="true"
                 android:textSize="18sp"
-                tools:ignore="Autofill"
-                android:imeOptions="actionDone" />
+                tools:ignore="Autofill" />
 
             <EditText
                 android:id="@+id/etConfirmPassword"
@@ -117,10 +117,10 @@
                 android:drawableStart="@drawable/ic_icon_password"
                 android:drawablePadding="4dp"
                 android:hint="@string/confirm_password"
+                android:imeOptions="actionDone"
                 android:inputType="textPassword"
                 android:padding="14dp"
-                android:textSize="18sp"
-                android:imeOptions="actionDone"/>
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/btnSubmit"

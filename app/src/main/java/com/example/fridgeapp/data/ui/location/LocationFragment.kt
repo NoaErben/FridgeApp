@@ -82,9 +82,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         }
 
         setupLocationObserver()
-        binding.progressBar?.visibility = View.VISIBLE
-
-
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -123,7 +121,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     }
             } catch (e: SecurityException) {
                 e.printStackTrace()
-                // Handle exception
             }
         }
     }
@@ -181,7 +178,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     addMarker(supermarketLocation, name, BitmapDescriptorFactory.HUE_RED)
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(supermarketLocation, 15f))
                     val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
-                    binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel $name , $address"
+                    binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel\n$name,\n$address"
 
                 } else {
                     Toast.makeText(requireContext(), getString(R.string.no_supermarkets_found), Toast.LENGTH_LONG).show();
@@ -200,10 +197,21 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun setupLocationObserver() {
         location.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
-            binding.progressBar?.visibility = View.GONE
+            binding.progressBar.visibility = View.GONE
             binding.nearestSupermarketTextView.visibility = View.VISIBLE
             binding.map.visibility = View.VISIBLE
-            binding.locationTextView.text = address
+            binding.tvGoogleMapsLink.visibility = View.VISIBLE
+            binding.cardView.visibility = View.VISIBLE
+
+            // Insert \n before the address and at the end of the string
+            val index = address.indexOf(" ")
+            val modifiedAddress = StringBuilder(address)
+                .replace(index, index + 1, "")
+                .insert(index, "\n")
+                .append("\n")
+                .toString()
+
+            binding.locationTextView.text = modifiedAddress
 
             val query = "supermarkets near $address"
             val encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString())
@@ -245,9 +253,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                     mMap.isMyLocationEnabled = true
                     getDeviceLocation()
                 }
-            } else {
-                // Permission denied, handle accordingly
-                // Provide feedback to the user explaining why the permission is necessary
             }
         }
     }
