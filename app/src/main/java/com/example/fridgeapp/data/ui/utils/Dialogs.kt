@@ -1,10 +1,12 @@
 package com.example.fridgeapp.data.ui.utils
 
 import android.content.Context
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.widget.ArrayAdapter
 import android.widget.EditText
 import android.widget.Spinner
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.fridgeapp.R
 
@@ -117,18 +119,58 @@ object Dialogs {
                 if (numberStr.isNotBlank()) {
                     val number = numberStr.toInt()
                     onConfirm(number)
+                    dialog.dismiss()
                 } else {
-                    onCancel()
+                    Toast.makeText(context, "Please insert a number", Toast.LENGTH_SHORT).show()
+                    // Don't dismiss the dialog
                 }
-                dialog.dismiss()
             }
             .setNegativeButton(context.getString(R.string.cancel)) { dialog, _ ->
                 onCancel()
                 dialog.dismiss()
             }
+            .setOnCancelListener {
+                onCancel()
+            }
             .create()
+
+        // Set onCancelListener to handle outside clicks
+        dialog.setOnCancelListener {
+            onCancel()
+            dialog.dismiss()
+        }
+
+        // Set onCancelListener to handle back press
+        dialog.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                onCancel()
+                dialog.dismiss()
+                true
+            } else {
+                false
+            }
+        }
+
+        // Disable automatic dismissal of the dialog on positive button click
+        dialog.setOnShowListener {
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                val numberStr = numberEditText.text.toString()
+                if (numberStr.isNotBlank()) {
+                    val number = numberStr.toInt()
+                    onConfirm(number)
+                    dialog.dismiss()
+                } else {
+                    Toast.makeText(context, "Please insert a number", Toast.LENGTH_SHORT).show()
+                    // Don't dismiss the dialog
+                }
+            }
+        }
+
         dialog.show()
     }
+
+
+
 
 
     fun showConfirmLeaveDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
