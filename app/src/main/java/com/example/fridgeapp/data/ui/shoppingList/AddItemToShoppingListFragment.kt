@@ -29,7 +29,6 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
-import com.example.fridgeapp.data.ui.utils.Constants
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
@@ -39,6 +38,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * Fragment for adding an item to the shopping list.
+ * Allows selection of product details, including name, category, quantity, and image.
+ * Supports selection from favorites and custom inputs.
+ */
 class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
@@ -55,8 +59,6 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
     private lateinit var dialog: Dialog
     private var imageUri: Uri? = null
     private var currentImage: String? = null
-    private var isBuyingDate: Boolean = false
-
 
     private val pickLauncher: ActivityResultLauncher<Array<String>> =
         registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
@@ -133,10 +135,6 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
                 val selectedName = foodItemsNames[position]
                 when (selectedName) {
                     "" -> {
-                        //todo - ask guy
-//                        Glide.with(requireContext())
-//                            .load(R.drawable.dish)
-//                            .into(binding.itemImage)
                         currentImage = R.drawable.dish.toString()
                     }
                     "Other" -> {
@@ -301,7 +299,6 @@ class AddItemToShoppingListFragment : Fragment(), DatePickerDialog.OnDateSetList
         val quantity = binding.quantity.text.toString()
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
-//        Log.d("AITF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
 
         return productName.isNotEmpty() ||
                 quantity.isNotEmpty() ||

@@ -22,6 +22,9 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FridgeShoppingListBinding
 
+/**
+ * Fragment for displaying and managing the shopping list and fridge items.
+ */
 class FridgeShoppingListFragment : Fragment() {
 
 

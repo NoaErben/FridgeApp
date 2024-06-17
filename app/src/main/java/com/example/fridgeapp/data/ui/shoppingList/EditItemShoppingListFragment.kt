@@ -1,6 +1,5 @@
 package com.example.fridgeapp.data.ui.shoppingList
 
-import android.R
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
@@ -17,13 +16,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.repository.firebaseImpl.CartRepositoryFirebase
-import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
-import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.MyDates
@@ -33,14 +29,13 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * Fragment for editing shopping list items.
+ */
 class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     private var binding : ShoppingEditItemBinding by autoCleared()
-
-    private val favoriteViewModel: FavoriteViewModel by viewModels {
-        FavoriteViewModel.FavoriteViewModelFactory(FoodRepositoryRoom(requireActivity().application))
-    }
 
     private val viewModel: ShoppingListViewmodel by activityViewModels {
         ShoppingListViewmodel.ShoppingListViewmodelFactory(CartRepositoryFirebase())
@@ -49,7 +44,6 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     private var imageUri: Uri? = null
     private var imageUriStr: String? = null
     private var imageChanged = false
-    private var isBuyingDate: Boolean = false
     private lateinit var dialog: Dialog
 
 
@@ -131,7 +125,7 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     private fun setupCategorySpinner() {
         val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, categories,
+            requireContext(), android.R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -141,7 +135,7 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
     private fun setupMeasureSpinner() {
         val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, unitMeasures,
+            requireContext(), android.R.layout.simple_spinner_item, unitMeasures,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -179,9 +173,6 @@ class EditItemShoppingListFragment: Fragment(), DatePickerDialog.OnDateSetListen
         val quantity = binding.quantity.text.toString()
         val productCategory = binding.productCategory.selectedItem.toString()
         val amountMeasure = binding.measureCategory.selectedItem.toString()
-
-//        Log.d("EFIF", productName + ", " + quantity + ", " + buyingDate + ", " + expiryDate + ", " + productCategory + ", " + amountMeasure + ", " )
-//        Log.d("EFIF", viewModel.chosenFridgeItem.value!!.name.toString() + ", " + viewModel.chosenFridgeItem.value!!.quantity.toString() + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.buyingDate) + ", " + convertTimestampToDateString(viewModel.chosenFridgeItem.value!!.expiryDate) + ", " + viewModel.chosenFridgeItem.value!!.category.toString() + ", " + viewModel.chosenFridgeItem.value!!.amountMeasure.toString() + ", " )
 
         return productName != viewModel.chosenCartItem.value!!.name.toString()  ||
                 quantity != viewModel.chosenCartItem.value!!.quantity.toString() ||

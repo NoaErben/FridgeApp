@@ -42,7 +42,9 @@ import java.nio.charset.StandardCharsets
 import java.util.Locale
 import java.util.Scanner
 
-
+/**
+ * A Fragment that displays the user's current location on a map and finds nearby supermarkets.
+ */
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private var binding: LocationBinding by autoCleared()

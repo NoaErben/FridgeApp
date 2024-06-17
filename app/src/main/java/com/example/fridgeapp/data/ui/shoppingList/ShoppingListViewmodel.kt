@@ -14,6 +14,9 @@ import com.example.fridgeapp.data.repository.CartRepository
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for managing shopping list related operations.
+ */
 class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
 
     private val _chosenCartItem = MutableLiveData<CartItem>()
@@ -38,17 +41,14 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
     }
 
     fun userChanged() {
-//        Log.d("FridgeViewmodel", "User changed detected, fetching items.")
         fetchItems()
     }
 
     private fun fetchItems() {
         cartRep.getCartItems().observeForever { itemList ->
-//            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
             _cartItems.postValue(itemList)
         }
         cartRep.getFridgeItems().observeForever { itemList ->
-//            Log.d("FridgeViewmodel", "Fetched ${itemList.size} items for the current user.")
             _fridgeItems.postValue(itemList)
         }
     }
