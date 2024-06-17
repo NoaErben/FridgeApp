@@ -1,6 +1,5 @@
 package com.example.fridgeapp.data.ui.favoritesItems
 
-import android.R
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -21,6 +20,13 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteAddItemBinding
 
+/**
+ * Fragment for adding a food item to favorites.
+ *
+ * This fragment allows users to add a new food item to their favorites list,
+ * including specifying the item's name, category, days until expiration, and optional image.
+ * It handles user input validation, image picking, and navigation to the expiration dates screen.
+ */
 class AddItemToFavoriteFragment : Fragment() {
 
     private var binding : FavoriteAddItemBinding by autoCleared()
@@ -55,10 +61,10 @@ class AddItemToFavoriteFragment : Fragment() {
     private fun setupCategorySpinner() {
         val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, categories,
+            requireContext(), android.R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
         )
-        adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.productCategory.adapter = adapter
     }
 

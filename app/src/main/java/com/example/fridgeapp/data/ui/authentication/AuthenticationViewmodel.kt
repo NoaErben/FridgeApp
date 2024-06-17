@@ -9,6 +9,10 @@ import com.example.fridgeapp.data.repository.AuthRepository
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for the authentication-related fragments (My profile / signin / signup).
+ *
+ */
 class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel() {
 
     private val _currentUser = MutableLiveData<FirebaseUser?>()

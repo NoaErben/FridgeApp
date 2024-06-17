@@ -25,6 +25,10 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FridgeFragmentBinding
 
+/**
+ * A Fragment representing the main screen of the fridge manager.
+ * It displays a list of items in the fridge with options for managing them.
+ */
 class FridgeManagerFragment : Fragment() {
 
     private var binding : FridgeFragmentBinding by autoCleared()
@@ -169,12 +173,10 @@ class FridgeManagerFragment : Fragment() {
             when (item.itemId) {
                 R.id.shopping_list -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_fridgeShoppingListFragment)
-//                    showToast(getString(R.string.shopping_list_clicked))
                     true
                 }
                 R.id.Favorite_items -> {
                     findNavController().navigate(R.id.action_fridgeManagerFragment_to_defaultExpirationDatesFragment)
-//                    showToast(getString(R.string.favorite_items_clicked))
                     true
                 }
                 R.id.My_profile -> {

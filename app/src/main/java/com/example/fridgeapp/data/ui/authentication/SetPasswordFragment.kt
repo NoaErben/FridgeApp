@@ -15,6 +15,9 @@ import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthFragmentSetPasswordBinding
 
+/**
+ * Fragment for handling user change password functionality.
+ */
 class SetPasswordFragment: Fragment() {
 
     private var binding : AuthFragmentSetPasswordBinding by autoCleared()

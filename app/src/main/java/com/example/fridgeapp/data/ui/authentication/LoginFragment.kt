@@ -17,6 +17,9 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthLoginFragmentBinding
 
+/**
+ * Fragment for handling user login functionality.
+ */
 class LoginFragment : Fragment() {
 
     private var binding : AuthLoginFragmentBinding by autoCleared()
@@ -38,15 +41,11 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setupViews()
         setupClickListeners()
         observeForgotPasswordLink()
         handleBackButtonPress()
     }
 
-    private fun setupViews() {
-        // Initialize any views or settings here
-    }
 
     private fun setupClickListeners() {
         binding.btnLogin.setOnClickListener {
@@ -63,8 +62,6 @@ class LoginFragment : Fragment() {
                 onSuccess = {
                     hideProgressBar()
                     Toast.makeText(requireContext(), getString(R.string.Sign_in_successful), Toast.LENGTH_SHORT).show()
-//                    fbViewModel.changeUser()
-                    // TODO: delete
                     findNavController().navigate(R.id.action_loginFragment_to_fridgeManagerFragment)
                 },
                 onFailure = { exception ->

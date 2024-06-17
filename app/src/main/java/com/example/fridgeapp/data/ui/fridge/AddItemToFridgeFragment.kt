@@ -28,7 +28,6 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.repository.firebaseImpl.FridgeRepositoryFirebase
 import com.example.fridgeapp.data.repository.roomImpl.FoodRepositoryRoom
 import com.example.fridgeapp.data.ui.favoritesItems.FavoriteViewModel
-import com.example.fridgeapp.data.ui.utils.Constants
 import com.example.fridgeapp.data.ui.utils.CustomArrayAdapter
 import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.MyDates

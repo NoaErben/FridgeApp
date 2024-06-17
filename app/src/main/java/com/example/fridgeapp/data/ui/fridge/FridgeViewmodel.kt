@@ -9,12 +9,16 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.FridgeItem
-import com.example.fridgeapp.data.repository.AuthRepository
 import com.example.fridgeapp.data.repository.FridgeRepository
-import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
+/**
+ * ViewModel for managing data related to fridge items and user interactions.
+ * Uses [FridgeRepository] for data operations.
+ *
+ * @property fridgeRep The repository responsible for handling data operations.
+ */
 class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
 
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()

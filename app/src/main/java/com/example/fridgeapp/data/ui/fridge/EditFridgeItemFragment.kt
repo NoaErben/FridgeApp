@@ -1,6 +1,5 @@
 package com.example.fridgeapp.data.ui.fridge
 
-import android.R
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Intent
@@ -36,6 +35,14 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+/**
+ * Fragment for editing details of a fridge item.
+ *
+ * This fragment allows users to edit various details of a fridge item, including its name, category,
+ * quantity, buying date, expiry date, and optional image. It provides functionalities to pick images
+ * from the device, set dates using date pickers, validate user input, update the item in Firebase
+ * database, and handle navigation and back button presses.
+ */
 class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var binding : EditItemInFridgeBinding by autoCleared()
@@ -153,7 +160,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun setupCategorySpinner() {
         val categories = resources.getStringArray(com.example.fridgeapp.R.array.categories).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, categories,
+            requireContext(), android.R.layout.simple_spinner_item, categories,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -163,7 +170,7 @@ class EditFridgeItemFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun setupMeasureSpinner() {
         val unitMeasures = resources.getStringArray(com.example.fridgeapp.R.array.unit_measures).toList()
         val adapter = CustomArrayAdapter(
-            requireContext(), R.layout.simple_spinner_item, unitMeasures,
+            requireContext(), android.R.layout.simple_spinner_item, unitMeasures,
             com.example.fridgeapp.R.font.amaranth
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)

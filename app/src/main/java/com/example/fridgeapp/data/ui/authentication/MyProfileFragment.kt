@@ -13,6 +13,9 @@ import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthMyProfileBinding
 
+/**
+ * Fragment for handling user my profile view.
+ */
 class MyProfileFragment : Fragment() {
 
     private var binding : AuthMyProfileBinding by autoCleared()

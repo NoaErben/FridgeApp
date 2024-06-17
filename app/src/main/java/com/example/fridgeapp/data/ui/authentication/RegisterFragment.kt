@@ -15,13 +15,14 @@ import com.example.fridgeapp.data.repository.firebaseImpl.AuthRepositoryFirebase
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AuthRegisterBinding
 
+/**
+ * Fragment for handling user register functionality.
+ */
 class RegisterFragment : Fragment() {
 
     private var binding : AuthRegisterBinding by autoCleared()
 
     private lateinit var dialog: Dialog
-
-//    private val fbViewModel: FbViewModel by activityViewModels()
 
     private val viewModel : AuthenticationViewmodel by viewModels {
         AuthenticationViewmodel.AuthenticationViewmodelFactory(AuthRepositoryFirebase())
@@ -86,8 +87,6 @@ class RegisterFragment : Fragment() {
 
     private fun onSignUpSuccess() {
         Toast.makeText(requireContext(), getString(R.string.user_registered_successfully), Toast.LENGTH_SHORT).show()
-//        fbViewModel.changeUser()
-        // TODO: integrate
         findNavController().navigate(R.id.action_registerFragment_to_fridgeManagerFragment)
     }
 
