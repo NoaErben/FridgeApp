@@ -11,7 +11,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.CartRepository
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 /**
@@ -21,8 +20,8 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
 
     private val _chosenCartItem = MutableLiveData<CartItem>()
     val chosenCartItem: LiveData<CartItem> get() = _chosenCartItem
-    private val _currentUser = MutableLiveData<FirebaseUser?>()
-    val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+    private val _currentUser = MutableLiveData<String?>()
+    val currentUser: LiveData<String?> get() = _currentUser
     private val _cartItems = MutableLiveData<List<CartItem>>()
     val cartItems: LiveData<List<CartItem>> get() = _cartItems
 
@@ -31,7 +30,7 @@ class ShoppingListViewmodel(private val cartRep: CartRepository):  ViewModel() {
 
     init {
         // Observe the current user and fetch items whenever the user changes
-        _currentUser.value = cartRep.currentUser()
+        _currentUser.value = cartRep.currentUserId()
         _currentUser.observeForever { user ->
             userChanged()
         }

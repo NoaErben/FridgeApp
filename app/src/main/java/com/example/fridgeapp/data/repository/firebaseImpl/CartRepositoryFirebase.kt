@@ -42,6 +42,10 @@ class CartRepositoryFirebase : CartRepository {
         return firebaseAuth.currentUser
     }
 
+    override fun currentUserId(): String? {
+        return firebaseAuth.currentUser?.uid
+    }
+
     override fun getCartItems(): LiveData<List<CartItem>> {
         val data = MutableLiveData<List<CartItem>>()
         val currentUser: FirebaseUser? = firebaseAuth.currentUser

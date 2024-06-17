@@ -116,6 +116,13 @@ class FridgeShoppingListFragment : Fragment() {
             val sortedItems = items.sortedBy { it.category }
             cartItemAdapter.updateItems(sortedItems)
         })
+
+        viewModel.currentUser.observe(viewLifecycleOwner, Observer { currentUser ->
+            // Handle user change event
+            if (currentUser != null) {
+                viewModel.userChanged()
+            }
+        })
     }
 
     private fun setupNavigation() {

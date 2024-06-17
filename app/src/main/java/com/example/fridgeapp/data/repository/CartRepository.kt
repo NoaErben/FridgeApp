@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseUser
 interface CartRepository {
 
     fun currentUser(): FirebaseUser?
+    fun currentUserId(): String?
     fun getCartItems(): LiveData<List<CartItem>>
     fun getFridgeItems(): LiveData<List<FridgeItem>>
 

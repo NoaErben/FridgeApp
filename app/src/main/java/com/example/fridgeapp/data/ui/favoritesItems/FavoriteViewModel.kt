@@ -45,7 +45,6 @@ class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
     }
 
     fun deleteAllFoodItems() {
-        // TODO: Add this option
         viewModelScope.launch {
             foodRep.deleteAllFoodTable()
         }

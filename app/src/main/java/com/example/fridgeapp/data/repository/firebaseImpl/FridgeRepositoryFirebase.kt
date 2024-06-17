@@ -189,7 +189,6 @@ class FridgeRepositoryFirebase : FridgeRepository {
     }
 
     override suspend fun deleteAllItemsFromFridgeDatabase(onComplete: (Result<Unit>) -> Unit) {
-        // TODO: use somewhere
         val uid = firebaseAuth.currentUser?.uid
         uid?.let {
             fridgeDatabaseReference.child(it).removeValue()
