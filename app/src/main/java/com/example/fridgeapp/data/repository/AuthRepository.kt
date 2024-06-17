@@ -1,9 +1,10 @@
 package com.example.fridgeapp.data.repository
 
-import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.coroutines.tasks.await
 
+/**
+ * Interface for authentication-related operations.
+ */
 interface AuthRepository {
 
     suspend fun signIn(email: String, password: String, onComplete: (Result<FirebaseUser>) -> Unit)

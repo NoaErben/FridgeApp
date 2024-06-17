@@ -2,6 +2,10 @@ package com.example.fridgeapp.data.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 
+/**
+ * Represents an item stored in my fridge.
+ * This class is used to map the item data in the Firebase database.
+ */
 @IgnoreExtraProperties
 class FridgeItem {
     var name: String? = null

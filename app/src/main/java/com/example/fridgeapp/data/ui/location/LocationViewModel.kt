@@ -1,4 +1,4 @@
-package com.example.fridgeapp.data.ui.authentication.location
+package com.example.fridgeapp.data.ui.location
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

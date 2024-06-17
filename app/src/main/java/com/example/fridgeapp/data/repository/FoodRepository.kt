@@ -1,9 +1,11 @@
 package com.example.fridgeapp.data.repository
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import com.example.fridgeapp.data.model.FoodItem
 
+/**
+ * Interface for food-related operations.
+ */
 interface FoodRepository {
 
     fun getAllFoodItems(): LiveData<List<FoodItem>>?

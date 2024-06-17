@@ -7,6 +7,9 @@ import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.data.model.FridgeItem
 import com.google.firebase.auth.FirebaseUser
 
+/**
+ * Interface for cart-related operations.
+ */
 interface CartRepository {
 
     fun currentUser(): FirebaseUser?

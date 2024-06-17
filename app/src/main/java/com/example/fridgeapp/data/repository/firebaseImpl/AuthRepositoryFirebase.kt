@@ -1,6 +1,5 @@
 package com.example.fridgeapp.data.repository.firebaseImpl
 
-import android.widget.Toast
 import com.example.fridgeapp.data.model.User
 import com.example.fridgeapp.data.repository.AuthRepository
 import com.google.firebase.auth.EmailAuthProvider
@@ -10,6 +9,9 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import kotlinx.coroutines.tasks.await
 
+/**
+ * Implementation of [AuthRepository] using Firebase for authentication and user data management.
+ */
 class AuthRepositoryFirebase : AuthRepository {
 
     private val firebaseAuth = FirebaseAuth.getInstance()

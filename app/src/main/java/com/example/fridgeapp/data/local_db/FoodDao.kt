@@ -9,6 +9,11 @@ import androidx.room.Query
 import androidx.room.Update
 import com.example.fridgeapp.data.model.FoodItem
 
+/**
+ * Data Access Object (DAO) for the FoodItem entity.
+ * Defines methods for accessing the FoodItem table in the local database.
+ * Used for saving the favorite item of the user of each phone.
+ */
 @Dao
 interface FoodDao {
 

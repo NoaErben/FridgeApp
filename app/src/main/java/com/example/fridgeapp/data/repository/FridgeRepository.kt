@@ -6,6 +6,9 @@ import androidx.lifecycle.LiveData
 import com.example.fridgeapp.data.model.FridgeItem
 import com.google.firebase.auth.FirebaseUser
 
+/**
+ * Interface for fridge-related operations.
+ */
 interface FridgeRepository {
 
     fun currentUser(): FirebaseUser?

@@ -216,7 +216,7 @@
     </fragment>
     <fragment
         android:id="@+id/locationFragment"
-        android:name="com.example.fridgeapp.data.ui.authentication.location.LocationFragment"
+        android:name="com.example.fridgeapp.data.ui.location.LocationFragment"
         android:label="LocationFragment" >
         <action
             android:id="@+id/action_locationFragment_to_fridgeManagerFragment"
@@ -224,7 +224,7 @@
     </fragment>
     <fragment
         android:id="@+id/allowLocationFragment"
-        android:name="com.example.fridgeapp.data.ui.authentication.location.AllowLocationFragment"
+        android:name="com.example.fridgeapp.data.ui.location.AllowLocationFragment"
         android:label="allow_location_fragment"
         tools:layout="@layout/allow_location_fragment" >
         <action

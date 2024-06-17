@@ -3,7 +3,9 @@ package com.example.fridgeapp.data.model
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-
+/**
+ * Represents a food item in the favorite items list, stored in the fridge local database.
+ */
 @Entity(tableName = "FoodItem")
 data class FoodItem (
     @ColumnInfo(name = "item_name")

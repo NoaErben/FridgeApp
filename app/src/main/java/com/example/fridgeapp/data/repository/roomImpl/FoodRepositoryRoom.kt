@@ -8,6 +8,9 @@ import com.example.fridgeapp.data.local_db.FridgeDB
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.repository.FoodRepository
 
+/**
+ * Implementation of [FoodRepository] that uses Room for local data storage.
+ */
 class FoodRepositoryRoom(application: Application) : FoodRepository {
 
     private var foodDao: FoodDao?

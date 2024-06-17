@@ -2,6 +2,10 @@ package com.example.fridgeapp.data.model
 
 import com.google.firebase.database.IgnoreExtraProperties
 
+/**
+ * Represents an item in the shopping cart.
+ * This class is used to map the item data in the Firebase database.
+ */
 @IgnoreExtraProperties
 class CartItem {
     var name: String? = null

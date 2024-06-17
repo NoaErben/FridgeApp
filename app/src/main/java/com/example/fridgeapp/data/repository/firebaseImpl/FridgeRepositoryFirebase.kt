@@ -1,19 +1,14 @@
 package com.example.fridgeapp.data.repository.firebaseImpl
 
-import android.app.Application
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.target.CustomTarget
-import com.bumptech.glide.request.transition.Transition
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.FridgeRepository
 import com.example.fridgeapp.data.ui.utils.MyBitmap
@@ -26,12 +21,14 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 
+/**
+ * Implementation of FridgeRepository that uses Firebase for data storage and retrieval.
+ */
 class FridgeRepositoryFirebase : FridgeRepository {
 
     private val firebaseAuth: FirebaseAuth by lazy {
         FirebaseAuth.getInstance()
     }
-
 
     private val fridgeDatabaseReference =
         FirebaseDatabase.getInstance().getReference("itemsInFridge")
@@ -60,7 +57,7 @@ class FridgeRepositoryFirebase : FridgeRepository {
                 }
 
                 override fun onCancelled(error: DatabaseError) {
-                    // Handle possible errors
+
                 }
             })
         } else {

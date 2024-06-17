@@ -22,6 +22,9 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import java.io.ByteArrayOutputStream
 
+/**
+ * Implementation of CartRepository that uses Firebase for data storage and retrieval.
+ */
 class CartRepositoryFirebase : CartRepository {
 
     private val firebaseAuth: FirebaseAuth by lazy {
