@@ -14,6 +14,8 @@ interface AuthRepository {
     suspend fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit)
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit>
     fun currentUser(): FirebaseUser?
+    fun currentUserId(): String?
+    fun currentUserMail(): String?
     suspend fun currentUserName(): String?
     suspend fun saveUserToDatabase(name: String, onComplete: (Result<Unit>) -> Unit)
 

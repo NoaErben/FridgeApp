@@ -39,6 +39,10 @@ class FridgeRepositoryFirebase : FridgeRepository {
         return firebaseAuth.currentUser
     }
 
+    override fun currentUserId(): String? {
+        return firebaseAuth.currentUser?.uid
+    }
+
     override fun getItems(): LiveData<List<FridgeItem>> {
         val data = MutableLiveData<List<FridgeItem>>()
         val currentUser: FirebaseUser? = firebaseAuth.currentUser

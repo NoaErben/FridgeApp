@@ -12,6 +12,7 @@ import com.google.firebase.auth.FirebaseUser
 interface FridgeRepository {
 
     fun currentUser(): FirebaseUser?
+    fun currentUserId(): String?
     fun getItems(): LiveData<List<FridgeItem>>
 
     suspend fun saveFridgeItemToDatabase(fridgeItem: FridgeItem, imageChanged: Boolean, imageUri: Uri?, context: Context,

@@ -76,6 +76,14 @@ class AuthRepositoryFirebase : AuthRepository {
         return firebaseAuth.currentUser
     }
 
+    override fun currentUserId(): String? {
+        return firebaseAuth.currentUser?.uid
+    }
+
+    override fun currentUserMail(): String? {
+        return firebaseAuth.currentUser?.email
+    }
+
     override suspend fun currentUserName(): String? {
         return try {
             val uid = firebaseAuth.currentUser?.uid

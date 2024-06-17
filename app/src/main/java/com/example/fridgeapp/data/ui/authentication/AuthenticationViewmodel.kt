@@ -6,20 +6,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.repository.AuthRepository
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 /**
  * ViewModel for the authentication-related fragments (My profile / signin / signup).
- *
  */
 class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel() {
 
-    private val _currentUser = MutableLiveData<FirebaseUser?>()
-    val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+    private val _currentUser = MutableLiveData<String?>()
+    val currentUser: LiveData<String?> get() = _currentUser
 
     init {
-        _currentUser.value = authRep.currentUser()
+        _currentUser.value = authRep.currentUserId()
     }
 
     fun signIn(email: String, password: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
@@ -63,6 +61,10 @@ class AuthenticationViewmodel (private val authRep: AuthRepository) : ViewModel(
 
     fun isUserLoggedIn(): Boolean {
         return authRep.isUserLoggedIn()
+    }
+
+    fun currUserMail(): String? {
+        return authRep.currentUserMail()
     }
 
     fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {

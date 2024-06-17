@@ -1,6 +1,5 @@
 package com.example.fridgeapp.data.ui.favoritesItems
 
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,15 +8,11 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.data.repository.FoodRepository
-import com.example.fridgeapp.data.ui.utils.Constants
-import com.example.fridgeapp.data.ui.utils.DeafultFoodList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
-
-//    private val foodRepositoryOld = FoodRepositoryOld(application)
 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()
 
@@ -28,8 +23,6 @@ class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
     fun setFoodChosenItem(foodItem: FoodItem) {
         _chosenFoodItem.value = foodItem
     }
-
-    // ################## Room functions ##################
 
     fun insertFoodItem(foodItem: FoodItem) {
         viewModelScope.launch {

@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.data.repository.FridgeRepository
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.launch
 
 /**
@@ -24,15 +23,15 @@ class FridgeViewmodel(private val fridgeRep: FridgeRepository) : ViewModel() {
     private val _chosenFridgeItem = MutableLiveData<FridgeItem>()
     val chosenFridgeItem: LiveData<FridgeItem> get() = _chosenFridgeItem
 
-    private val _currentUser = MutableLiveData<FirebaseUser?>()
-    val currentUser: LiveData<FirebaseUser?> get() = _currentUser
+    private val _currentUser = MutableLiveData<String?>()
+    val currentUser: LiveData<String?> get() = _currentUser
 
     private val _items = MutableLiveData<List<FridgeItem>>()
     val items: LiveData<List<FridgeItem>> get() = _items
 
     init {
         // Observe the current user and fetch items whenever the user changes
-        _currentUser.value = fridgeRep.currentUser()
+        _currentUser.value = fridgeRep.currentUserId()
         _currentUser.observeForever { user ->
             userChanged()
         }

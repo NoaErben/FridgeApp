@@ -59,7 +59,7 @@ class MyProfileFragment : Fragment() {
     private fun observeCurrentUser() {
         viewModel.currentUser.observe(viewLifecycleOwner) { user ->
             if (user != null) {
-                binding.tvEmail.text = getString(R.string.email_label, user.email)
+                binding.tvEmail.text = getString(R.string.email_label, viewModel.currUserMail())
 
                 viewModel.getCurrentUserName(
                     onSuccess = { userName ->
