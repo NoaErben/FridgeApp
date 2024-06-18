@@ -20,34 +20,30 @@
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:gravity="center"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/my_favorite_items"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/my_favorite_items"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+        <Button
+            android:id="@+id/reset_to_default_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fridgeColor"
+            android:fontFamily="@font/amaranth"
+            android:text="@string/reset_favorite"
+            android:textColor="@color/black"
+            android:paddingTop="8dp"
+            android:textSize="20sp"
+            android:layout_gravity="end"/>
 
-            <Button
-                android:id="@+id/reset_to_default_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/fridgeColor"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/reset_favorite"
-                android:textColor="@color/black"
-                android:paddingTop="8dp"
-                android:textSize="20sp" />
-        </LinearLayout>
 
     </com.google.android.material.appbar.MaterialToolbar>
 

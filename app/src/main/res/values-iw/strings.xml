@@ -9,7 +9,7 @@
     <string name="replace_image">החלף תמונה</string>
     <string name="name">שם:</string>
     <string name="units">יחידות</string>
-    <string name="default_days_to_expire">ברירת מחדל של ימים עד תפוגה:</string>
+    <string name="default_days_to_expire">תוקף ברירת מחדל:</string>
     <string name="category">קטגוריה:</string>
     <string name="save">שמור</string>
     <string name="add_item_to_nfavorites">הוסף פריט למועדפים</string>
@@ -130,7 +130,7 @@
     <string name="unknown_address">כתובת לא ידועה</string>
     <string name="failed_to_delete_item">נכשל במחיקת הפריט: %1$s</string>
     <string name="google_maps_key">AIzaSyCrMtOEQWWeKuQZOqRnkojPkrvx76oxX-M</string>
-    <string name="nearest_supermarket">הסופר הקרוב ביותר לביתך הוא:</string>
+    <string name="nearest_supermarket">הסופר הקרוב ביותר אליך:</string>
     <string name="allow_your_location">אשר את שיתוף מיקומך</string>
     <string name="we_will_need_your_location_to_give_you_better_experience">נצטרך את המיקום שלך על מנת להעניק לך חווית משתמש טובה יותר</string>
     <string name="allow_location_access">אשר שירותי מיקום</string>

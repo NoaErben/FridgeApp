@@ -20,39 +20,31 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/baseline_arrow_back_24"
-        app:title="@string/my_shopping_list_label"
         app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
         app:titleTextColor="@color/black">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            android:fontFamily="@font/amaranth"
+            android:text="@string/my_shopping_list_label"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_gravity="center"/>
 
-            <TextView
-                android:id="@+id/toolbar_title"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:fontFamily="@font/amaranth"
-                android:text="@string/my_shopping_list_label"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <Button
-                android:id="@+id/reset_to_default_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/fridgeColor"
-                android:fontFamily="@font/amaranth"
-                android:paddingTop="8dp"
-                android:text="@string/empty"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/reset_to_default_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/fridgeColor"
+            android:fontFamily="@font/amaranth"
+            android:paddingTop="8dp"
+            android:text="@string/empty"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:layout_gravity="end"/>
 
     </com.google.android.material.appbar.MaterialToolbar>
 

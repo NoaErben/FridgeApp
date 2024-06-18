@@ -107,7 +107,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             binding.tvGoogleMapsLink.visibility = View.VISIBLE
 
             val locationLabel = getString(R.string.location_label)
-            val modifiedAddress = "$locationLabel $address\n"
+            val modifiedAddress = "$locationLabel\n$address\n"
             binding.locationTextView.text = modifiedAddress
 
             val query = "supermarkets near $address"
@@ -139,7 +139,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         locationViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
             if (isLoading) {
                 binding.progressBar.visibility = View.VISIBLE
-                binding.toolbar.visibility = View.GONE
                 binding.cardView.visibility = View.GONE
                 binding.map.visibility = View.GONE
             } else {
@@ -151,7 +150,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private fun showContentIfReady() {
         if (isAddressReady && isSupermarketReady) {
             binding.progressBar.visibility = View.GONE
-            binding.toolbar.visibility = View.VISIBLE
             binding.cardView.visibility = View.VISIBLE
             binding.map.visibility = View.VISIBLE
         }

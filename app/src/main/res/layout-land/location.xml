@@ -4,7 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFFFFF">
+    android:background="#FFFFFF"
+    android:layoutDirection="ltr">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
@@ -67,7 +68,8 @@
                     android:text="@string/nearest_supermarket"
                     android:textColor="@color/black"
                     android:textSize="20sp"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:layout_gravity="center"/>
 
                 <TextView
                     android:id="@+id/tvGoogleMapsLink"
@@ -79,7 +81,9 @@
                     android:textSize="20sp"
                     android:autoLink="web"
                     android:text="@string/google_maps_link"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    android:gravity="center"
+                    android:layout_gravity="center"/>
             </LinearLayout>
 
             <com.google.android.gms.maps.MapView

@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".data.ui.fridge.FridgeManagerFragment"
+    android:layoutDirection="ltr"
 >
 
     <androidx.appcompat.widget.Toolbar
@@ -19,10 +20,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:navigationIcon="@drawable/align_justify_svgrepo_com_1"
-        app:title="@string/my_fridge_label"
-        app:titleCentered="true"
         app:titleTextAppearance="@style/TextAppearance.AppCompat.Title"
-        app:titleTextColor="@color/black" />
+        app:titleTextColor="@color/black">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/my_fridge_label"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/black"
+            android:layout_gravity="center"
+            android:fontFamily="@font/amaranth"
+            />
+
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"

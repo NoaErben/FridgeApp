@@ -29,7 +29,9 @@
             android:text="@string/my_fridge_label"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            android:fontFamily="@font/amaranth"
+            />
 
     </androidx.appcompat.widget.Toolbar>
 
