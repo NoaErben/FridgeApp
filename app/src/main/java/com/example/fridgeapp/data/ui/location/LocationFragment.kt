@@ -49,6 +49,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     val currentLocale = Locale.getDefault()
     val languageCode = currentLocale.language
 
+    private var isAddressReady = false
+    private var isSupermarketReady = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
@@ -76,7 +79,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         }
 
         setupLocationObserver()
-        binding.progressBar.visibility = View.VISIBLE
+        setupLoadingObserver()
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -100,11 +103,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private fun setupLocationObserver() {
         locationViewModel.addressData.observe(viewLifecycleOwner, Observer { address ->
-            binding.progressBar.visibility = View.GONE
             binding.nearestSupermarketTextView.visibility = View.VISIBLE
-            binding.map.visibility = View.VISIBLE
             binding.tvGoogleMapsLink.visibility = View.VISIBLE
-            binding.cardView.visibility = View.VISIBLE
 
             val modifiedAddress = address + "\n"
             binding.locationTextView.text = modifiedAddress
@@ -114,6 +114,9 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
 
             setupGoogleMapsLink(url)
+
+            isAddressReady = true
+            showContentIfReady()
         })
 
         locationViewModel.closestSupermarket.observe(viewLifecycleOwner, Observer { supermarket ->
@@ -124,8 +127,33 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.location, 15f))
                 val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
                 binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel\n${it.name},\n${it.address}"
+
+                isSupermarketReady = true
+                showContentIfReady()
             }
         })
+    }
+
+    private fun setupLoadingObserver() {
+        locationViewModel.isLoading.observe(viewLifecycleOwner, Observer { isLoading ->
+            if (isLoading) {
+                binding.progressBar.visibility = View.VISIBLE
+                binding.toolbar.visibility = View.GONE
+                binding.cardView.visibility = View.GONE
+                binding.map.visibility = View.GONE
+            } else {
+                showContentIfReady()
+            }
+        })
+    }
+
+    private fun showContentIfReady() {
+        if (isAddressReady && isSupermarketReady) {
+            binding.progressBar.visibility = View.GONE
+            binding.toolbar.visibility = View.VISIBLE
+            binding.cardView.visibility = View.VISIBLE
+            binding.map.visibility = View.VISIBLE
+        }
     }
 
     private fun addMarker(location: LatLng, title: String?, color: Float) {

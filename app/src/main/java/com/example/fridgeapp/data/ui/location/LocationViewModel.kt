@@ -28,6 +28,9 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
     private val _closestSupermarket = MutableLiveData<Supermarket?>()
     val closestSupermarket: LiveData<Supermarket?> = _closestSupermarket
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     private var _currentLocation: LatLng? = null
     val currentLocation: LatLng?
         get() = _currentLocation
@@ -43,6 +46,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
 
         val languageCode = Locale.getDefault().language
 
+        _isLoading.value = true
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 location?.let {
@@ -58,6 +62,7 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
         viewModelScope.launch {
             val address = repository.fetchAddressFromLocation(location, languageCode)
             _addressData.value = address
+            _isLoading.value = false
         }
     }
 
