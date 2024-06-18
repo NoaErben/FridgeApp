@@ -1,20 +1,18 @@
 package com.example.fridgeapp.data.ui.location
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Bundle
 import android.text.SpannableString
 import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -24,7 +22,6 @@ import androidx.navigation.fragment.findNavController
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.LocationBinding
-import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -33,34 +30,23 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.net.PlacesClient
-import org.json.JSONObject
-import java.net.HttpURLConnection
-import java.net.URL
 import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Locale
-import java.util.Scanner
 
-/**
- * A Fragment that displays the user's current location on a map and finds nearby supermarkets.
- */
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private var binding: LocationBinding by autoCleared()
-    private val location: LocationViewModel by viewModels()
+    private val locationViewModel: LocationViewModel by viewModels()
     private lateinit var mMap: GoogleMap
     private lateinit var mapView: MapView
-    private lateinit var placesClient: PlacesClient
     private lateinit var currentLocation: LatLng
     val currentLocale = Locale.getDefault()
     val languageCode = currentLocale.language
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Places.initialize(requireContext(), getString(R.string.google_maps_key))
-        placesClient = Places.createClient(requireContext())
     }
 
     override fun onCreateView(
@@ -83,7 +69,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             findNavController().navigate(R.id.action_locationFragment_to_fridgeManagerFragment)
         }
 
-        setupLocationObserver()
+        setupObservers()
         binding.progressBar.visibility = View.VISIBLE
     }
 
@@ -96,7 +82,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
             == PackageManager.PERMISSION_GRANTED) {
             mMap.isMyLocationEnabled = true
-            getDeviceLocation()
+            locationViewModel.requestLocation(requireContext())
         } else {
             ActivityCompat.requestPermissions(
                 requireActivity(),
@@ -106,121 +92,51 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
         }
     }
 
-    @SuppressLint("MissingPermission")
-    private fun getDeviceLocation() {
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-            == PackageManager.PERMISSION_GRANTED) {
-            try {
-                val fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(requireActivity())
-                fusedLocationProviderClient.lastLocation
-                    .addOnSuccessListener { location ->
-                        if (location != null) {
-                            currentLocation = LatLng(location.latitude, location.longitude)
-                            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
-//                            addMarker(currentLocation, getString(R.string.you_are_here), BitmapDescriptorFactory.HUE_BLUE)
-                            findNearbySupermarkets(currentLocation)
-                        }
+    private fun setupObservers() {
+        locationViewModel.locationLiveData.observe(viewLifecycleOwner, Observer { location ->
+            binding.progressBar.visibility = View.GONE
+            if (location != null) {
+                locationViewModel.currentLocation?.let { currentLocation ->
+                    this.currentLocation = currentLocation
+                    // Only move the camera to the current location if no closest supermarket is found yet
+                    if (locationViewModel.closestSupermarket.value == null) {
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 15f))
                     }
-            } catch (e: SecurityException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
-    private fun findNearbySupermarkets(location: LatLng) {
-        val apiKey = getString(R.string.google_maps_key)
-        val locationString = "${location.latitude},${location.longitude}"
-        val radius = 5000 // Search radius in meters
-        val type = "supermarket"
-        val language = Locale.getDefault().language
-
-        val urlString = "https://maps.googleapis.com/maps/api/place/nearbysearch/json" +
-                "?location=$locationString" +
-                "&radius=$radius" +
-                "&type=$type" +
-                "&key=$apiKey" +
-                "&language=$language"
-
-        NearbySearchTask().execute(urlString)
-    }
-
-    private inner class NearbySearchTask : AsyncTask<String, Void, String>() {
-        override fun doInBackground(vararg urls: String?): String {
-            val urlConnection: HttpURLConnection?
-            return try {
-                val url = URL(urls[0])
-                urlConnection = url.openConnection() as HttpURLConnection
-                urlConnection.requestMethod = "GET"
-
-                // Set the Accept-Language header based on the device's language
-                urlConnection.setRequestProperty("Accept-Language", Locale.getDefault().language)
-
-                val inputStream = urlConnection.inputStream
-                val scanner = Scanner(inputStream).useDelimiter("\\A")
-                if (scanner.hasNext()) scanner.next() else ""
-            } catch (e: Exception) {
-                e.printStackTrace()
-                ""
-            }
-        }
-
-        override fun onPostExecute(result: String?) {
-            super.onPostExecute(result)
-            if (!result.isNullOrEmpty()) {
-                val jsonObject = JSONObject(result)
-                val resultsArray = jsonObject.getJSONArray("results")
-                if (resultsArray.length() > 0) {
-                    val nearestSupermarket = resultsArray.getJSONObject(0)
-                    val lat = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lat")
-                    val lng = nearestSupermarket.getJSONObject("geometry").getJSONObject("location").getDouble("lng")
-                    val name = nearestSupermarket.getString("name")
-                    val address = nearestSupermarket.getString("vicinity")
-                    val supermarketLocation = LatLng(lat, lng)
-
-                    addMarker(supermarketLocation, name, BitmapDescriptorFactory.HUE_RED)
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(supermarketLocation, 15f))
-                    val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
-                    binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel\n$name,\n$address"
-
-                } else {
-                    Toast.makeText(requireContext(), getString(R.string.no_supermarkets_found), Toast.LENGTH_LONG).show();
                 }
-            } else {
-                Toast.makeText(requireContext(), getString(R.string.error_finding_supermarkets) , Toast.LENGTH_LONG).show()
+
+                binding.nearestSupermarketTextView.visibility = View.VISIBLE
+                binding.map.visibility = View.VISIBLE
+                binding.tvGoogleMapsLink.visibility = View.VISIBLE
+                binding.cardView.visibility = View.VISIBLE
+
+                val address = locationViewModel.addressData.value ?: ""
+                val modifiedAddress = address + "\n"
+                binding.locationTextView.text = modifiedAddress
+
+                val query = "supermarkets near $address"
+                val encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString())
+                val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
+
+                setupGoogleMapsLink(url)
             }
-        }
+        })
+
+        locationViewModel.closestSupermarket.observe(viewLifecycleOwner, Observer { supermarket ->
+            supermarket?.let {
+                Log.d("LocationFragment", "Closest supermarket found: ${it.name}, ${it.address}")
+                addMarker(it.location, it.name, BitmapDescriptorFactory.HUE_RED)
+                // Move camera to the closest supermarket
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it.location, 15f))
+                val nearestSupermarketLabel = binding.nearestSupermarketTextView.text.toString()
+                binding.nearestSupermarketTextView.text = "$nearestSupermarketLabel\n${it.name},\n${it.address}"
+            }
+        })
     }
 
     private fun addMarker(location: LatLng, title: String?, color: Float) {
         val markerOptions = MarkerOptions().position(location).title(title)
             .icon(BitmapDescriptorFactory.defaultMarker(color))
         mMap.addMarker(markerOptions)
-    }
-
-    private fun setupLocationObserver() {
-        location.locationLiveData.observe(viewLifecycleOwner, Observer { address ->
-            binding.progressBar.visibility = View.GONE
-            binding.nearestSupermarketTextView.visibility = View.VISIBLE
-            binding.map.visibility = View.VISIBLE
-            binding.tvGoogleMapsLink.visibility = View.VISIBLE
-            binding.cardView.visibility = View.VISIBLE
-
-            // Insert \n before the address and at the end of the string
-            val index = address.indexOf(" ")
-            val modifiedAddress = StringBuilder(address)
-                .replace(index, index + 1, "")
-                .insert(index, "\n")
-                .append("\n")
-                .toString()
-
-            binding.locationTextView.text = modifiedAddress
-
-            val query = "supermarkets near $address"
-            val encodedQuery = URLEncoder.encode(query, StandardCharsets.UTF_8.toString())
-            val url = "https://www.google.com/maps/search/?api=1&query=$encodedQuery"
-
-            setupGoogleMapsLink(url)
-        })
     }
 
     private fun setupGoogleMapsLink(url: String) {
@@ -253,7 +169,7 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
                 if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED) {
                     mMap.isMyLocationEnabled = true
-                    getDeviceLocation()
+                    locationViewModel.requestLocation(requireContext())
                 }
             }
         }
