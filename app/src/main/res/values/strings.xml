@@ -150,7 +150,7 @@
     <string name="my_location">My Location</string>
     <string name="reset_favorite">reset</string>
     <string name="password_reset_email_sent">an email to reset password was sent</string>
-    <string name="location_permission_denied_explanation">location permission denied explanation</string>
+    <string name="location_permission_denied_explanation">Location permission was not granted. To enjoy a better user experience, we recommend enabling location permission through the settings.</string>
     <string name="change_password">Change Password</string>
     <string name="enter_the_following">Enter the following:</string>
     <string name="current_password">Current password</string>

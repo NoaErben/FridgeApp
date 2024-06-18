@@ -38,6 +38,14 @@ import java.net.URLEncoder
 import java.nio.charset.StandardCharsets
 import java.util.Locale
 
+/**
+ * LocationFragment is a Fragment class that displays a Google Map showing the user's current location
+ * and the nearest supermarket. It uses Google Places API for place searches and Google Maps API to
+ * display and interact with the map. It handles location permissions, observes location data from a
+ * ViewModel, and updates the UI accordingly. The fragment uses ClickableSpan to open Google Maps
+ * with a search query for nearby supermarkets.
+ */
+
 class LocationFragment : Fragment(), OnMapReadyCallback {
 
     private var binding: LocationBinding by autoCleared()
@@ -48,7 +56,6 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
     private lateinit var currentLocation: LatLng
     val currentLocale = Locale.getDefault()
     val languageCode = currentLocale.language
-
     private var isAddressReady = false
     private var isSupermarketReady = false
 

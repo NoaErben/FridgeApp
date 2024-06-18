@@ -38,6 +38,11 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
 
+/**
+ * AddItemToFridgeFragment is a Fragment class that provides a user interface for adding new items to the fridge.
+ * The fragment interacts with a ViewModel to save the new item to a Firebase repository,
+ * and it ensures input validation and handles various user interactions,
+ */
 
 class AddItemToFridgeFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 

@@ -10,6 +10,11 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.CartItem
 import com.example.fridgeapp.databinding.CartLayoutBinding
 
+/**
+ * CartItemAdapter is a RecyclerView.Adapter that handles the display of CartItem objects in a RecyclerView.
+ * It binds each cart item to a view, displaying the item's name, category, quantity, and image using Glide.
+ */
+
 class CartItemAdapter(
     private var items: List<CartItem>,
     private val callBack: ItemListener

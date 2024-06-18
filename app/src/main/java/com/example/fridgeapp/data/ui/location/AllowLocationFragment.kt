@@ -18,6 +18,12 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.AllowLocationFragmentBinding
 
+/**
+ * AllowLocationFragment is a Fragment class that manages the process of requesting location permissions from the user.
+ * It provides a user interface to prompt the user to grant location access, checks the permission status, and navigates
+ * to the LocationFragment if the permission is granted.
+ */
+
 class AllowLocationFragment : Fragment() {
 
     private var binding: AllowLocationFragmentBinding by autoCleared()

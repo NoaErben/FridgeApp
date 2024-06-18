@@ -22,7 +22,6 @@ import com.example.fridgeapp.databinding.FavoriteAddItemBinding
 
 /**
  * Fragment for adding a food item to favorites.
- *
  * This fragment allows users to add a new food item to their favorites list,
  * including specifying the item's name, category, days until expiration, and optional image.
  * It handles user input validation, image picking, and navigation to the expiration dates screen.

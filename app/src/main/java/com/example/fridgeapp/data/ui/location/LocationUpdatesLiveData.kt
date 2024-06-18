@@ -9,11 +9,17 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
 
+/**
+ * LocationUpdatesLiveData is a LiveData class that provides continuous location updates to its observers.
+ * It uses the FusedLocationProviderClient to request location updates at specified intervals and updates its value
+ * with the latest location data. When the LiveData becomes active, it starts requesting location updates, and when it
+ * becomes inactive, it stops these updates. Additionally, it provides a method to manually set the location value.
+ */
+
 class LocationUpdatesLiveData(application: Application) : LiveData<Location>() {
 
     private val context = application.applicationContext
     private val fusedLocationClient = LocationServices.getFusedLocationProviderClient(application)
-    // Request location updates every 10 seconds, with the fastest allowed interval set to 5 seconds, and prioritize high accuracy for the location updates.
     private val locationRequest = LocationRequest.create().apply {
         interval = 10000
         fastestInterval = 5000

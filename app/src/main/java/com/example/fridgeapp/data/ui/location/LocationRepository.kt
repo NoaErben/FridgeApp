@@ -15,6 +15,14 @@ import java.net.URL
 import java.util.Locale
 import java.util.Scanner
 
+/**
+ * LocationRepository is a repository class that provides methods to fetch the user's address from their
+ * location and to find the closest supermarket using the Google Places API. It utilizes a Geocoder to
+ * convert the location coordinates into a readable address and makes HTTP requests to the Google Places
+ * API to search for nearby supermarkets. The repository parses the API response to return the closest
+ * supermarket as a Supermarket object.
+ */
+
 class LocationRepository(private val context: Context) {
 
     suspend fun fetchAddressFromLocation(location: Location, languageCode: String): String {

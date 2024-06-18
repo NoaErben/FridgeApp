@@ -11,6 +11,12 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 import com.example.fridgeapp.databinding.FavoriteItemCardBinding
 
+/**
+ * FavoriteItemAdapter is a RecyclerView.Adapter that manages the display of FoodItem objects in a RecyclerView.
+ * It binds the food item data to the views within each item card, including the item's name, days to expiration,
+ * and image using Glide for loading images.
+ */
+
 class FavoriteItemAdapter(private var items: List<FoodItem>, private val callBack: ItemListener) : RecyclerView.Adapter<FavoriteItemAdapter.ItemViewHolder>(){
 
     interface ItemListener {

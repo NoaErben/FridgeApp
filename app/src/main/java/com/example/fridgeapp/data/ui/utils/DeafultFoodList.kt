@@ -4,6 +4,10 @@ import android.content.Context
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 
+/**
+ * DeafultFoodList is an object that provides a list of default food items with predefined expiration days and photo URLs.
+ */
+
 object DeafultFoodList {
 
     val defaultExpirationDays = listOf(

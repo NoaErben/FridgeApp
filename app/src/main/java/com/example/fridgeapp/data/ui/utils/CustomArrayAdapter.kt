@@ -8,6 +8,10 @@ import android.widget.ArrayAdapter
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 
+/**
+ * CustomArrayAdapter is a specialized ArrayAdapter for displaying a list of strings with a custom font.
+ */
+
 class CustomArrayAdapter(
     context: Context,
     resource: Int,
@@ -31,7 +35,7 @@ class CustomArrayAdapter(
         if (view is TextView) {
             val customFont = ResourcesCompat.getFont(context, fontResId)
             view.typeface = customFont
-            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f) // Set text size to 20sp
+            view.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
         }
     }
 }

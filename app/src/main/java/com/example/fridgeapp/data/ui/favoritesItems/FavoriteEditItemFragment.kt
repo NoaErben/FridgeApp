@@ -24,6 +24,13 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteEditItemBinding
 
+/**
+ * FavoriteEditItemFragment is a Fragment class that allows users to edit the details of their favorite food items.
+ * This class provides functionality for picking and displaying an image, updating item details like name, category,
+ * and expiration date, and handling unsaved changes. It integrates with a ViewModel to observe changes in the
+ * selected food item and updates the UI accordingly.
+ */
+
 class FavoriteEditItemFragment : Fragment() {
 
 

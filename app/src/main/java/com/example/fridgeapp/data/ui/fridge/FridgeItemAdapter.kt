@@ -10,6 +10,12 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FridgeItem
 import com.example.fridgeapp.databinding.ItemLayoutBinding
 
+/**
+ * FridgeItemAdapter is a RecyclerView.Adapter that manages the display of FridgeItem objects in a RecyclerView.
+ * It binds fridge item data to views within each item layout, displaying the item's name, expiration status,
+ * and image using Glide.
+ */
+
 class FridgeItemAdapter(private var items: List<FridgeItem>, private val callBack: ItemListener) : RecyclerView.Adapter<FridgeItemAdapter.ItemViewHolder>() {
 
     interface ItemListener {

@@ -12,6 +12,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+/**
+ * FavoriteViewModel is a ViewModel class that manages the data for favorite food items, interacting with the FoodRepository.
+ * It leverages coroutines to handle data operations asynchronously on a background thread, ensuring smooth UI performance.
+ */
+
 class FavoriteViewModel(private val foodRep: FoodRepository) : ViewModel() {
 
     private val _chosenFoodItem = MutableLiveData<FoodItem>()

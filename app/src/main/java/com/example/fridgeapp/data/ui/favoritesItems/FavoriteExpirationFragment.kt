@@ -19,6 +19,12 @@ import com.example.fridgeapp.data.ui.utils.Dialogs
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.FavoriteExpirationDatesBinding
 
+/**
+ * FavoriteExpirationFragment is a Fragment class that displays a list of favorite food items along with their expiration dates.
+ * It allows users to add new items, edit existing ones, and delete items with swipe gestures. The fragment also includes functionality
+ * to reset the list to default items and observes changes in the food items list via a ViewModel.
+ */
+
 class FavoriteExpirationFragment : Fragment() {
 
 
