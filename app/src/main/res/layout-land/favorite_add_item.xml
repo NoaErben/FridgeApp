@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Logo designed by Naveen -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -11,7 +10,6 @@
         android:orientation="vertical"
         android:layoutDirection="ltr">
 
-        <!-- Title TextView -->
         <TextView
             android:id="@+id/dialog_title"
             android:layout_width="match_parent"
@@ -26,13 +24,11 @@
             android:textStyle="bold"
             android:singleLine="true"/>
 
-        <!-- Horizontal container for content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- Container for ImageView -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -42,7 +38,6 @@
                 android:paddingEnd="10dp"
                 android:paddingBottom="10dp">
 
-                <!-- ImageView for the image -->
                 <ImageView
                     android:id="@+id/item_image"
                     android:layout_width="150dp"
@@ -52,7 +47,6 @@
                     android:contentDescription="@string/image_view" />
             </LinearLayout>
 
-            <!-- Container for TextInputLayouts -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -62,7 +56,6 @@
                 android:paddingEnd="16dp"
                 android:layout_marginEnd="2dp">
 
-                <!-- Product Name Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
@@ -78,7 +71,6 @@
                         android:inputType="text" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Days to Expire Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -95,7 +87,6 @@
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Category Label and Spinner -->
                 <LinearLayout
                     android:id="@+id/expire_date_container"
                     android:layout_width="match_parent"
@@ -129,7 +120,6 @@
                         android:padding="8dp" />
                 </LinearLayout>
 
-                <!-- Add Item Button -->
                 <Button
                     android:id="@+id/add_item_button"
                     android:layout_width="wrap_content"

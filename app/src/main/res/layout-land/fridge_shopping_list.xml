@@ -39,7 +39,6 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Divider Line -->
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
@@ -49,7 +48,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- Scroll View for content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,7 +67,6 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Title TextView for Top Picks -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/titleExpire"
                     android:layout_width="wrap_content"
@@ -95,7 +92,6 @@
                         android:paddingBottom="8dp"/>
                 </androidx.cardview.widget.CardView>
 
-                <!-- RecyclerView for Top Picks list -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/expireRecyclerView"
                     android:layout_width="match_parent"
@@ -111,7 +107,6 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <!-- Title TextView for Your Cart -->
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cartCardView"
                     android:layout_width="wrap_content"
@@ -137,19 +132,17 @@
                         android:paddingBottom="8dp"/>
                 </androidx.cardview.widget.CardView>
 
-                <!-- RecyclerView for Your Cart list -->
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/cartRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-
                     tools:listitem="@layout/cart_layout" />
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_expiry_btn"
         android:layout_width="wrap_content"

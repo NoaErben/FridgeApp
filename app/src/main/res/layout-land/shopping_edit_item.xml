@@ -18,7 +18,6 @@
             android:orientation="vertical"
             android:padding="7dp">
 
-            <!-- Title TextView -->
             <LinearLayout
                 android:id="@+id/header_container"
                 android:layout_width="match_parent"
@@ -47,7 +46,6 @@
                     android:layout_weight="0.5" />
             </LinearLayout>
 
-            <!-- Container for ImageView and Input Fields in horizontal orientation -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -55,7 +53,6 @@
                 android:orientation="horizontal"
                 android:baselineAligned="false">
 
-                <!-- Container for ImageView -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -63,7 +60,6 @@
                     android:orientation="vertical"
                     android:gravity="center">
 
-                    <!-- ImageView for the image -->
                     <ImageView
                         android:id="@+id/imageView"
                         android:layout_width="wrap_content"
@@ -75,7 +71,6 @@
                         android:contentDescription="@string/image_view" />
                 </LinearLayout>
 
-                <!-- Vertical container for Input Fields -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -83,7 +78,6 @@
                     android:orientation="vertical"
                     android:layout_marginStart="16dp">
 
-                    <!-- Expire Date Container -->
                     <LinearLayout
                         android:id="@+id/expire_date_container"
                         android:layout_width="match_parent"
@@ -117,7 +111,6 @@
                             android:padding="8dp" />
                     </LinearLayout>
 
-                    <!-- Quantity Input -->
                     <com.google.android.material.textfield.TextInputLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
@@ -134,7 +127,6 @@
                             android:imeOptions="actionDone"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
-                    <!-- Measure Input -->
                     <LinearLayout
                         android:id="@+id/measure_container"
                         android:layout_width="match_parent"
@@ -168,7 +160,6 @@
                             android:padding="8dp" />
                     </LinearLayout>
 
-                    <!-- Date Container -->
                     <LinearLayout
                         android:id="@+id/date_container"
                         android:layout_width="match_parent"
@@ -204,7 +195,6 @@
                             android:textSize="22sp" />
                     </LinearLayout>
 
-                    <!-- Button Container -->
                     <LinearLayout
                         android:id="@+id/button_container"
                         android:layout_width="match_parent"

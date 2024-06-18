@@ -5,10 +5,10 @@ import com.example.fridgeapp.R
 import com.example.fridgeapp.data.model.FoodItem
 
 /**
- * DeafultFoodList is an object that provides a list of default food items with predefined expiration days and photo URLs.
+ * DefaultFoodList is an object that provides a list of default food items with predefined expiration days and photo URLs.
  */
 
-object DeafultFoodList {
+object DefaultFoodList {
 
     val defaultExpirationDays = listOf(
         8,   // Bread

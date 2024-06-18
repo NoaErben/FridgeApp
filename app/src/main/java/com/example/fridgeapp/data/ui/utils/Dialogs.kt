@@ -10,6 +10,10 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.example.fridgeapp.R
 
+/**
+ * Dialogs is an object that provides utility functions for displaying various types of AlertDialogs throughout the application.
+ */
+
 object Dialogs {
     fun showConfirmDeleteDialog(context: Context, onConfirm: () -> Unit, onCancel: () -> Unit) {
         AlertDialog.Builder(context)

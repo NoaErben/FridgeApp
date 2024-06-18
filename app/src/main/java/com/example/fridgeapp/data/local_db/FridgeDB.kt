@@ -5,7 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.fridgeapp.data.model.FoodItem
-import com.example.fridgeapp.data.ui.utils.DeafultFoodList
+import com.example.fridgeapp.data.ui.utils.DefaultFoodList
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -43,7 +43,7 @@ abstract class FridgeDB : RoomDatabase() {
             val count = foodDao.getCount()
             if (count == 0) {
                 // Default items for foodDB
-                val defaultFoodItems = DeafultFoodList.createDefaultFoodItems(context)
+                val defaultFoodItems = DefaultFoodList.createDefaultFoodItems(context)
                 foodDao.insertAll(defaultFoodItems)
             }
         }

@@ -4,6 +4,10 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import java.io.ByteArrayOutputStream
 
+/**
+ * MyBitmap is an object that provides utility functions for bitmap manipulation, specifically for compressing bitmaps.
+ */
+
 object MyBitmap {
 
     fun compressBitmap(bitmap: Bitmap, maxSizeKb: Int): Bitmap {

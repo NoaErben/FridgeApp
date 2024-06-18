@@ -2,15 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    >
+    android:background="@color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <!-- Title TextView -->
         <TextView
             android:id="@+id/dialog_title"
             android:layout_width="match_parent"
@@ -24,13 +22,11 @@
             android:textSize="42sp"
             android:textStyle="bold" />
 
-        <!-- Horizontal container for content -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <!-- Container for ImageView and Name/Spinner -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -38,7 +34,6 @@
                 android:orientation="vertical"
                 android:padding="10dp">
 
-                <!-- ImageView for the image -->
                 <ImageView
                     android:id="@+id/item_image"
                     android:layout_width="150dp"
@@ -47,7 +42,6 @@
                     android:layout_gravity="center"
                     android:contentDescription="@string/image_view" />
 
-                <!-- Name and Product Spinner -->
                 <LinearLayout
                     android:id="@+id/name_container"
                     android:layout_width="match_parent"
@@ -83,7 +77,6 @@
                         android:padding="8dp" />
                 </LinearLayout>
 
-                <!-- Category Spinner -->
                 <LinearLayout
                     android:id="@+id/expire_date_container"
                     android:layout_width="match_parent"
@@ -120,7 +113,6 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- Container for TextInputLayouts -->
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -130,7 +122,6 @@
                 android:paddingEnd="16dp"
                 android:layout_marginEnd="2dp">
 
-                <!-- Quantity Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -147,7 +138,6 @@
                         android:imeOptions="actionDone"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Measure Spinner -->
                 <LinearLayout
                     android:id="@+id/measure_container"
                     android:layout_width="match_parent"
@@ -183,7 +173,6 @@
                         android:padding="8dp" />
                 </LinearLayout>
 
-                <!-- Buying Date Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -202,7 +191,6 @@
                         android:inputType="none"/>
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Expiry Date Input -->
                 <com.google.android.material.textfield.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

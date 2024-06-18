@@ -5,7 +5,6 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <!-- Title TextView -->
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
@@ -18,7 +17,6 @@
         android:textSize="42sp"
         android:textStyle="bold" />
 
-    <!-- Container for ImageView and Add item Button -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -26,7 +24,6 @@
         android:orientation="horizontal"
         android:paddingHorizontal="16dp">
 
-        <!-- ImageView for the image -->
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="120dp"
@@ -34,7 +31,6 @@
             android:layout_gravity="center"
             android:src="@drawable/add_photo_svgrepo_com" />
 
-        <!-- TextInputLayouts -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

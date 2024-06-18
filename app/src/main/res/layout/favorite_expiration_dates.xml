@@ -6,7 +6,6 @@
     android:background="@color/white"
     android:layoutDirection="ltr">
 
-    <!-- Provides the app bar with a title and a navigation (back) button. -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -47,7 +46,6 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- RecyclerView for products -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/product_recycler_view"
         android:layout_width="0dp"
@@ -58,7 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbar" />
 
-    <!-- FloatingActionButton: A button for adding new products to the list. -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_expiry_btn"
         android:layout_width="wrap_content"

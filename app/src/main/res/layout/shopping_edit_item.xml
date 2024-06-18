@@ -15,8 +15,6 @@
         android:orientation="vertical"
         android:padding="6dp">
 
-
-
         <LinearLayout
             android:id="@+id/header_container"
             android:layout_width="match_parent"
@@ -53,8 +51,6 @@
             android:layout_marginBottom="20dp"
             tools:srcCompat="@drawable/new_food_option_2"
             android:contentDescription="@string/item_name" />
-
-
 
         <LinearLayout
             android:id="@+id/expire_date_container"
@@ -210,7 +206,6 @@
                 android:textSize="23sp"
                 android:textStyle="bold"
                 style="?android:attr/buttonBarButtonStyle" />
-
 
         </LinearLayout>
     </LinearLayout>

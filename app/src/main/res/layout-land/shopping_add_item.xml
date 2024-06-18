@@ -3,10 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <!-- Title TextView -->
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
@@ -21,14 +19,12 @@
         android:singleLine="true"
         android:imeOptions="actionDone"/>
 
-    <!-- Container for ImageView and Input Fields in horizontal orientation -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="16dp"
         android:orientation="horizontal">
 
-        <!-- Container for ImageView and Add Item Button -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -37,17 +33,14 @@
             android:layout_marginEnd="16sp"
             android:layout_marginStart="16sp">
 
-            <!-- ImageView for the image -->
             <ImageView
                 android:id="@+id/item_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:src="@drawable/add_photo_svgrepo_com"
-                android:contentDescription="@string/image_view"
-                />
+                android:contentDescription="@string/image_view" />
 
-            <!-- Container for Product Name -->
             <LinearLayout
                 android:id="@+id/name_container"
                 android:layout_width="match_parent"
@@ -82,7 +75,6 @@
             </LinearLayout>
         </LinearLayout>
 
-        <!-- Vertical container for Input Fields -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -91,7 +83,6 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16sp">
 
-            <!-- Quantity Input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -106,7 +97,6 @@
                     android:inputType="number" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Measure Input -->
             <LinearLayout
                 android:id="@+id/measure_container"
                 android:layout_width="match_parent"
@@ -140,7 +130,6 @@
                     android:padding="8dp" />
             </LinearLayout>
 
-            <!-- Category Input -->
             <LinearLayout
                 android:id="@+id/expire_date_container"
                 android:layout_width="match_parent"
@@ -174,7 +163,6 @@
                     android:padding="8dp" />
             </LinearLayout>
 
-            <!-- Add Item Button -->
             <Button
                 android:id="@+id/add_item_button"
                 android:layout_width="wrap_content"

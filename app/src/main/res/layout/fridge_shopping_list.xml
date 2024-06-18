@@ -8,7 +8,6 @@
     tools:context=".data.ui.shoppingList.FridgeShoppingListFragment"
     android:layoutDirection="ltr">
 
-    <!-- Toolbar -->
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
@@ -48,7 +47,6 @@
 
     </com.google.android.material.appbar.MaterialToolbar>
 
-    <!-- Divider Line -->
     <View
         android:id="@+id/line"
         android:layout_width="match_parent"
@@ -70,7 +68,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Title TextView -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/titleExpire"
                 android:layout_width="wrap_content"
@@ -96,7 +93,6 @@
                     android:paddingBottom="8dp"/>
             </androidx.cardview.widget.CardView>
 
-            <!-- RecyclerView for the list -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/expireRecyclerView"
                 android:layout_width="wrap_content"
@@ -115,7 +111,6 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <!-- Title TextView -->
             <androidx.cardview.widget.CardView
                 android:id="@+id/cartCardView"
                 android:layout_width="wrap_content"
@@ -141,7 +136,6 @@
                     android:paddingBottom="8dp"/>
             </androidx.cardview.widget.CardView>
 
-            <!-- RecyclerView for the list -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/cartRecyclerView"
                 android:layout_width="wrap_content"
@@ -155,7 +149,6 @@
 
     </LinearLayout>
 
-    <!-- Floating Action Button -->
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_product_expiry_btn"
         android:layout_width="wrap_content"

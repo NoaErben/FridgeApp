@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Logo designed by Naveen -->
 <androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -86,8 +85,7 @@
                     android:backgroundTint="@color/fridgeColor"
                     android:text="@string/change_password"
                     android:textColor="#fff"
-                    android:textSize="18sp"
-                    />
+                    android:textSize="18sp" />
 
                 <Button
                     android:id="@+id/btnSignOut"

@@ -46,7 +46,6 @@
                 android:text="@string/xxx_days"
                 android:textSize="18sp" />
 
-
         </LinearLayout>
     </LinearLayout>
 

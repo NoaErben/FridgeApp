@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Logo designed by Naveen -->
+
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,7 +8,6 @@
     android:layout_height="match_parent"
     android:background="@color/darkerCyan">
 
-    <!-- Progress Dialog -->
     <LinearLayout
         android:id="@+id/loginProgressDialog"
         android:layout_width="match_parent"
@@ -23,7 +22,7 @@
             android:layout_gravity="center" />
     </LinearLayout>
 
-    <!-- Scrollable Container -->
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,7 +33,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <!-- Container for image, text fields, button, and text views -->
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

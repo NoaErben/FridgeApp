@@ -105,11 +105,9 @@
     <string name="expires_today">פג תוקף היום</string>
     <string name="expired_before_days">פג תוקף לפני: %1$d ימים</string>
     <string name="item_deleted_successfully">הפריט נמחק בהצלחה</string>
-
     <string name="failed_to_delete_item_in_fridge">נכשל במחיקת פריט</string>
     <string name="shopping_list_clicked">לחצת על רשימת קניות</string>
     <string name="favorite_items_clicked">לחצת על פריטים אהובים</string>
-
     <string name="enter_custom_product_name">הזן שם מוצר מותאם אישית</string>
     <string name="other">אחר</string>
     <string name="item_exists">הפריט קיים</string>

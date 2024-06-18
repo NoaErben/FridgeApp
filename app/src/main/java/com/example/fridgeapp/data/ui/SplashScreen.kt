@@ -26,6 +26,10 @@ import com.example.fridgeapp.data.ui.authentication.AuthenticationViewmodel
 import com.example.fridgeapp.data.ui.utils.autoCleared
 import com.example.fridgeapp.databinding.SplashScreenBinding
 
+/**
+ * SplashScreenFragment is a Fragment class that displays an animated splash screen when the app is launched.
+ */
+
 @SuppressLint("CustomSplashScreen")
 class SplashScreenFragment : Fragment() {
 
@@ -47,30 +51,25 @@ class SplashScreenFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Initialize SharedPreferences
         sharedPreferences = requireActivity().getSharedPreferences("app_preferences", Context.MODE_PRIVATE)
 
-        // Load animations
         val fadeInAnimation = AnimationUtils.loadAnimation(context, R.anim.fade_in)
         val zoomInAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_in_animation)
         val zoomOutAnimation = AnimationUtils.loadAnimation(context, R.anim.zoom_out_animation)
         val slideDownAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
 
         binding.apply {
-            // Apply fade-in animation to the logo
             splashPhone.visibility = View.VISIBLE
             splashText.visibility = View.VISIBLE
             splashText.startAnimation(slideDownAnimation)
             backgroundSplashScreen.visibility = View.VISIBLE
             fridgeHubDescription.visibility = View.GONE
 
-            // Apply fade-out animation to the logo after a delay
             Handler(Looper.getMainLooper()).postDelayed({
                 splashPhone.startAnimation(zoomInAnimation)
                 backgroundSplashScreen.startAnimation(zoomInAnimation)
             }, 1500)
 
-            // Apply zoom-out animation to the phone and background after a delay
             Handler(Looper.getMainLooper()).postDelayed({
                 splashPhone.startAnimation(zoomOutAnimation)
                 backgroundSplashScreen.startAnimation(zoomOutAnimation)
@@ -81,12 +80,11 @@ class SplashScreenFragment : Fragment() {
                 fridgeHubDescription.startAnimation(fadeInAnimation)
             }, 3000)
 
-            // Navigate to the next fragment after the animations are complete
             Handler(Looper.getMainLooper()).postDelayed({
                 if (isAdded) {
                     navigateNext()
                 }
-            }, 4000) // Adjust the delay to fit your needs
+            }, 4000)
         }
     }
 

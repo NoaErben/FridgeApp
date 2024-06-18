@@ -4,6 +4,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+/**
+ * MyDates is an object that provides utility functions for date parsing and formatting.
+ */
+
 object MyDates {
 
     fun parseDate(dateStr: String): Long {

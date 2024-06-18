@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     tools:context=".data.ui.fridge.FridgeManagerFragment"
-    android:layoutDirection="ltr"
->
+    android:layoutDirection="ltr">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,8 +29,7 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/black"
             android:layout_gravity="center"
-            android:fontFamily="@font/amaranth"
-            />
+            android:fontFamily="@font/amaranth" />
 
     </androidx.appcompat.widget.Toolbar>
 
