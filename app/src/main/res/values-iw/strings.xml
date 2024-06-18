@@ -163,6 +163,7 @@
     <string name="quantity_x">כמות: X</string>
     <string name="empty_fridge">מקרר ריק</string>
     <string name="item_added_to_cart">פריט נוסף לעגלה</string>
+    <string name="location_label">המיקום שלי:</string>
     <string-array name="categories">
         <item>לחם</item>
         <item>מוצרי חלב</item>

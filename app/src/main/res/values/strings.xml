@@ -161,6 +161,7 @@
     <string name="quantity_x">Quantity: X</string>
     <string name="empty_fridge">empty_fridge</string>
     <string name="item_added_to_cart">Item added to cart</string>
+    <string name="location_label">My location:</string>
     <string-array name="categories">
         <item>Breads</item>
         <item>Dairy</item>

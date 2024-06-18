@@ -106,7 +106,8 @@ class LocationFragment : Fragment(), OnMapReadyCallback {
             binding.nearestSupermarketTextView.visibility = View.VISIBLE
             binding.tvGoogleMapsLink.visibility = View.VISIBLE
 
-            val modifiedAddress = address + "\n"
+            val locationLabel = getString(R.string.location_label)
+            val modifiedAddress = "$locationLabel $address\n"
             binding.locationTextView.text = modifiedAddress
 
             val query = "supermarkets near $address"
