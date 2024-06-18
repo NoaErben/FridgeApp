@@ -4,46 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
     app:startDestination="@id/splashScreen">
-    <!--    app:startDestination="">-->
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/mainFragment"-->
-    <!--        android:name="com.example.architectureproject.ui.all_items.MainFragment"-->
-    <!--        android:label="main_fragment"-->
-    <!--        tools:layout="@layout/main_fragment" >-->
-    <!--        <action-->
-    <!--            android:id="@+id/action_mainFragment_to_addItemFragment"-->
-    <!--            app:destination="@id/addItemFragment"-->
-    <!--            app:enterAnim="@anim/from_right"-->
-    <!--            app:exitAnim="@anim/to_left"-->
-    <!--            app:popEnterAnim="@anim/from_left"-->
-    <!--            app:popExitAnim="@anim/to_right" />-->
-    <!--        <action-->
-    <!--            android:id="@+id/action_mainFragment_to_detailItemFragment"-->
-    <!--            app:destination="@id/detailItemFragment" />-->
-    <!--    </fragment>-->
-
-    <!--    <fragment-->
-    <!--        android:id="@+id/addItemFragment"-->
-    <!--        android:name="com.example.architectureproject.ui.add_item.AddItemToFridgeFragment"-->
-    <!--        android:label="add_item_fragment"-->
-    <!--        tools:layout="@layout/add_item_fragment" >-->
-    <!--        <action-->
-    <!--            android:id="@+id/action_addItemFragment_to_mainFragment"-->
-    <!--            app:destination="@id/mainFragment"-->
-    <!--            app:enterAnim="@anim/from_right"-->
-    <!--            app:exitAnim="@anim/to_left"-->
-    <!--            app:popEnterAnim="@anim/from_left"-->
-    <!--            app:popExitAnim="@anim/to_right"-->
-    <!--            app:popUpTo="@id/my_nav"-->
-    <!--            app:popUpToInclusive="true" />-->
-    <!--    </fragment>-->
-    <!--    <fragment-->
-    <!--        android:id="@+id/detailItemFragment"-->
-    <!--        android:name="com.example.architectureproject.ui.detail_item.DetailItemFragment"-->
-    <!--        android:label="detail_item_layout"-->
-    <!--        tools:layout="@layout/detail_item_layout" />-->
-
     <fragment
         android:id="@+id/splashScreen"
         android:name="com.example.fridgeapp.data.ui.SplashScreenFragment"

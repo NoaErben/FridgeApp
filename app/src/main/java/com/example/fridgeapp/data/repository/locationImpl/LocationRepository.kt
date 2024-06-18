@@ -1,9 +1,8 @@
-package com.example.fridgeapp.data.ui.location
+package com.example.fridgeapp.data.repository.locationImpl
 
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
-import android.util.Log
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.location.LocationViewModel.Supermarket
 import com.google.android.gms.maps.model.LatLng
