@@ -14,6 +14,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class LocationViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -40,20 +41,22 @@ class LocationViewModel(application: Application) : AndroidViewModel(application
             return
         }
 
+        val languageCode = Locale.getDefault().language
+
         fusedLocationClient.lastLocation
             .addOnSuccessListener { location: Location? ->
                 location?.let {
                     _currentLocation = LatLng(it.latitude, it.longitude)
                     locationLiveData.setLocation(it) // Update the locationLiveData
-                    fetchAddress(it)
+                    fetchAddress(it, languageCode)
                     findClosestSupermarket(_currentLocation!!)
                 }
             }
     }
 
-    private fun fetchAddress(location: Location) {
+    private fun fetchAddress(location: Location, languageCode: String) {
         viewModelScope.launch {
-            val address = repository.fetchAddressFromLocation(location)
+            val address = repository.fetchAddressFromLocation(location, languageCode)
             _addressData.value = address
         }
     }

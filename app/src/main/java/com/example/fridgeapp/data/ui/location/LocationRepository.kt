@@ -3,6 +3,7 @@ package com.example.fridgeapp.data.ui.location
 import android.content.Context
 import android.location.Geocoder
 import android.location.Location
+import android.util.Log
 import com.example.fridgeapp.R
 import com.example.fridgeapp.data.ui.location.LocationViewModel.Supermarket
 import com.google.android.gms.maps.model.LatLng
@@ -16,9 +17,10 @@ import java.util.Scanner
 
 class LocationRepository(private val context: Context) {
 
-    suspend fun fetchAddressFromLocation(location: Location): String {
+    suspend fun fetchAddressFromLocation(location: Location, languageCode: String): String {
         return withContext(Dispatchers.IO) {
-            val geocoder = Geocoder(context, Locale.getDefault())
+            val locale = if (languageCode == "iw" || languageCode == "he") Locale("iw") else Locale(languageCode)
+            val geocoder = Geocoder(context, locale)
             val addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1)
             addresses?.firstOrNull()?.getAddressLine(0) ?: "Address not found"
         }
@@ -38,6 +40,7 @@ class LocationRepository(private val context: Context) {
                 "&key=$apiKey" +
                 "&language=$language"
 
+
         val result = fetchNearbySupermarkets(urlString)
         return parseClosestSupermarket(result)
     }
@@ -48,7 +51,10 @@ class LocationRepository(private val context: Context) {
                 val url = URL(urlString)
                 val urlConnection = url.openConnection() as HttpURLConnection
                 urlConnection.requestMethod = "GET"
+
+                // Set the Accept-Language header based on the device's language
                 urlConnection.setRequestProperty("Accept-Language", Locale.getDefault().language)
+
                 val inputStream = urlConnection.inputStream
                 val scanner = Scanner(inputStream).useDelimiter("\\A")
                 if (scanner.hasNext()) scanner.next() else ""
